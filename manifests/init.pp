@@ -1,41 +1,84 @@
 # == Class: druid
 #
-# Full description of class druid here.
+# Install druid and all needed dependencies.
 #
 # === Parameters
 #
-# Document parameters here.
+# [*version*]
+#   Version of druid to install.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+#   Defaults to '0.8.0'.
 #
-# === Variables
+# [*java_pkg*]
+#   Name of the java package to ensure installed on system.
 #
-# Here you should define a list of variables that this module would require.
+#   Defaults to 'openjdk-7-jre-headless'.
 #
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*install_dir*]
+#   Directory druid will be installed in.
+#
+#   Defaults to '/usr/local/lib/druid'.
+#
+# [*config_dir*]
+#   Directory druid will keep configuration files.
+#
+#   Defaults to '/etc/druid'.
 #
 # === Examples
 #
-#  class { 'druid':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#  class { 'druid': 
+#    version     => '0.8.0',
+#    java_pkg    => 'openjdk-7-jre-headless',
+#    install_dir => '/usr/local/lib/druid',
+#    config_dir  => '/etc/druid',
 #  }
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Tyler Yahn <codingalias@gmail.com>
 #
-# === Copyright
-#
-# Copyright 2015 Your name here, unless otherwise noted.
-#
-class druid {
+class druid (
+  $version     = hiera("${module_name}::version", '0.8.0'),
+  $java_pkg    = hiera("${module_name}::java_pkg", 'openjdk-7-jre-headless'),
+  $install_dir = hiera("${module_name}::install_dir", '/usr/local/lib/druid'),
+  $config_dir  = hiera("${module_name}::config_dir", '/etc/druid'),
+) {
+  validate_string($java_pkg)
+  validate_absolute_path($install_dir, $config_dir)
+  validate_re($version, '^([0-9]+)\.([0-9]+)\.([0-9]+)$')
 
+  ensure_packages(['wget', $java_pkg])
 
+  exec { "Create ${install_dir}":
+    command => "mkdir -p ${install_dir}",
+    creates => $install_dir,
+    cwd     => '/',
+  }
+
+  exec { "Create ${config_dir}":
+    command => "mkdir -p ${config_dir}",
+    creates => $config_dir,
+    cwd     => '/',
+  }
+
+  file { $install_dir:
+    ensure  => directory,
+    require => Exec["Create ${install_dir}"],
+  }
+
+  file { $config_dir:
+    ensure  => directory,
+    require => Exec["Create ${config_dir}"],
+  }
+
+  $url = "http://static.druid.io/artifacts/releases/druid-${version}-bin.tar.gz"
+  exec { "Download and untar druid-${version}":
+    command => "wget -O - ${url} | tar zx",
+    creates => "${install_dir}/druid-${version}",
+    cwd     => $install_dir,
+    require => [
+      File[$install_dir],
+      Package['wget'],
+    ],
+  }
 }
