@@ -1,6 +1,6 @@
 # == Class: druid
 #
-# Install druid and all needed dependencies.
+# Install and setup druid with all needed dependencies.
 #
 # === Parameters
 #
