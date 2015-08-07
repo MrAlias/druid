@@ -1,0 +1,154 @@
+# This file is managed by Puppet
+# MODIFICATION WILL BE OVERWRITTEN
+
+# Extensions
+<% if @extensions_remote_repositories != [] -%>
+druid.extensions.remoteRepositories=["<%= @extensions_remote_repositories.join('", "') %>"]
+<% else -%>
+druid.extensions.remoteRepositories=[]
+<% end -%>
+<% if @extensions_local_repository != '' -%>
+druid.extensions.localRepository=<%= @extensions_local_repository %>
+<% end -%>
+<% if @extensions_coordinates != [] -%>
+druid.extensions.coordinates=["<%= @extensions_coordinates.join('", "') %>"]
+<% else -%>
+druid.extensions.coordinates=[]
+<% end -%>
+<% if @extensions_default_version != '' -%>
+druid.extensions.defaultVersion=<%= @extensions_default_version %>
+<% end -%>
+druid.extensions.searchCurrentClassloader=<%= @extensions_search_current_classloader %>
+
+# Zookeeper
+druid.zk.paths.base=<%= @zk_paths_base %>
+druid.zk.service.host=<%= @zk_service_host %>
+druid.zk.service.sessionTimeoutMs=<%= @zk_service_session_timeout_ms %>
+druid.curator.compress=<%= @curator_compress %>
+druid.zk.paths.base=<%= @zk_paths_base %>
+<% if @zk_paths_properties_path != '' -%>
+druid.zk.paths.propertiesPath=<%= @zk_paths_properties_path %>
+<% end -%>
+<% if @zk_paths_announcements_path != '' -%>
+druid.zk.paths.announcementsPath=<%= @zk_paths_announcements_path %>
+<% end -%>
+<% if @zk_paths_live_segments_path != '' -%>
+druid.zk.paths.liveSegmentsPath=<%= @zk_paths_live_segments_path %>
+<% end -%>
+<% if @zk_paths_load_queue_path != '' -%>
+druid.zk.paths.loadQueuePath=<%= @zk_paths_load_queue_path %>
+<% end -%>
+<% if @zk_paths_coordinator_path != '' -%>
+druid.zk.paths.coordinatorPath=<%= @zk_paths_coordinator_path %>
+<% end -%>
+<% if @zk_paths_indexer_base != '' -%>
+druid.zk.paths.indexer.base=<%= @zk_paths_indexer_base %>
+<% end -%>
+<% if @zk_paths_indexer_announcements_path != '' -%>
+druid.zk.paths.indexer.announcementsPath=<%= @zk_paths_indexer_announcements_path %>
+<% end -%>
+<% if @zk_paths_indexer_tasks_path != '' -%>
+druid.zk.paths.indexer.tasksPath=<%= @zk_paths_indexer_tasks_path %>
+<% end -%>
+<% if @zk_paths_indexer_status_path != '' -%>
+druid.zk.paths.indexer.statusPath=<%= @zk_paths_indexer_status_path %>
+<% end -%>
+<% if @zk_paths_indexer_leader_latch_path != '' -%>
+druid.zk.paths.indexer.leaderLatchPath=<%= @zk_paths_indexer_leader_latch_path %>
+<% end -%>
+druid.discovery.curator.path=<%= @discovery_curator_path %>
+
+# Request Logging
+druid.request.logging.type=<%= @request_logging_type %>
+<% if @request_logging_type == 'file' -%>
+druid.request.logging.dir=<%= @request_logging_dir %>
+<% elsif @request_logging_type == 'emitter' -%>
+druid.request.logging.feed=<%= @request_logging_feed %>
+<% end -%>
+
+# Enabling Metrics
+druid.monitoring.emissionPeriod=<%= @monitoring_emission_period %>
+<% if @monitoring_monitors != [] -%>
+druid.monitoring.monitors=["<% @monitoring_monitors.join('", "') %>"]
+<% end -%>
+
+# Emitting Metrics
+druid.emitter=<%= @emitter %>
+<% if @emitter == 'logging' -%>
+druid.emitter.logging.loggerClass=<%= @emitter_logging_logger_class %>
+druid.emitter.logging.logLevel=<%= @emitter_logging_log_level %>
+<% elsif @emitter == 'http' -%>
+druid.emitter.http.timeOut=<%= @emitter_http_time_out %>
+druid.emitter.http.flushMillis=<%= @emitter_http_flush_millis %>
+druid.emitter.http.flushCount=<%= @emitter_http_flush_count %>
+druid.emitter.http.recipientBaseUrl=<%= @emitter_http_recipient_base_url %>
+<% end -%>
+
+# Metadata Storage
+druid.metadata.storage.type=<%= @metadata_storage_type %>
+<% if @metadata_storage_connector_uri != '' -%>
+druid.metadata.storage.connector.connectURI=<%= @metadata_storage_connector_uri %>
+<% end -%>
+<% if @metadata_storage_connector_user != '' -%>
+druid.metadata.storage.connector.user=<%= @metadata_storage_connector_user %>
+<% end -%>
+<% if @metadata_storage_connector_password != '' -%>
+druid.metadata.storage.connector.password=<%= @metadata_storage_connector_password %>
+<% end -%>
+druid.metadata.storage.connector.createTables=<%= @metadata_storage_connector_create_tables %>
+druid.metadata.storage.tables.base=<%= @metadata_storage_tables_base %>
+druid.metadata.storage.tables.segmentTable=<%= @metadata_storage_tables_segment_table %>
+druid.metadata.storage.tables.ruleTable=<%= @metadata_storage_tables_rule_table %>
+druid.metadata.storage.tables.configTable=<%= @metadata_storage_tables_config_table %>
+druid.metadata.storage.tables.tasks=<%= @metadata_storage_tables_tasks %>
+druid.metadata.storage.tables.taskLog=<%= @metadata_storage_tables_task_log %>
+druid.metadata.storage.tables.taskLock=<%= @metadata_storage_tables_task_lock %>
+druid.metadata.storage.tables.audit=<%= @metadata_storage_tables_audit %>
+
+# Deep Storage
+druid.storage.type=<%= @storage_type %>
+<% if @storage_type == 'local' -%>
+druid.storage.storageDirectory=<%= @storage_directory %>
+<% elsif @storage_type == 's3' -%>
+druid.s3.accessKey=<%= @s3_access_key %>
+druid.s3.secretKey=<%= @s3_secret_key %>
+druid.storage.bucket=<%= @s3_bucket %>
+druid.storage.baseKey=<%= @s3_base_key %>
+druid.storage.disableAcl=<%= @storage_disable_acl %>
+druid.storage.archiveBucket=<%= @s3_archive_bucket %>
+druid.storage.archiveBaseKey=<%= @s3_archive_base_key %>
+<% elsif @storage_type == 'hdfs' -%>
+druid.storage.storageDirectory=<%= @hdfs_directory %>
+<% elsif @storage_type == 'c*' -%>
+druid.storage.host=<%= @cassandra_host %>
+druid.storage.keyspace=<%= @cassandra_keyspace %>
+<% end -%>
+
+# Caching
+druid.cache.type=<%= @cache_type %>
+<% if @cache_uncacheable != '' -%>
+druid.cache.unCacheable=<%= @cache_uncacheable %>
+<% end -%>
+<% if @cache_type == 'local' -%>
+druid.cache.sizeInBytes=<%= @cache_size_in_bytes %>
+druid.cache.initialSize=<%= @cache_initial_size %>
+druid.cache.logEvictionCount=<%= @cache_log_eviction_count %>
+<% elsif @cache_type == 'memcached' -%>
+druid.cache.expiration=<%= @cache_expiration %>
+druid.cache.timeout=<%= @cache_timeout %>
+<% if @cache_hosts != '' -%>
+druid.cache.hosts=["<%= @cache_hosts.join('", "') %>"]
+<% end -%>
+druid.cache.maxObjectSize=<%= @cache_max_object_size %>
+druid.cache.memcachedPrefix=<%= @cache_memcached_prefix %>
+<% end -%>
+
+# Indexing Service Discovery
+druid.selectors.indexing.serviceName=<%= @selectors_indexing_service_name %>
+
+# Announcing Segments
+druid.announcer.type=<%= @announcer_type %>
+<% if @announcer_type == 'batch' -%>
+druid.announcer.segmentsPerNode=<%= @announcer_segments_per_node %>
+druid.announcer.maxBytesPerNode=<%= @announcer_max_bytes_per_node %>
+<% end -%>

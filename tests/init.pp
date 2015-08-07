@@ -1,12 +1,20 @@
-# The baseline for module testing used by Puppet Labs is that each manifest
-# should have a corresponding test manifest that declares that class or defined
-# type.
-#
-# Tests are then run by using puppet apply --noop (to check for compilation
-# errors and view a log of events) or by fully applying the test in a virtual
-# environment (to compare the resulting system state to the desired state).
-#
-# Learn more about module testing here:
-# http://docs.puppetlabs.com/guides/tests_smoke.html
-#
-include druid
+class { 'druid':
+  extensions_coordinates => [
+    'io.druid.extensions:druid-s3-extensions',
+    'io.druid.extensions:druid-histogram',
+    'io.druid.extensions:mysql-metadata-storag',
+  ],
+  extensions_default_version          => '0.8.0',
+  zk_paths_properties_path            => 'test_prop',
+  zk_paths_announcements_path         => 'test_announ',
+  zk_paths_live_segments_path         => 'test_live_segs',
+  zk_paths_load_queue_path            => 'test_lq_path',
+  zk_paths_coordinator_path           => 'test_co_path',
+  zk_paths_indexer_base               => 'test_base',
+  zk_paths_indexer_announcements_path => 'test_announcements_path',
+  zk_paths_indexer_tasks_path         => 'test_task_path',
+  zk_paths_indexer_status_path        => 'test_status_path',
+  zk_paths_indexer_leader_latch_path  => 'test_leaser_latch_path',
+  request_logging_type                => 'emitter',
+  request_logging_feed                => 'druid_feed',
+}
