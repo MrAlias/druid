@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "Tyler Yahn <codingalias@gmail.com>",
   "summary": "Sets up and configures a full druid cluster.",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/MrAlias/druid.git",
   "project_page": "https://github.com/MrAlias/druid",
   "issues_url": "https://github.com/MrAlias/druid/issues",
