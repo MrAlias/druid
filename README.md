@@ -483,6 +483,156 @@ Max byte size for Znode.
 
 Defaults to `524288`.
 
+#### druid::historical
+
+Historical node class.
+
+##### `druid::historical::host`
+
+The host for the current node.
+
+Defaults to the facter defined `$ipaddress`.
+
+##### `druid::historical::port`
+
+This is the port to actually listen on; unless port mapping is used, this will be the same port as is on `druid::historical::host`.
+
+Defaults to `8083`.
+
+##### `druid::historical::service`
+
+The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services
+
+Defaults to `'druid/historical'`.
+
+##### `druid::historical::server_max_size`
+
+The maximum number of bytes-worth of segments that the node wants assigned to it. This is not a limit that Historical nodes actually enforces, just a value published to the Coordinator node so it can plan accordingly.
+
+Defaults to `0`.
+
+##### `druid::historical::server_tier`
+
+A string to name the distribution tier that the storage node belongs to.  Many of the rules Coordinator nodes use to manage segments can be keyed on tiers.
+
+Defaults to `'_default_tier'`.
+
+##### `druid::historical::server_priority`
+
+In a tiered architecture, the priority of the tier, thus allowing control over which nodes are queried. Higher numbers mean higher priority. The Druid default (no priority) works for architecture with no cross replication (tiers that have no data-storage overlap). Data centers typically have equal priority.
+
+Defaults to `0`.
+
+##### `druid::historical::segment_cache_locations`
+
+Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides.
+
+Valid values are 'none' (also `undef`) or an absolute file path.
+
+##### `druid::historical::segment_cache_delete_on_remove`
+
+Delete segment files from cache once a node is no longer serving a segment.
+
+Defaults to `true`.
+
+##### `druid::historical::segment_cache_drop_segment_delay_millis`
+
+How long a node delays before completely dropping segment.
+
+Defaults to `30000` (30 seconds).
+
+##### `druid::historical::segment_cache_info_dir`
+
+Historical nodes keep track of the segments they are serving so that when the process is restarted they can reload the same segments without waiting for the Coordinator to reassign. This path defines where this metadata is kept.
+
+##### `druid::historical::segment_cache_announce_interval_millis`
+
+How frequently to announce segments while segments are loading from cache.  Set this value to zero to wait for all segments to be loaded before announcing.
+
+Defaults to `5000` (5 seconds).
+
+##### `druid::historical::segment_cache_num_loading_threads`
+
+How many segments to load concurrently from from deep storage.
+
+Defaults to `1`.
+
+##### `druid::historical::server_http_num_threads`
+
+Number of threads for HTTP requests.
+
+Defaults to `10`.
+
+##### `druid::historical::server_http_max_idle_time`
+
+The Jetty max idle time for a connection.
+
+Defaults to `'PT5m'`.
+
+##### `druid::historical::processing_buffer_size_bytes`
+
+This specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed.
+
+Defaults to `1073741824` (1GB).
+
+##### `druid::historical::processing_format_string`
+
+Realtime and historical nodes use this format string to name their processing threads.
+
+Defaults to `'processing-%s'`.
+
+##### `druid::historical::processing_num_threads`
+
+The number of processing threads to have available for parallel processing of segments.  Druid will default to using 'num_cores - 1 || 1'.
+
+##### `druid::historical::processing_column_cache_size_bytes`
+
+Maximum size in bytes for the dimension value lookup cache. Any value greater than 0 enables the cache.  Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e. dimensions with few repeating values).  Enabling it may also require additional garbage collection tuning to avoid long GC pauses.
+
+Defaults to `0` (disabled).
+
+##### `druid::historical::query_groupBy_single_threaded`
+
+Run single threaded group By queries.
+
+Defaults to `false`.
+
+##### `druid::historical::query_groupBy_max_intermediate_rows`
+
+Maximum number of intermediate rows.
+
+Defaults to `50000`.
+
+##### `druid::historical::query_groupBy_max_results`
+
+Maximum number of results.
+
+Defaults to `500000`.
+
+##### `druid::historical::query_search_max_search_limit`
+
+Maximum number of search results to return.
+
+Defaults to `1000`.
+
+##### `druid::historical::historical_cache_use_cache`
+
+Enable the cache on the historical.
+
+Defaults to `false`.
+
+##### `druid::historical::historical_cache_populate_cache`
+
+Populate the cache on the historical.
+
+Defaults to `false`.
+
+##### `druid::historical::historical_cache_uncacheable`
+
+All query types to not cache.
+
+Defaults to `["groupBy", "select"]`.
+
 ## Limitations
 
 The module has been designed to run on a Debian based system using systemd as a service manager.
