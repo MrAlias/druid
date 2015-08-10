@@ -587,13 +587,13 @@ class druid (
   exec { "Create ${install_dir}":
     command => "mkdir -p ${install_dir}",
     creates => $install_dir,
-    cwd  => '/',
+    cwd     => '/',
   }
 
   exec { "Create ${config_dir}":
     command => "mkdir -p ${config_dir}",
     creates => $config_dir,
-    cwd  => '/',
+    cwd     => '/',
   }
 
   file { $install_dir:
