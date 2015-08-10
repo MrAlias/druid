@@ -59,7 +59,7 @@ Defaults to 'openjdk-7-jre-headless'.
 
 Directory druid will be installed in.
 
-Defaults to '/usr/local/lib/druid'.
+Defaults to '/usr/local/lib'.
 
 ##### `druid::config_dir`
 

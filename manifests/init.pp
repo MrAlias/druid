@@ -17,7 +17,7 @@
 # [*install_dir*]
 #   Directory druid will be installed in.
 #
-#   Defaults to '/usr/local/lib/druid'.
+#   Defaults to '/usr/local/lib'.
 #
 # [*config_dir*]
 #   Directory druid will keep configuration files.
@@ -398,7 +398,7 @@
 #  class { 'druid': 
 #    version     => '0.8.0',
 #    java_pkg    => 'openjdk-7-jre-headless',
-#    install_dir => '/usr/local/lib/druid',
+#    install_dir => '/usr/local/lib',
 #    config_dir  => '/etc/druid',
 #  }
 #
@@ -409,7 +409,7 @@
 class druid (
   $version                                  = hiera("${module_name}::version", '0.8.0'),
   $java_pkg                                 = hiera("${module_name}::java_pkg", 'openjdk-7-jre-headless'),
-  $install_dir                              = hiera("${module_name}::install_dir", '/usr/local/lib/druid'),
+  $install_dir                              = hiera("${module_name}::install_dir", '/usr/local/lib'),
   $config_dir                               = hiera("${module_name}::config_dir", '/etc/druid'),
   $extensions_remote_repositories           = hiera("${module_name}::extensions_remote_repositories", ['http://repo1.maven.org/maven2/', 'https://metamx.artifactoryonline.com/metamx/pub-libs-releases-local']),
   $extensions_local_repository              = hiera("${module_name}::extensions_local_repository", '~/.m2/repository'),
@@ -615,6 +615,12 @@ class druid (
       File[$install_dir],
       Package['wget'],
     ],
+  }
+
+  file { "${install_dir}/druid":
+    ensure  => link,
+    target  => "${install_dir}/druid-${version}",
+    require => Exec["Download and untar druid-${version}"],
   }
 
   file { "${config_dir}/common.runtime.properties":
