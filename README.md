@@ -615,19 +615,19 @@ Maximum number of search results to return.
 
 Defaults to `1000`.
 
-##### `druid::historical::historical_cache_use_cache`
+##### `druid::historical::use_cache`
 
 Enable the cache on the historical.
 
 Defaults to `false`.
 
-##### `druid::historical::historical_cache_populate_cache`
+##### `druid::historical::populate_cache`
 
 Populate the cache on the historical.
 
 Defaults to `false`.
 
-##### `druid::historical::historical_cache_uncacheable`
+##### `druid::historical::uncacheable`
 
 All query types to not cache.
 

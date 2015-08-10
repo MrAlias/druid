@@ -142,17 +142,17 @@
 #
 #  Defaults to 1000.
 #
-# [*historical_cache_use_cache*]
+# [*use_cache*]
 #  Enable the cache on the historical.
 #
 #  Defaults to false.
 #
-# [*historical_cache_populate_cache*]
+# [*populate_cache*]
 #  Populate the cache on the historical.
 #
 #  Defaults to false.
 #
-# [*historical_cache_uncacheable*]
+# [*uncacheable*]
 #  All query types to not cache.
 #
 #  Defaults to ["groupBy", "select"].
@@ -188,9 +188,9 @@ class druid::historical (
   $query_group_by_max_intermediate_rows    = hiera("${module_name}::historical::query_groupBy_max_intermediate_rows", 50000),
   $query_group_by_max_results              = hiera("${module_name}::historical::query_groupBy_max_results", 500000),
   $query_search_max_search_limit           = hiera("${module_name}::historical::query_search_max_search_limit", 1000),
-  $historical_cache_use_cache              = hiera("${module_name}::historical::historical_cache_use_cache", false),
-  $historical_cache_populate_cache         = hiera("${module_name}::historical::historical_cache_populate_cache", false),
-  $historical_cache_uncacheable            = hiera("${module_name}::historical::historical_cache_uncacheable", ['groupBy', 'select']),
+  $use_cache                               = hiera("${module_name}::historical::historical_cache_use_cache", false),
+  $populate_cache                          = hiera("${module_name}::historical::historical_cache_populate_cache", false),
+  $uncacheable                             = hiera("${module_name}::historical::historical_cache_uncacheable", ['groupBy', 'select']),
 ) {
   require druid
 
@@ -221,11 +221,11 @@ class druid::historical (
   validate_bool(
     $segment_cache_delete_on_remove,
     $query_group_by_single_threaded,
-    $historical_cache_use_cache,
-    $historical_cache_populate_cache
+    $use_cache,
+    $populate_cache
   )
 
-  validate_array($historical_cache_uncacheable)
+  validate_array($uncacheable)
 
   if ($segment_cache_locations != undef) {
     validate_absolute_path($segment_cache_locations)
