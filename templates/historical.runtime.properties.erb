@@ -1,0 +1,48 @@
+# Node Configs
+druid.host=<%= @host %>
+druid.port=<%= @port %>
+druid.service=<%= @service %>
+
+# General Configuration
+druid.server.maxSize=<%= @server_max_size %>
+druid.server.tier=<%= @server_tier %>
+druid.server.priority=<%= @server_priority %>
+
+# Storing Segments
+<% if @segment_cache_locations != '' and @segment_cache_locations != 'none' -%>
+druid.segmentCache.locations=<%= @segment_cache_locations %>
+druid.segmentCache.deleteOnRemove=<%= @segment_cache_delete_on_remove %>
+druid.segmentCache.dropSegmentDelayMillis=<%= @segment_cache_drop_segment_delay_millis %>
+<% if @segment_cache_info_dir != '' -%>
+druid.segmentCache.infoDir=<%= @segment_cache_info_dir %>
+<% end -%>
+druid.segmentCache.announceIntervalMillis=<%= @segment_cache_announce_interval_millis %>
+druid.segmentCache.numLoadingThreads=<%= @segment_cache_num_loading_threads %>
+<% else -%>
+druid.segmentCache.locations=none
+<% end -%>
+
+# Query Configs
+druid.server.http.numThreads=<%= @server_http_num_threads %>
+druid.server.http.maxIdleTime=<%= @server_http_max_idle_time %>
+
+# Processing
+druid.processing.buffer.sizeBytes=<%= @processing_buffer_size_bytes %>
+druid.processing.formatString=<%= @processing_format_string %>
+<% if @processing_num_threads != '' -%>
+druid.processing.numThreads=<%= @processing_num_threads %>
+<% end -%>
+druid.processing.columnCache.sizeBytes=<%= @processing_column_cache_size_bytes %>
+
+# General Query Configuration
+druid.query.groupBy.singleThreaded=<%= @query_group_by_single_threaded %>
+druid.query.groupBy.maxIntermediateRows=<%= @query_group_by_max_intermediate_rows %>
+druid.query.groupBy.maxResults=<%= @query_group_by_max_results %>
+
+# Search Query Config
+druid.query.search.maxSearchLimit=<%= @query_search_max_search_limit %>
+
+# Caching
+druid.historical.cache.useCache=<%= @historical_cache_use_cache %>
+druid.historical.cache.populateCache=<%= @historical_cache_populate_cache %>
+druid.historical.cache.unCacheable=<%= @historical_cache_uncacheable %>
