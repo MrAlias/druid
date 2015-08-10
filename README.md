@@ -203,11 +203,13 @@ Array of Druid monitors used by a node. See below for names and more information
 
 Valid array values are:
 
-`'io.druid.client.cache.CacheMonitor'` | Emits metrics (to logs) about the segment results cache for Historical and Broker nodes. Reports typical cache statistics include hits, misses, rates, and size (bytes and number of entries), as well as timeouts and errors.
-`'com.metamx.metrics.SysMonitor'` | This uses the SIGAR library to report on various system activities and statuses. Make sure to add the sigar library jar to your classpath if using this monitor.
-`'io.druid.server.metrics.HistoricalMetricsMonitor'` | Reports statistics on Historical nodes.
-`'com.metamx.metrics.JvmMonitor'` | Reports JVM-related statistics.
-`'io.druid.segment.realtime.RealtimeMetricsMonitor'` | Reports statistics on Realtime nodes.
+| Array Value | Description |
+| --- | --- |
+| `'io.druid.client.cache.CacheMonitor'` | Emits metrics (to logs) about the segment results cache for Historical and Broker nodes. Reports typical cache statistics include hits, misses, rates, and size (bytes and number of entries), as well as timeouts and errors. |
+| `'com.metamx.metrics.SysMonitor'` | This uses the SIGAR library to report on various system activities and statuses. Make sure to add the sigar library jar to your classpath if using this monitor. |
+| `'io.druid.server.metrics.HistoricalMetricsMonitor'` | Reports statistics on Historical nodes. |
+| `'com.metamx.metrics.JvmMonitor'` | Reports JVM-related statistics. |
+| `'io.druid.segment.realtime.RealtimeMetricsMonitor'` | Reports statistics on Realtime nodes. |
 
 Defaults to `[]`.
 
