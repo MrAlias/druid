@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-  newfunction(:percent_mem, :type => :rvalue, :doc => <<-EOS
+  newfunction(:percent_mem, :arity => 1, :type => :rvalue, :doc => <<-EOS
     Return percentage of total memory.
 
     The first and only parameter is the percentage of memory to return, and
@@ -10,16 +10,13 @@ module Puppet::Parser::Functions
     memory requirements.
     EOS
   ) do |args|
-    raise(Puppet::ParseError, "percent_mem(): Wrong number of arguments " +
-      "given (#{args.size} for 1)") if args.size != 1
+	pct = Float(args[0])
 
-    raise(Puppet::ParseError, "percent_mem(): Invalid argument type: " +
-      "#{args[0]} is not a Numeric") if not args[0].is_a? Numeric
+	if not pct.between?(0, 100)
+		raise(Puppet::ParseError, "percent_mem(): #{pct} is not in [0, 100]")
+	end
 
-    raise(Puppet::ParseError, "percent_mem(): Invalid argument value: " +
-      "#{args[0]} is not in [0, 100]") if not args[0].between?(0,100)
-
-    ratio = args[0] / 100.0
+    ratio = pct / 100.0
     value, unit = lookupvar('memorysize').split(' ')
     num_bytes = {
       "kb" => 1024,
