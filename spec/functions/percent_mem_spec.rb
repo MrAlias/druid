@@ -1,5 +1,3 @@
-#! /usr/bin/env ruby -S rspec
-
 require 'puppetlabs_spec_helper/module_spec_helper'
 
 describe 'percent_mem' do
