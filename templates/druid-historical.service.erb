@@ -1,0 +1,61 @@
+<%
+    java_options = ['-server']
+
+    if @max_mem_allocation_pool != ''
+        java_options << '-Xmx' + @max_mem_allocation_pool
+    end
+
+    if @min_mem_allocation_pool != ''
+        java_options << '-Xms' + @min_mem_allocation_pool
+    end
+
+    if @new_gen_min_size != ''
+        java_options << '-XX:NewSize=' + @new_gen_min_size
+    end
+
+    if @new_gen_max_size != ''
+        java_options << '-XX:MaxNewSize=' + @new_gen_max_size
+    end
+
+    if @max_direct_byte_buffer_size != ''
+        java_options << '-XX:MaxDirectMemorySize=' + @max_direct_byte_buffer_size
+    end
+
+    if @use_concurrent_mark_sweep_gc
+        java_options << '-XX:+UseConcMarkSweepGC'
+    end
+
+    if @print_gc_details
+        java_options << '-XX:+PrintGCDetails'
+    end
+
+    if @print_gc_time_stamps
+        java_options << '-XX:+PrintGCTimeStamps'
+    end
+
+    if @jvm_default_timezone != ''
+        java_options << '-Duser.timezone=' + @jvm_default_timezone
+    end
+
+    if @jvm_file_encoding != ''
+        java_options << '-Dfile.encoding=' + @jvm_file_encoding
+    end
+
+    if @logging_manager != ''
+        java_options << '-Djava.util.logging.manager=' + @logging_manager
+    end
+
+    if @jvm_tmp_dir != ''
+        java_options << '-Djava.io.tmpdir=' + @jvm_tmp_dir
+    end
+-%>
+[Unit]
+Description=Druid Historical Node
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/java <%= java_options.join(' ') %> -classpath :/etc/druid/*:/usr/local/lib/druid/lib/* io.druid.cli.Main server historical
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

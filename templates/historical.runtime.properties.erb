@@ -1,3 +1,4 @@
+<% require 'json' -%>
 # Node Configs
 druid.host=<%= @host %>
 druid.port=<%= @port %>
@@ -10,7 +11,7 @@ druid.server.priority=<%= @server_priority %>
 
 # Storing Segments
 <% if @segment_cache_locations != '' and @segment_cache_locations != 'none' -%>
-druid.segmentCache.locations=<%= @segment_cache_locations %>
+druid.segmentCache.locations=<%= @segment_cache_locations.to_json %>
 druid.segmentCache.deleteOnRemove=<%= @segment_cache_delete_on_remove %>
 druid.segmentCache.dropSegmentDelayMillis=<%= @segment_cache_drop_segment_delay_millis %>
 <% if @segment_cache_info_dir != '' -%>
