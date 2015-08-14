@@ -1,0 +1,7 @@
+HOSTS:
+  debian-81-x64:
+    platform: debian-8-amd64
+    hypervisor: vagrant
+    box: MrAlias/debian-8.1-amd64-nocm
+CONFIG:
+  type: foss
