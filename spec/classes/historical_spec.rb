@@ -24,5 +24,11 @@ describe 'druid::historical' do
         :command => '/bin/systemctl daemon-reload',
       }
     )}
+    it { should contain_service('druid-historical').with(
+      {
+        :ensure => 'running',
+        :enable => true,
+      }
+    )}
   end
 end
