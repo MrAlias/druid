@@ -58,9 +58,9 @@ class { 'druid':
 All parameters for all druid classes are definable in hiera.  The following hiera excerpt shows how the [above example](#standalone-druid-packages) could have been accomplished by defining the parameters in hiera.
 
 ```yaml
-druid::version     => '0.8.0',
-druid::install_dir => '/opt',
-druid::config_dir  => '/opt/druid/configs',
+druid::version: '0.8.0',
+druid::install_dir: '/opt'
+druid::config_dir: '/opt/druid/configs'
 ```
 
 ### Historical Node
