@@ -9,7 +9,7 @@ describe 'druid::historical' do
 
     it { should compile.with_all_deps }
     it { should contain_class('druid::historical') }
-    it { should contain_file('/etc/druid/historical.runtime.properties').with(
+    it { should contain_file('/etc/druid/runtime.properties').with(
       {
         :ensure => 'file',
       }
