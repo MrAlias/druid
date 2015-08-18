@@ -14,8 +14,6 @@
 
 [Druid](druid.io) is a data store solutions designed for online analytical processing of time-series data.  This module is used to managing nodes in a Druid cluster that run the Druid service, namely: Historical, Broker, Coordinator, Indexing Service, and Realtime nodes.
 
-This module assumes that the deep storage, metadata storage, and ZooKeeper portions of the Druid cluster are managed elsewhere.
-
 ## Setup
 
 ### What druid affects
@@ -23,9 +21,17 @@ This module assumes that the deep storage, metadata storage, and ZooKeeper porti
 * Installs the Druid jars to the local filesystem.
 * Created Druid configuration files on the local filesystem.
 
+### What druid does not manage
+
+This module will not setup all the additional services a full Druid cluster will need.  Specificaly it does not manage the following.
+
+* Cluster deep storage
+* Metadata storage
+* ZooKeeper
+
 ### Beginning with druid
 
-The module is designed to be called differently depending on the type of Druid service the node should be running.  However, the service can be setup with a bare bones common configuration by just including the main class:
+To install the Druid jars and setup basic configurations the following is all you need.
 
 ```puppet
 include druid
@@ -33,8 +39,68 @@ include druid
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+The module is designed to be called differently depending on the type of Druid service the node should be running.
+
+### Standalone Druid Packages
+
+If you want to run the druid service on your own the base `druid` class can be used to maintain settings. The following will install the Druid-0.8.0 release in `/opt/`, create a symlink from the installed directory to `/opt/druid/`, and then install a basic common properties file in `/opt/druid/configs/`
+
+```puppet
+class { 'druid':
+  version     => '0.8.0',
+  install_dir => '/opt',
+  config_dir  => '/opt/druid/configs',
+}
+```
+
+### Hiera Support
+
+All parameters for all druid classes are definable in hiera.  The following hiera excerpt shows how the [above example](#standalone-druid-packages) could have been accomplished by defining the parameters in hiera.
+
+```yaml
+druid::version     => '0.8.0',
+druid::install_dir => '/opt',
+druid::config_dir  => '/opt/druid/configs',
+```
+
+### Historical Node
+
+The `druid::historical` class is used to setup and manage Druid as a historical node.
+
+```puppet
+class { 'druid::historical':
+  host => $::ipaddress_lo,
+  port => 8080,
+}
+```
+
+If you need to manage common configuration options you can additionally call the base `druid` class.
+
+```puppet
+class { 'druid':
+  storage_type        => 's3',
+  s3_access_key       => 'some_access_key',
+  s3_secret_key       => 'super_secret_fake_key',
+  s3_bucket           => 'druid',
+  s3_base_key         => 'test-druid',
+  s3_archive_bucket   => 'druid-archive',
+  s3_archive_base_key => 'test_archive_base_key',
+}
+```
+
+However, a simpler way to accomplish this would be to define the whole configuration via hiera.
+
+```yaml
+druid::storage_type: 's3'
+druid::s3_access_key: 'some_access_key'
+druid::s3_secret_key: 'super_secret_fake_key'
+druid::s3_bucket: 'druid'
+druid::s3_base_key: 'test-druid'
+druid::s3_archive_bucket: 'druid-archive'
+druid::s3_archive_base_key: 'test_archive_base_key'
+druid::historical::host: %{::ipaddress_lo}
+druid::historical::port: 8080
+```
 
 ## Reference
 
