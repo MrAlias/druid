@@ -306,7 +306,7 @@ class druid::historical (
     }
   }
 
-  file { "${druid::config_dir}/historical.runtime.properties":
+  file { "${druid::config_dir}/runtime.properties":
     ensure  => file,
     content => template("${module_name}/historical.runtime.properties.erb"),
     require => File[$druid::config_dir],
@@ -321,5 +321,12 @@ class druid::historical (
   exec { 'Reload systemd daemon':
     command     => '/bin/systemctl daemon-reload',
     refreshonly => true,
+  }
+
+  service { 'druid-historical':
+    ensure    => running,
+    enable    => true,
+    require   => File['/etc/systemd/system/druid-historical.service'],
+    subscribe => Exec['Reload systemd daemon'],
   }
 }
