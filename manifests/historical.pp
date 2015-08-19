@@ -157,39 +157,39 @@
 #
 #  Defaults to ["groupBy", "select"].
 #
-# [*max_mem_allocation_pool*]
+# [*jvm_max_mem_allocation_pool*]
 #  Maximum amount of memory the JVM will allocate for it's heep.
 #
 #  Defaults to 25% of the systems total memory or 250 MB (whichever is
 #  larger).
 #
-# [*min_mem_allocation_pool*]
+# [*jvm_min_mem_allocation_pool*]
 #  Minimum amount of memory the JVM will allocate for it's heep.
 #
 #  Defaults to 25% of the systems total memory or 250 MB (whichever is
 #  larger).
 #
-# [*new_gen_max_size*]
+# [*jvm_new_gen_max_size*]
 #  Maximum JVM new generation memory size.
 #
-# [*new_gen_min_size*]
+# [*jvm_new_gen_min_size*]
 #  Minimum JVM new generation memory size.
 #
-# [*max_direct_byte_buffer_size*]
+# [*jvm_max_direct_byte_buffer_size*]
 #  Maximum memory the JVM will reserve for all Direct Byte Buffers.
 #
-# [*use_concurrent_mark_sweep_gc*]
+# [*jvm_use_concurrent_mark_sweep_gc*]
 #  Specifies if the JVM should use concurrent mark-sweep collection for
 #  the old generation.
 #
 #  Defaults to `true`.
 #
-# [*print_gc_details*]
+# [*jvm_print_gc_details*]
 #  Specifies if the JVM should print garbage collection details.
 #
 #  Defaults to `true`.
 #
-# [*print_gc_time_stamps*]
+# [*jvm_print_gc_time_stamps*]
 #  Specifies if the JVM should print garbage collection time stamps.
 #
 #  Defaults to `true`.
@@ -204,7 +204,7 @@
 #
 #  Defaults to `'UTF-8'`.
 #
-# [*logging_manager*]
+# [*jvm_logging_manager*]
 #  Specifies the logging manager to use for the JVM.
 #
 #  Defaults to `'org.apache.logging.log4j.jul.LogManager'`.
@@ -251,17 +251,17 @@ class druid::historical (
   $use_cache                               = hiera("${module_name}::historical::historical_cache_use_cache", false),
   $populate_cache                          = hiera("${module_name}::historical::historical_cache_populate_cache", false),
   $uncacheable                             = hiera("${module_name}::historical::historical_cache_uncacheable", ['groupBy', 'select']),
-  $max_mem_allocation_pool                 = hiera("${module_name}::historical::max_mem_allocation_pool", percent_mem(25, '250m')),
-  $min_mem_allocation_pool                 = hiera("${module_name}::historical::min_mem_allocation_pool", percent_mem(25, '250m')),
-  $new_gen_max_size                        = hiera("${module_name}::historical::new_gen_max_size", undef),
-  $new_gen_min_size                        = hiera("${module_name}::historical::new_gen_min_size", undef),
-  $max_direct_byte_buffer_size             = hiera("${module_name}::historical::max_direct_byte_buffer_size", undef),
-  $use_concurrent_mark_sweep_gc            = hiera("${module_name}::historical::use_concurrent_mark_sweep_gc", true),
-  $print_gc_details                        = hiera("${module_name}::historical::print_gc_details", true),
-  $print_gc_time_stamps                    = hiera("${module_name}::historical::print_gc_time_stamps", true),
+  $jvm_max_mem_allocation_pool             = hiera("${module_name}::historical::jvm_max_mem_allocation_pool", percent_mem(25, '250m')),
+  $jvm_min_mem_allocation_pool             = hiera("${module_name}::historical::jvm_min_mem_allocation_pool", percent_mem(25, '250m')),
+  $jvm_new_gen_max_size                    = hiera("${module_name}::historical::jvm_new_gen_max_size", undef),
+  $jvm_new_gen_min_size                    = hiera("${module_name}::historical::jvm_new_gen_min_size", undef),
+  $jvm_max_direct_byte_buffer_size         = hiera("${module_name}::historical::jvm_max_direct_byte_buffer_size", undef),
+  $jvm_use_concurrent_mark_sweep_gc        = hiera("${module_name}::historical::jvm_use_concurrent_mark_sweep_gc", true),
+  $jvm_print_gc_details                    = hiera("${module_name}::historical::jvm_print_gc_details", true),
+  $jvm_print_gc_time_stamps                = hiera("${module_name}::historical::jvm_print_gc_time_stamps", true),
   $jvm_default_timezone                    = hiera("${module_name}::historical::jvm_default_timezone", 'UTC'),
   $jvm_file_encoding                       = hiera("${module_name}::historical::jvm_file_encoding", 'UTF-8'),
-  $logging_manager                         = hiera("${module_name}::historical::logging_manager", 'org.apache.logging.log4j.jul.LogManager'),
+  $jvm_logging_manager                     = hiera("${module_name}::historical::jvm_logging_manager", 'org.apache.logging.log4j.jul.LogManager'),
   $jvm_tmp_dir                             = hiera("${module_name}::historical::jvm_tmp_dir", undef),
 ) {
   require druid

@@ -1,35 +1,35 @@
 <%
     java_options = ['-server']
 
-    if @max_mem_allocation_pool != ''
-        java_options << '-Xmx' + @max_mem_allocation_pool
+    if @jvm_max_mem_allocation_pool != ''
+        java_options << '-Xmx' + @jvm_max_mem_allocation_pool
     end
 
-    if @min_mem_allocation_pool != ''
-        java_options << '-Xms' + @min_mem_allocation_pool
+    if @jvm_min_mem_allocation_pool != ''
+        java_options << '-Xms' + @jvm_min_mem_allocation_pool
     end
 
-    if @new_gen_min_size != ''
-        java_options << '-XX:NewSize=' + @new_gen_min_size
+    if @jvm_new_gen_min_size != ''
+        java_options << '-XX:NewSize=' + @jvm_new_gen_min_size
     end
 
-    if @new_gen_max_size != ''
-        java_options << '-XX:MaxNewSize=' + @new_gen_max_size
+    if @jvm_new_gen_max_size != ''
+        java_options << '-XX:MaxNewSize=' + @jvm_new_gen_max_size
     end
 
-    if @max_direct_byte_buffer_size != ''
-        java_options << '-XX:MaxDirectMemorySize=' + @max_direct_byte_buffer_size
+    if @jvm_max_direct_byte_buffer_size != ''
+        java_options << '-XX:MaxDirectMemorySize=' + @jvm_max_direct_byte_buffer_size
     end
 
-    if @use_concurrent_mark_sweep_gc
+    if @jvm_use_concurrent_mark_sweep_gc
         java_options << '-XX:+UseConcMarkSweepGC'
     end
 
-    if @print_gc_details
+    if @jvm_print_gc_details
         java_options << '-XX:+PrintGCDetails'
     end
 
-    if @print_gc_time_stamps
+    if @jvm_print_gc_time_stamps
         java_options << '-XX:+PrintGCTimeStamps'
     end
 
@@ -41,8 +41,8 @@
         java_options << '-Dfile.encoding=' + @jvm_file_encoding
     end
 
-    if @logging_manager != ''
-        java_options << '-Djava.util.logging.manager=' + @logging_manager
+    if @jvm_logging_manager != ''
+        java_options << '-Djava.util.logging.manager=' + @jvm_logging_manager
     end
 
     if @jvm_tmp_dir != ''

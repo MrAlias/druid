@@ -4,8 +4,8 @@ historical_pp = <<-EOS
 class { 'druid::historical':
   server_max_size              => 268435456,
   processing_buffer_size_bytes => 134217728,
-  max_mem_allocation_pool      => '512m',
-  min_mem_allocation_pool      => '512m',
+  jvm_max_mem_allocation_pool  => '512m',
+  jvm_min_mem_allocation_pool  => '512m',
   processing_num_threads       => 1, 
   segment_cache_locations      => [
     {
