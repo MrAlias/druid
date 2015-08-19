@@ -2,12 +2,20 @@
 
 #### Table of Contents
 
-1. [Module Description - What the module does and why it is useful](#module-description)
-2. [Setup - The basics of getting started with druid](#setup)
-    * [What druid affects](#what-druid-affects)
-    * [Beginning with druid](#beginning-with-druid)
+1. [Module Description](#module-description)
+2. [Setup](#setup)
+    * [What Druid Affects](#what-druid-affects)
+    * [What Druid Does Not Manage](#what-druid-does-not-manage
+    * [Beginning With Druid](#beginning-with-druid)
 3. [Usage](#usage)
+    * [Standalone Druid Packages](#standalone-druid-packages)
+    * [Hiera Support](#hiera-support)
+    * [Historical Node](#historical-node)
 4. [Reference](#reference)
+    * [Classes](#classes)
+       * [druid](#druid-1)
+       * [druid::historical](#druidhistorical)
+       * [druid::broker](#druidbroker)
 5. [Limitations](#limitations)
 
 ## Module Description
@@ -16,12 +24,12 @@
 
 ## Setup
 
-### What druid affects
+### What Druid Affects
 
 * Installs the Druid jars to the local filesystem.
 * Created Druid configuration files on the local filesystem.
 
-### What druid does not manage
+### What Druid Does Not Manage
 
 This module will not setup all the additional services a full Druid cluster will need.  Specificaly it does not manage the following.
 
@@ -29,7 +37,7 @@ This module will not setup all the additional services a full Druid cluster will
 * Metadata storage
 * ZooKeeper
 
-### Beginning with druid
+### Beginning With Druid
 
 To install the Druid jars and setup basic configurations the following is all you need.
 
