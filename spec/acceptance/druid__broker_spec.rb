@@ -3,8 +3,8 @@ require 'spec_helper_acceptance'
 broker_pp = <<-EOS
 class { 'druid::broker':
   processing_buffer_size_bytes => 134217728,
-  max_mem_allocation_pool      => '512m',
-  min_mem_allocation_pool      => '512m',
+  jvm_max_mem_allocation_pool  => '512m',
+  jvm_min_mem_allocation_pool  => '512m',
   processing_num_threads       => 1, 
 }
 EOS
