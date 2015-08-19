@@ -765,6 +765,291 @@ Specifies the tmp directory for the JVM.
 
 Many production systems are set up to have small (but fast) /tmp directories, which can be problematic with Druid so it is recommend to point the JVM’s tmp directory to something with a little more meat.
 
+#### druid::broker
+
+##### `druid::broker::host`
+
+Host address for the service to listen on.
+
+Default value: The `$ipaddress` fact.
+
+##### `druid::broker::port`
+
+Port the service listens on.
+
+Default value: `8082`.
+
+##### `druid::broker::service`
+
+The name of the service.
+
+This is used as a dimension when emitting metrics and alerts.  It is used to differentiate between the various services
+
+Default value: `'druid/broker'`.
+
+##### `druid::broker::balancer_type`
+
+The way connections to historical nodes are balanced.
+
+Valid values:
+* `'random'`: Choose randomly.
+* `'connectionCount'`: Use node with the fewest active connections.
+
+Default value: `'random'`.
+
+##### `druid::broker::cache_expiration`
+
+Memcached expiration time.
+
+Default value: `2592000` (30 days).
+
+##### `druid::broker::cache_hosts`
+
+Array of Memcached hosts (i.e. '<host:port>').
+
+Default value: `[]`.
+
+##### `druid::broker::cache_initial_size`
+
+Initial size of the hashtable backing the cache.
+
+Default value: `500000`.
+
+##### `druid::broker::cache_log_eviction_count`
+
+If non-zero, log cache eviction every logEvictionCount items.
+
+Default value: `0`.
+
+##### `druid::broker::cache_max_object_size`
+
+Maximum object size in bytes for a Memcached object.
+
+Default value: `52428800` (50 MB).
+
+##### `druid::broker::cache_memcached_prefix`
+
+Key prefix for all keys in Memcached.
+
+Default value: `'druid'`.
+
+##### `druid::broker::cache_populate_cache`
+
+Populate the cache on the broker.
+
+Valid values: `true`, `false`.
+
+Default value: `false`.
+
+##### `druid::broker::cache_size_in_bytes`
+
+Maximum cache size in bytes.
+
+Zero disables caching.
+
+Default value: `0`.
+
+##### `druid::broker::cache_timeout`
+
+Maximum time in milliseconds to wait for a response from Memcached.
+
+Default value: `500`.
+
+##### `druid::broker::cache_type`
+
+Type of cache to use for queries.
+
+Valid values:
+* `'local'`: Use local file cache.
+* `'memcached'`: Use Memcached.
+
+Default value: `'local'`.
+
+##### `druid::broker::cache_uncacheable`
+
+All query types to not cache.
+
+Default value: `['groupBy', 'select']`.
+
+##### `druid::broker::cache_use_cache`
+
+Enable the cache on the broker.
+
+Valid values: `true`, `false`.
+
+Default value: `false`.
+
+##### `druid::broker::http_num_connections`
+
+Connection pool size.
+
+Specifically, this is the number of connections the Broker uses to connect to historical and real-time nodes. If there are more queries than this number that all need to speak to the same node, then they will queue up.
+
+Default value: `5`.
+
+##### `druid::broker::http_read_timeout`
+
+The timeout for data reads.
+
+Default value: `'PT15M'`.
+
+##### `druid::broker::jvm_default_timezone`
+
+Sets the default time zone of the JVM.
+
+Default value: `'UTC'`.
+
+##### `druid::broker::jvm_file_encoding`
+
+Sets the default file encoding of the JVM.
+
+Default value: `'UTF-8'`.
+
+##### `druid::broker::jvm_logging_manager`
+
+Specifies the logging manager to use for the JVM.
+
+Default value: `'org.apache.logging.log4j.jul.LogManager'`.
+
+##### `druid::broker::jvm_max_direct_byte_buffer_size`
+
+Maximum memory the JVM will reserve for all Direct Byte Buffers.
+
+##### `druid::broker::jvm_max_mem_allocation_pool`
+
+Maximum amount of memory the JVM will allocate for it's heep.
+
+Default value: 10% of total memory or 250 MB (whichever is larger).
+
+##### `druid::broker::jvm_min_mem_allocation_pool`
+
+Minimum amount of memory the JVM will allocate for it's heep.
+
+Default value: 10% of total memory or 250 MB (whichever is larger).
+
+##### `druid::broker::jvm_new_gen_max_size`
+
+Maximum JVM new generation memory size.
+
+##### `druid::broker::jvm_new_gen_min_size`
+
+Minimum JVM new generation memory size.
+
+##### `druid::broker::jvm_print_gc_details`
+
+Specifies if the JVM should print garbage collection details.
+
+Default value: `true`.
+
+##### `druid::broker::jvm_print_gc_time_stamps`
+
+Specifies if the JVM should print garbage collection time stamps.
+
+Default value: `true`.
+
+##### `druid::broker::jvm_tmp_dir`
+
+Specifies the tmp directory for the JVM.
+
+Many production systems are set up to have small (but fast) /tmp directories, which can be problematic with Druid so it is recommend to point the JVM’s tmp directory to something with a little more meat.
+
+##### `druid::broker::jvm_use_concurrent_mark_sweep_gc`
+
+Specifies if the JVM should use concurrent mark-sweep collection for the old generation.
+
+Default value: `true`.
+
+##### `druid::broker::processing_buffer_size_bytes`
+
+Buffer size for the storage of intermediate results.
+
+The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed.
+
+Default value: `1073741824` (1GB).
+
+##### `druid::broker::processing_column_cache_size_bytes`
+
+Maximum size in bytes for the dimension value lookup cache.
+
+Any value greater than 0 enables the cache. It is currently disabled by default. Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e. dimensions with few repeating values). Enabling it may also require additional garbage collection tuning to avoid long GC pauses.
+
+Default value: `0` (disabled).
+
+##### `druid::broker::processing_format_string`
+
+Format string to name processing threads.
+
+Default value: `'processing-%s'`.
+
+##### `druid::broker::processing_num_threads`
+
+Number of processing threads available for processing of segments.
+
+Rule of thumb is num_cores - 1, which means that even under heavy load there will still be one core available to do background tasks like talking with ZooKeeper and pulling down segments. If only one core is available, this property defaults to the value 1.
+
+##### `druid::broker::query_group_by_max_intermediate_rows`
+
+Maximum number of intermediate rows.
+
+Default value: `50000`.
+
+##### `druid::broker::query_group_by_max_results`
+
+Maximum number of results.
+
+Default value: `500000`.
+
+##### `druid::broker::query_group_by_single_threaded`
+
+Run single threaded group by queries.
+
+Valid values: `true`, `false`.
+
+Default value: `false`.
+
+##### `druid::broker::query_search_max_search_limit`
+
+Maximum number of search results to return.
+
+Default value: `1000`.
+
+##### `druid::broker::retry_policy_num_tries`
+
+Number of tries.
+
+Default value: `1`.
+
+##### `druid::broker::select_tier_custom_priorities`
+
+Array of integer priorities to select server tiers with.
+
+Default value: `[]`.
+
+##### `druid::broker::select_tier`
+
+Preference of tier to select based on priority.
+
+If segments are cross-replicated across tiers in a cluster, you can tell the broker to prefer to select segments in a tier with a certain priority.
+
+Valid values:
+* `'highestPriority'`
+* `'lowestPriority'`
+* `'custom'`
+
+Default value: `'highestPriority'`.
+
+##### `druid::broker::server_http_max_idle_time`
+
+The Jetty max idle time for a connection.
+
+Default value: `'PT5m'`.
+
+##### `druid::broker::server_http_num_threads`
+
+Number of threads for HTTP requests.
+
+Default value: `10`.
+
 ## Limitations
 
 The module has been designed to run on a Debian based system using systemd as a service manager.
