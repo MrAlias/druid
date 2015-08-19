@@ -56,11 +56,6 @@
 # 
 #   Defaults to `true`.
 # 
-# [*zk_paths_base*]
-#   Base Zookeeper path.
-# 
-#   Defaults to `'/druid'`.
-# 
 # [*zk_service_host*]
 #   The ZooKeeper hosts to connect to.
 #
@@ -416,7 +411,6 @@ class druid (
   $extensions_coordinates                   = hiera_array("${module_name}::extensions_coordinates", []),
   $extensions_default_version               = hiera("${module_name}::extensions_default_version", undef),
   $extensions_search_current_classloader    = hiera("${module_name}::extensions_search_current_classloader", true),
-  $zk_paths_base                            = hiera("${module_name}::zk_paths_base", '/druid'),
   $zk_service_host                          = hiera("${module_name}::zk_service_host", 'localhost'),
   $zk_service_session_timeout_ms            = hiera("${module_name}::zk_service_session_timeout_ms", 30000),
   $curator_compress                         = hiera("${module_name}::curator_compress", true),
@@ -487,7 +481,6 @@ class druid (
   validate_string(
     $java_pkg,
     $extensions_local_repository,
-    $zk_paths_base,
     $zk_service_host,
     $zk_paths_base,
     $zk_paths_properties_path,

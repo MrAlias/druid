@@ -193,12 +193,6 @@ Boolean flag for whether or not created Znodes should be compressed.
 
 Default value: `true`.
 
-##### `druid::zk_paths_base`
-
-Base Zookeeper path.
-
-Default value: `'/druid'`.
-
 ##### `druid::zk_paths_properties_path`
 
 Zookeeper properties path.
