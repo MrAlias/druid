@@ -118,156 +118,293 @@ druid::historical::port: 8080
 
 The main module class.  This class is not intended to be called directly. All parameters a expected to be configured via hiera, but support is still provided to directly configure this class as a puppet class resource directly.
 
-##### `druid::version`
-Version of druid to install.
+##### `druid::announcer_max_bytes_per_node`
 
-Default value: `'0.8.0'`.
+Max byte size for Znode. 
 
-##### `druid::java_pkg`
+Default value: `524288`.
 
-Name of the java package to ensure installed on system.
+##### `druid::announcer_segments_per_node`
 
-Default value: `'openjdk-7-jre-headless'`.
+Each Znode contains info for up to this many segments. 
 
-##### `druid::install_dir`
+Default value: `50`. 
 
-Directory druid will be installed in.
+##### `druid::announcer_type`
 
-Default value: `'/usr/local/lib'`.
+The type of data segment announcer to use. 
+
+Valid values: `'legacy'` or `'batch'`. 
+
+Default value: `'batch'`. 
+
+##### `druid::cache_expiration`
+
+Memcached expiration time. 
+
+Default value: `2592000` (30 days). 
+
+##### `druid::cache_hosts`
+
+Array of Memcached hosts (`'host:port'`). 
+
+Default value: `[]`. 
+
+##### `druid::cache_initial_size`
+
+Initial size of the hashtable backing the local cache. 
+
+Default value: `500000`. 
+
+##### `druid::cache_log_eviction_count`
+
+If non-zero, log local cache eviction for that many items. 
+
+Default value: `0`. 
+
+##### `druid::cache_max_object_size`
+
+Maximum object size in bytes for a Memcached object. 
+
+Default value: `52428800` (50 MB). 
+
+##### `druid::cache_memcached_prefix`
+
+Key prefix for all keys in Memcached. 
+
+Default value: `'druid'`. 
+
+##### `druid::cache_size_in_bytes`
+
+Maximum local cache size in bytes. Zero disables caching. 
+
+Default value: `0`. 
+
+##### `druid::cache_timeout`
+
+Maximum time in milliseconds to wait for a response from Memcached. 
+
+Default value: `500`. 
+
+##### `druid::cache_type`
+
+The type of cache to use for queries. 
+
+Valid values: `'local'` or `'memcached'`. 
+
+Default value: `'local'`. 
+
+##### `druid::cache_uncacheable`
+
+All query types to not cache. 
+
+##### `druid::cassandra_host`
+
+Cassandra host to access for deep storage. 
+
+##### `druid::cassandra_keyspace`
+
+Cassandra key space. 
 
 ##### `druid::config_dir`
 
-Directory druid will keep configuration files.
+Directory druid will keep configuration files. 
 
-Default value: `'/etc/druid'`.
-
-##### `druid::extensions_remote_repositories`
-
-Array of remote repositories to load dependencies from.
-
-Default value: `['http://repo1.maven.org/maven2/', 'https://metamx.artifactoryonline.com/metamx/pub-libs-releases-local', ]`.
-
-##### `druid::extensions_local_repository`
-
-The way maven gets dependencies is that it downloads them to a "local repository" on your local disk and then collects the paths to each of the jars. This specifies the directory to consider the "local repository". If this is set, `extensions_remote_repositories` is not required.
-
-Default value: `'~/.m2/repository'`.
-
-##### `druid::extensions_coordinates`
-
-Array of "groupId:artifactId[:version]" maven coordinates.
-
-Default value: `[]`.
-
-##### `druid::extensions_default_version`
-
-Version to use for extension artifacts without version information.
-
-##### `druid::extensions_search_current_classloader`
-
-This is a boolean flag that determines if Druid will search the main classloader for extensions. It defaults to true but can be turned off if you have reason to not automatically add all modules on the classpath.
-
-Default value: `true`.
-
-##### `druid::zk_paths_base`
-
-Base Zookeeper path.
-
-Default value: `'/druid'`.
-
-##### `druid::zk_service_host`
-
-The ZooKeeper hosts to connect to.
-
-Default value: `'localhost'`.
-
-##### `druid::zk_service_session_timeout_ms`
-
-ZooKeeper session timeout, in milliseconds.
-
-Default value: `30000`.
+Default value: `'/etc/druid'`. 
 
 ##### `druid::curator_compress`
 
-Boolean flag for whether or not created Znodes should be compressed.
+Boolean flag for whether or not created Znodes should be compressed. 
 
-Default value: `true`.
-
-##### `druid::zk_paths_properties_path`
-
-Zookeeper properties path.
-
-##### `druid::zk_paths_announcements_path`
-
-Druid node announcement path.
-
-##### `druid::zk_paths_live_segments_path`
-
-Current path for where Druid nodes announce their segments.
-
-##### `druid::zk_paths_load_queue_path`
-
-Entries here cause historical nodes to load and drop segments.
-
-##### `druid::zk_paths_coordinator_path`
-
-Used by the coordinator for leader election.
-
-##### `druid::zk_paths_indexer_base`
-
-Base zookeeper path for indexers.
-
-##### `druid::zk_paths_indexer_announcements_path`
-
-Middle managers announce themselves here.
-
-##### `druid::zk_paths_indexer_tasks_path`
-
-Used to assign tasks to middle managers.
-
-##### `druid::zk_paths_indexer_status_path`
-
-Parent path for announcement of task statuses.
-
-##### `druid::zk_paths_indexer_leader_latch_path`
-
-Used for Overlord leader election.
+Default value: `true`. 
 
 ##### `druid::discovery_curator_path`
 
-Services announce themselves under this ZooKeeper path.
+Services announce themselves under this ZooKeeper path. 
 
-Default value: `'/druid/discovery'`.
+Default value: `'/druid/discovery'`. 
 
-##### `druid::request_logging_type`
+##### `druid::emitter_http_flush_count`
 
-Specifies the type of logging used.
+How many messages can the internal message buffer hold before flushing (sending). 
 
-Valid values: `'noop'`, `'file'`, `'emitter'`.
+Default value: `500`. 
 
-Default value: `'noop'`.
+##### `druid::emitter_http_flush_millis`
 
-##### `druid::request_logging_dir`
+How often to internal message buffer is flushed (data is sent). 
 
-Historical, Realtime and Broker nodes maintain request logs of all of the requests they get (interacton is via POST, so normal request logs don’t generally capture information about the actual query), this specifies the directory to store the request logs in.
+Default value: `60000`. 
 
-Default value: `''`.
+##### `druid::emitter_http_recipient_base_url`
 
-##### `druid::request_logging_feed`
+The base URL to emit messages to. Druid will POST JSON to be consumed at the HTTP endpoint specified by this property. 
 
-Feed name for requests.
+Default value: `''`. 
 
-Default value: `'druid'`.
+##### `druid::emitter_http_time_out`
+
+The timeout for data reads. 
+
+Default value: `'PT5M'`. 
+
+##### `druid::emitter_logging_log_level`
+
+The log level at which message are logged. 
+
+Valid values: `'debug'`, `'info'`, `'warn'`, or `'error'`
+
+Default value: `'info'`. 
+
+##### `druid::emitter_logging_logger_class`
+
+The class used for logging. 
+
+Valid values: `'HttpPostEmitter'`, `'LoggingEmitter'`, `'NoopServiceEmitter'`, or `'ServiceEmitter'`
+
+Default value: `'LoggingEmitter'`. 
+
+##### `druid::emitter`
+
+Emitter module to use. 
+
+Valid values: `'noop'`, `'logging'`, or `'http'`. 
+
+Default value: `'logging'`. 
+
+##### `druid::extensions_coordinates`
+
+Array of "groupId:artifactId[:version]" maven coordinates. 
+
+Default value: `[]`. 
+
+##### `druid::extensions_default_version`
+
+Version to use for extension artifacts without version information. 
+
+##### `druid::extensions_local_repository`
+
+The way maven gets dependencies is that it downloads them to a "local repository" on your local disk and then collects the paths to each of the jars. This specifies the directory to consider the "local repository". If this is set, `extensions_remote_repositories` is not required. 
+
+Default value: `'~/.m2/repository'`. 
+
+##### `druid::extensions_remote_repositories`
+
+Array of remote repositories to load dependencies from. 
+
+Default value: `['http://repo1.maven.org/maven2/', 'https://metamx.artifactoryonline.com/metamx/pub-libs-releases-local', ]`. 
+
+##### `druid::extensions_search_current_classloader`
+
+This is a boolean flag that determines if Druid will search the main classloader for extensions. It defaults to true but can be turned off if you have reason to not automatically add all modules on the classpath. 
+
+Default value: `true`. 
+
+##### `druid::hdfs_directory`
+
+HDFS directory to use as deep storage. 
+
+##### `druid::install_dir`
+
+Directory druid will be installed in. 
+
+Default value: `'/usr/local/lib'`. 
+
+##### `druid::java_pkg`
+
+Name of the java package to ensure installed on system. 
+
+Default value: `'openjdk-7-jre-headless'`. 
+
+##### `druid::metadata_storage_connector_create_tables`
+
+Specifies to create tables in the metadata storage if they do not exits. 
+
+Default value: `true`. 
+
+##### `druid::metadata_storage_connector_password`
+
+The password to connect with. 
+
+Default value: `'insecure_pass'`. 
+
+##### `druid::metadata_storage_connector_uri`
+
+The URI for the metadata storage. 
+
+Default value: `'jdbc:mysql://localhost:3306/druid?characterEncoding=UTF-8'`
+
+##### `druid::metadata_storage_connector_user`
+
+The username to connect to the metadata storage with. 
+
+Default value: `'druid'`. 
+
+##### `druid::metadata_storage_tables_audit`
+
+The table to use for audit history of configuration changes. 
+
+Default value: `'druid_audit'`. 
+
+##### `druid::metadata_storage_tables_base`
+
+The base name for tables. 
+
+Default value: `'druid'`. 
+
+##### `druid::metadata_storage_tables_config_table`
+
+The table to use to look for configs. 
+
+Default value: `'druid_config'`. 
+
+##### `druid::metadata_storage_tables_rule_table`
+
+The table to use to look for segment load/drop rules. 
+
+Default value: `'druid_rules'`. 
+
+##### `druid::metadata_storage_tables_segment_table`
+
+The table to use to look for segments. 
+
+Default value: `'druid_segments'`. 
+
+##### `druid::metadata_storage_tables_task_lock`
+
+Used by the indexing service to store task locks. 
+
+Default value: `'druid_taskLock'`. 
+
+##### `druid::metadata_storage_tables_task_log`
+
+Used by the indexing service to store task logs. 
+
+Default value: `'druid_taskLog'`. 
+
+##### `druid::metadata_storage_tables_tasks`
+
+The table used by the indexing service to store tasks. 
+
+Default value: `'druid_tasks'`. 
+
+##### `druid::metadata_storage_type`
+
+The type of metadata storage to use. 
+
+Valid values: `'mysql'`, `'postgres'`, or `'derby'`
+
+Default value: `'mysql'`. 
 
 ##### `druid::monitoring_emission_period`
 
-How often metrics are emitted.
+How often metrics are emitted. 
 
-Default value: `'PT1m'`.
+Default value: `'PT1m'`. 
 
 ##### `druid::monitoring_monitors`
 
-Array of Druid monitors used by a node. See below for names and more information.
+Array of Druid monitors used by a node. See below for names and more information. 
 
 Valid array values:
 
@@ -279,277 +416,140 @@ Valid array values:
 | `'com.metamx.metrics.JvmMonitor'` | Reports JVM-related statistics. |
 | `'io.druid.segment.realtime.RealtimeMetricsMonitor'` | Reports statistics on Realtime nodes. |
 
-Default value: `[]`.
+Default value: `[]`. 
 
-##### `druid::emitter`
+##### `druid::request_logging_dir`
 
-Emitter module to use.
+Historical, Realtime and Broker nodes maintain request logs of all of the requests they get (interacton is via POST, so normal request logs don’t generally capture information about the actual query), this specifies the directory to store the request logs in. 
 
-Valid values: `'noop'`, `'logging'`, or `'http'`.
+Default value: `''`. 
 
-Default value: `'logging'`.
+##### `druid::request_logging_feed`
 
-##### `druid::emitter_logging_logger_class`
+Feed name for requests. 
 
-The class used for logging.
+Default value: `'druid'`. 
 
-Valid values: `'HttpPostEmitter'`, `'LoggingEmitter'`, `'NoopServiceEmitter'`, or `'ServiceEmitter'`
+##### `druid::request_logging_type`
 
-Default value: `'LoggingEmitter'`.
+Specifies the type of logging used. 
 
-##### `druid::emitter_logging_log_level`
+Valid values: `'noop'`, `'file'`, `'emitter'`. 
 
-The log level at which message are logged.
-
-Valid values: `'debug'`, `'info'`, `'warn'`, or `'error'`
-
-Default value: `'info'`.
-
-##### `druid::emitter_http_time_out`
-
-The timeout for data reads.
-
-Default value: `'PT5M'`.
-
-##### `druid::emitter_http_flush_millis`
-
-How often to internal message buffer is flushed (data is sent).
-
-Default value: `60000`.
-
-##### `druid::emitter_http_flush_count`
-
-How many messages can the internal message buffer hold before flushing (sending).
-
-Default value: `500`.
-
-##### `druid::emitter_http_recipient_base_url`
-
-The base URL to emit messages to. Druid will POST JSON to be consumed at the HTTP endpoint specified by this property.
-
-Default value: `''`.
-
-##### `druid::metadata_storage_type`
-
-The type of metadata storage to use.
-
-Valid values: `'mysql'`, `'postgres'`, or `'derby'`
-
-Default value: `'mysql'`.
-
-##### `druid::metadata_storage_connector_uri`
-
-The URI for the metadata storage.
-
-Default value: `'jdbc:mysql://localhost:3306/druid?characterEncoding=UTF-8'`
-
-##### `druid::metadata_storage_connector_user`
-
-The username to connect to the metadata storage with.
-
-Default value: `'druid'`.
-
-##### `druid::metadata_storage_connector_password`
-
-The password to connect with.
-
-Default value: `'insecure_pass'`.
-
-##### `druid::metadata_storage_connector_create_tables`
-
-Specifies to create tables in the metadata storage if they do not exits.
-
-Default value: `true`.
-
-##### `druid::metadata_storage_tables_base`
-
-The base name for tables.
-
-Default value: `'druid'`.
-
-##### `druid::metadata_storage_tables_segment_table`
-
-The table to use to look for segments.
-
-Default value: `'druid_segments'`.
-
-##### `druid::metadata_storage_tables_rule_table`
-
-The table to use to look for segment load/drop rules.
-
-Default value: `'druid_rules'`.
-
-##### `druid::metadata_storage_tables_config_table`
-
-The table to use to look for configs.
-
-Default value: `'druid_config'`.
-
-##### `druid::metadata_storage_tables_tasks`
-
-The table used by the indexing service to store tasks.
-
-Default value: `'druid_tasks'`.
-
-##### `druid::metadata_storage_tables_task_log`
-
-Used by the indexing service to store task logs.
-
-Default value: `'druid_taskLog'`.
-
-##### `druid::metadata_storage_tables_task_lock`
-
-Used by the indexing service to store task locks.
-
-Default value: `'druid_taskLock'`.
-
-##### `druid::metadata_storage_tables_audit`
-
-The table to use for audit history of configuration changes.
-
-Default value: `'druid_audit'`.
-
-##### `druid::storage_type`
-
-The type of deep storage to use.
-
-Valid values: `'local'`, `'noop'`, `'s3'`, `'hdfs'`, or `'c*'` 
-
-Default value: `'local'`.
-
-##### `druid::storage_directory`
-
-Directory on disk to use as deep storage if `$storage_type` is set to `'local'`.
-
-Default value: `'/tmp/druid/localStorage'`.
+Default value: `'noop'`. 
 
 ##### `druid::s3_access_key`
 
-The access key to use to access S3.
-
-##### `druid::s3_secret_key`
-
-The secret key to use to access S3.
-
-##### `druid::s3_bucket`
-
-S3 bucket name.
-
-##### `druid::s3_base_key`
-
-S3 object key prefix for storage.
-
-##### `druid::storage_disable_acl`
-
-Boolean flag for ACL.
-
-Default value: `false`.
-
-##### `druid::s3_archive_bucket`
-
-S3 bucket name for archiving when running the indexing-service archive task.
+The access key to use to access S3. 
 
 ##### `druid::s3_archive_base_key`
 
-S3 object key prefix for archiving.
+S3 object key prefix for archiving. 
 
-##### `druid::hdfs_directory`
+##### `druid::s3_archive_bucket`
 
-HDFS directory to use as deep storage.
+S3 bucket name for archiving when running the indexing-service archive task. 
 
-##### `druid::cassandra_host`
+##### `druid::s3_base_key`
 
-Cassandra host to access for deep storage.
+S3 object key prefix for storage. 
 
-##### `druid::cassandra_keyspace`
+##### `druid::s3_bucket`
 
-Cassandra key space.
+S3 bucket name. 
 
-##### `druid::cache_type`
+##### `druid::s3_secret_key`
 
-The type of cache to use for queries.
-
-Valid values: `'local'` or `'memcached'`.
-
-Default value: `'local'`.
-
-##### `druid::cache_uncacheable`
-
-All query types to not cache.
-
-##### `druid::cache_size_in_bytes`
-
-Maximum local cache size in bytes. Zero disables caching.
-
-Default value: `0`.
-
-##### `druid::cache_initial_size`
-
-Initial size of the hashtable backing the local cache.
-
-Default value: `500000`.
-
-##### `druid::cache_log_eviction_count`
-
-If non-zero, log local cache eviction for that many items.
-
-Default value: `0`.
-
-##### `druid::cache_expiration`
-
-Memcached expiration time.
-
-Default value: `2592000` (30 days).
-
-##### `druid::cache_timeout`
-
-Maximum time in milliseconds to wait for a response from Memcached.
-
-Default value: `500`.
-
-##### `druid::cache_hosts`
-
-Array of Memcached hosts (`'host:port'`).
-
-Default value: `[]`.
-
-##### `druid::cache_max_object_size`
-
-Maximum object size in bytes for a Memcached object.
-
-Default value: `52428800` (50 MB).
-
-##### `druid::cache_memcached_prefix`
-
-Key prefix for all keys in Memcached.
-
-Default value: `'druid'`.
+The secret key to use to access S3. 
 
 ##### `druid::selectors_indexing_service_name`
 
-The service name of the indexing service Overlord node. To start the Overlord with a different name, set it with this property.
+The service name of the indexing service Overlord node. To start the Overlord with a different name, set it with this property. 
 
-Default value: `'druid/overlord'`.
+Default value: `'druid/overlord'`. 
 
-##### `druid::announcer_type`
+##### `druid::storage_directory`
 
-The type of data segment announcer to use.
+Directory on disk to use as deep storage if `$storage_type` is set to `'local'`. 
 
-Valid values: `'legacy'` or `'batch'`.
+Default value: `'/tmp/druid/localStorage'`. 
 
-Default value: `'batch'`.
+##### `druid::storage_disable_acl`
 
-##### `druid::announcer_segments_per_node`
+Boolean flag for ACL. 
 
-Each Znode contains info for up to this many segments.
+Default value: `false`. 
 
-Default value: `50`.
+##### `druid::storage_type`
 
-##### `druid::announcer_max_bytes_per_node`
+The type of deep storage to use. 
 
-Max byte size for Znode.
+Valid values: `'local'`, `'noop'`, `'s3'`, `'hdfs'`, or `'c*'`
 
-Default value: `524288`.
+Default value: `'local'`. 
+
+##### `druid::version`
+Version of druid to install. 
+
+Default value: `'0.8.0'`. 
+
+##### `druid::zk_paths_announcements_path`
+
+Druid node announcement path. 
+
+##### `druid::zk_paths_base`
+
+Base Zookeeper path. 
+
+Default value: `'/druid'`. 
+
+##### `druid::zk_paths_coordinator_path`
+
+Used by the coordinator for leader election. 
+
+##### `druid::zk_paths_indexer_announcements_path`
+
+Middle managers announce themselves here. 
+
+##### `druid::zk_paths_indexer_base`
+
+Base zookeeper path for indexers. 
+
+##### `druid::zk_paths_indexer_leader_latch_path`
+
+Used for Overlord leader election. 
+
+##### `druid::zk_paths_indexer_status_path`
+
+Parent path for announcement of task statuses. 
+
+##### `druid::zk_paths_indexer_tasks_path`
+
+Used to assign tasks to middle managers. 
+
+##### `druid::zk_paths_live_segments_path`
+
+Current path for where Druid nodes announce their segments. 
+
+##### `druid::zk_paths_load_queue_path`
+
+Entries here cause historical nodes to load and drop segments. 
+
+##### `druid::zk_paths_properties_path`
+
+Zookeeper properties path. 
+
+##### `druid::zk_service_host`
+
+The ZooKeeper hosts to connect to. 
+
+Default value: `'localhost'`. 
+
+##### `druid::zk_service_session_timeout_ms`
+
+ZooKeeper session timeout, in milliseconds. 
+
+Default value: `30000`. 
 
 #### druid::historical
 
