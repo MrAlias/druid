@@ -5,7 +5,7 @@
 1. [Module Description](#module-description)
 2. [Setup](#setup)
     * [What Druid Affects](#what-druid-affects)
-    * [What Druid Does Not Manage](#what-druid-does-not-manage
+    * [What Druid Does Not Manage](#what-druid-does-not-manage)
     * [Beginning With Druid](#beginning-with-druid)
 3. [Usage](#usage)
     * [Standalone Druid Packages](#standalone-druid-packages)
