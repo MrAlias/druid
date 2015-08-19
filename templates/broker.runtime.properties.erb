@@ -1,0 +1,48 @@
+<% require 'json' -%>
+# Node Configs
+druid.host=<%= @host %>
+druid.port=<%= @port %>
+druid.service=<%= @service %>
+
+# Query Configs
+druid.broker.balancer.type=<%= @balancer_type != '' ? @balancer_type : 'random' %>
+druid.broker.select.tier=<%= @select_tier != '' ? @select_tier : 'highestPriority' %>
+<% if @select_tier_custom_priorities != [] and @select_tier_custom_priorities != '' -%>
+druid.broker.select.tier.custom.priorities=<%= @select_tier_custom_priorities.to_json %>
+<% end -%>
+druid.server.http.numThreads=<%= @server_http_num_threads != '' ? @server_http_num_threads : 10 %>
+druid.server.http.maxIdleTime=<%= @server_http_max_idle_time != '' ? @server_http_max_idle_time : 'PT5m' %>
+druid.broker.http.numConnections=<%= @http_num_connections != '' ? @http_num_connections : 5 %>
+druid.broker.http.readTimeout=<%= @http_read_timeout != '' ? @http_read_timeout : 'PT15M' %>
+druid.broker.retryPolicy.numTries=<%= @retry_policy_num_tries != '' ? @retry_policy_num_tries : 1 %>
+druid.processing.buffer.sizeBytes=<%= @processing_buffer_size_bytes != '' ? @processing_buffer_size_bytes : 1073741824 %>
+druid.processing.formatString=<%= @processing_format_string != '' ? @processing_format_string : 'processing-%s' %>
+<% if @processing_num_threads != '' -%>
+druid.processing.numThreads=<%= @processing_num_threads %>
+<% end -%>
+druid.processing.columnCache.sizeBytes=<%= @processing_column_cache_size_bytes != '' ? @processing_column_cache_size_bytes : 0 %>
+druid.query.groupBy.singleThreaded=<%= @query_group_by_single_threaded != '' ? @query_group_by_single_threaded : false %>
+druid.query.groupBy.maxIntermediateRows=<%= @query_group_by_max_intermediate_rows != '' ? @query_group_by_max_intermediate_rows : 50000 %>
+druid.query.groupBy.maxResults=<%= @query_group_by_max_results != '' ? @query_group_by_max_results : 500000 %>
+druid.query.search.maxSearchLimit=<%= @query_search_max_search_limit != '' ? @query_search_max_search_limit : 1000 %>
+
+# Caching
+druid.broker.cache.useCache=<%= @cache_use_cache != '' ? @cache_use_cache : false %>
+druid.broker.cache.populateCache=<%= @cache_populate_cache != '' ? @cache_populate_cache : false %>
+druid.cache.type=<%= @cache_type != '' ? @cache_type : 'local' %>
+<% if @cache_uncacheable != [] and @cache_uncacheable != '' -%>
+druid.broker.cache.unCacheable=<%= @cache_uncacheable.to_json %>
+<% end -%>
+<% if @cache_type == 'local' -%>
+druid.cache.sizeInBytes=<%= @cache_size_in_bytes != '' ? @cache_size_in_bytes : 0 %>
+druid.cache.initialSize=<%= @cache_initial_size != '' ? @cache_initial_size : 500000 %>
+druid.cache.logEvictionCount=<%= @cache_log_eviction_count != '' ? @cache_log_eviction_count : 0 %>
+<% elsif @cache_type == 'memcached' -%>
+druid.cache.expiration=<%= @cache_expiration != '' ? @cache_expiration : 2592000 %>
+druid.cache.timeout=<%= @cache_timeout != '' ? @cache_timeout : 500 %>
+<% if @cache_hosts != [] and @cache_hosts != '' -%>
+druid.cache.hosts=["<%= @cache_hosts.join('", "') %>"]
+<% end -%>
+druid.cache.maxObjectSize=<%= @cache.maxObjectSize != '' ? @cache.maxObjectSize : 52428800 %>
+druid.cache.memcachedPrefix=<%= @cache.memcachedPrefix != '' ? @cache.memcachedPrefix : 'druid' %>
+<% end -%>
