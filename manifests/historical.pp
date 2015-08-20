@@ -306,10 +306,21 @@ class druid::historical (
     }
   }
 
-  file { "${druid::config_dir}/runtime.properties":
+  file { "${druid::config_dir}/historical":
+    ensure => directory,
+    require => File[$druid::config_dir],
+  }
+
+  file { "${druid::config_dir}/historical/runtime.properties":
     ensure  => file,
     content => template("${module_name}/historical.runtime.properties.erb"),
-    require => File[$druid::config_dir],
+    require => File["${druid::config_dir}/historical"],
+  }
+
+  file { "${druid::config_dir}/historical/common.runtime.properties":
+    ensure  => link,
+    target  => "${druid::config_dir}/common.runtime.properties",
+    require => File["${druid::config_dir}/historical"],
   }
 
   file { '/etc/systemd/system/druid-historical.service':

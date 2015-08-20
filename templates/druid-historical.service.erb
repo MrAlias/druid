@@ -54,8 +54,8 @@ Description=Druid Historical Node
 
 [Service]
 Type=simple
-WorkingDirectory=/etc/druid/
-ExecStart=/usr/bin/java <%= java_options.join(' ') %> -classpath :/etc/druid/common.runtime.properties:/etc/druid/runtime.properties:/usr/local/lib/druid/lib/* io.druid.cli.Main server historical
+WorkingDirectory=/etc/druid/historical/
+ExecStart=/usr/bin/java <%= java_options.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server historical
 Restart=on-failure
 
 [Install]
