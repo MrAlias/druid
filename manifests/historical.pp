@@ -320,7 +320,10 @@ class druid::historical (
   file { "${druid::config_dir}/historical/common.runtime.properties":
     ensure  => link,
     target  => "${druid::config_dir}/common.runtime.properties",
-    require => File["${druid::config_dir}/historical"],
+    require => [
+      File["${druid::config_dir}/historical"],
+      File["${druid::config_dir}/common.runtime.properties"],
+    ],
   }
 
   file { '/etc/systemd/system/druid-historical.service':
