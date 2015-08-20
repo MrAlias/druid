@@ -377,10 +377,24 @@ class druid::broker (
     $select_tier_custom_priorities,
   )
 
-  file { "${druid::config_dir}/runtime.properties":
+  file { "${druid::config_dir}/broker":
+    ensure => directory,
+    require => File[$druid::config_dir],
+  }
+
+  file { "${druid::config_dir}/broker/runtime.properties":
     ensure  => file,
     content => template("${module_name}/broker.runtime.properties.erb"),
-    require => File[$druid::config_dir],
+    require => File["${druid::config_dir}/broker"],
+  }
+
+  file { "${druid::config_dir}/broker/common.runtime.properties":
+    ensure  => link,
+    target  => "${druid::config_dir}/common.runtime.properties",
+    require => [
+      File["${druid::config_dir}/broker"],
+      File["${druid::config_dir}/common.runtime.properties"],
+    ],
   }
 
   file { '/etc/systemd/system/druid-broker.service':

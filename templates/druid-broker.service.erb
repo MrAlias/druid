@@ -55,7 +55,8 @@ Description=Druid Broker Node
 [Service]
 Type=simple
 WorkingDirectory=/etc/druid/
-ExecStart=/usr/bin/java <%= java_options.join(' ') %> -classpath :/etc/druid/common.runtime.properties:/etc/druid/runtime.properties:/usr/local/lib/druid/lib/* io.druid.cli.Main server broker
+WorkingDirectory=/etc/druid/broker/
+ExecStart=/usr/bin/java <%= java_options.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server broker
 Restart=on-failure
 
 [Install]
