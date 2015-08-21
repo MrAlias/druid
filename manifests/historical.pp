@@ -306,41 +306,8 @@ class druid::historical (
     }
   }
 
-  file { "${druid::config_dir}/historical":
-    ensure => directory,
-    require => File[$druid::config_dir],
-  }
-
-  file { "${druid::config_dir}/historical/runtime.properties":
-    ensure  => file,
-    content => template("${module_name}/historical.runtime.properties.erb"),
-    require => File["${druid::config_dir}/historical"],
-  }
-
-  file { "${druid::config_dir}/historical/common.runtime.properties":
-    ensure  => link,
-    target  => "${druid::config_dir}/common.runtime.properties",
-    require => [
-      File["${druid::config_dir}/historical"],
-      File["${druid::config_dir}/common.runtime.properties"],
-    ],
-  }
-
-  file { '/etc/systemd/system/druid-historical.service':
-    ensure  => file,
-    content => template("${module_name}/druid-historical.service.erb"),
-    notify  => Exec['Reload systemd daemon'],
-  }
-
-  exec { 'Reload systemd daemon':
-    command     => '/bin/systemctl daemon-reload',
-    refreshonly => true,
-  }
-
-  service { 'druid-historical':
-    ensure    => running,
-    enable    => true,
-    require   => File['/etc/systemd/system/druid-historical.service'],
-    subscribe => Exec['Reload systemd daemon'],
+  druid::service { 'historical':
+    config_content  => template("${module_name}/historical.runtime.properties.erb"),
+    service_content => template("${module_name}/druid-historical.service.erb"),
   }
 }

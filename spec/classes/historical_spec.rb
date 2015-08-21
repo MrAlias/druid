@@ -10,18 +10,13 @@ describe 'druid::historical', :type => 'class' do
     it {
       should compile.with_all_deps
       should contain_class('druid::historical')
-      should contain_file('/etc/druid/historical/common.runtime.properties')\
-        .with({:ensure => 'link'})
-      should contain_file('/etc/druid/historical')\
-        .with({:ensure => 'directory'})
-      should contain_file('/etc/druid/historical/runtime.properties')\
-        .with({:ensure => 'file'})
-      should contain_file('/etc/systemd/system/druid-historical.service')\
-        .with({:ensure => 'file'})
-      should contain_exec('Reload systemd daemon')\
-        .with({:command => '/bin/systemctl daemon-reload'})
-      should contain_service('druid-historical')\
-        .with({:ensure => 'running', :enable => true})
+      should contain_druid__service('historical')
+      should contain_file('/etc/druid/historical')
+      should contain_file('/etc/druid/historical/common.runtime.properties')
+      should contain_file('/etc/druid/historical/runtime.properties')
+      should contain_file('/etc/systemd/system/druid-historical.service')
+      should contain_exec('Reload systemd daemon for new historical service file')
+      should contain_service('druid-historical')
     }
   end
 
