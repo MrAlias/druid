@@ -75,6 +75,8 @@ describe 'druid::service', :type => :define do
     it { 
       should compile
 
+      should contain_druid__service('test')
+
       should contain_class('druid')
 
       should contain_file('/etc/druid/test_service').with({
