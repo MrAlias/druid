@@ -377,41 +377,8 @@ class druid::broker (
     $select_tier_custom_priorities,
   )
 
-  file { "${druid::config_dir}/broker":
-    ensure => directory,
-    require => File[$druid::config_dir],
-  }
-
-  file { "${druid::config_dir}/broker/runtime.properties":
-    ensure  => file,
-    content => template("${module_name}/broker.runtime.properties.erb"),
-    require => File["${druid::config_dir}/broker"],
-  }
-
-  file { "${druid::config_dir}/broker/common.runtime.properties":
-    ensure  => link,
-    target  => "${druid::config_dir}/common.runtime.properties",
-    require => [
-      File["${druid::config_dir}/broker"],
-      File["${druid::config_dir}/common.runtime.properties"],
-    ],
-  }
-
-  file { '/etc/systemd/system/druid-broker.service':
-    ensure  => file,
-    content => template("${module_name}/druid-broker.service.erb"),
-    notify  => Exec['Reload systemd daemon'],
-  }
-
-  exec { 'Reload systemd daemon':
-    command     => '/bin/systemctl daemon-reload',
-    refreshonly => true,
-  }
-
-  service { 'druid-broker':
-    ensure    => running,
-    enable    => true,
-    require   => File['/etc/systemd/system/druid-broker.service'],
-    subscribe => Exec['Reload systemd daemon'],
+  druid::service { 'broker':
+    config_content => template("${module_name}/broker.runtime.properties.erb"),
+    service_content => template("${module_name}/druid-broker.service.erb"),
   }
 }

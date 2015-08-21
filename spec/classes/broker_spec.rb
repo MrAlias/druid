@@ -10,25 +10,13 @@ describe 'druid::broker', :type => 'class' do
     it {
       should compile.with_all_deps
       should contain_class('druid::broker')
-      should contain_file('/etc/druid/broker')\
-        .with({:ensure => 'directory'})\
-        .that_requires('File[/etc/druid]')
-      should contain_file('/etc/druid/broker/common.runtime.properties')\
-        .with({ :ensure => 'link', :target => '/etc/druid/common.runtime.properties', })\
-        .that_requires('File[/etc/druid/common.runtime.properties]')\
-        .that_requires('File[/etc/druid/broker]')
-      should contain_file('/etc/druid/broker/runtime.properties')\
-        .with({:ensure => 'file'})\
-        .that_requires('File[/etc/druid/broker]')
-      should contain_file('/etc/systemd/system/druid-broker.service')\
-        .with({:ensure => 'file'})\
-        .that_notifies('Exec[Reload systemd daemon]')
-      should contain_exec('Reload systemd daemon')\
-        .with({:command => '/bin/systemctl daemon-reload', :refreshonly => true, })
-      should contain_service('druid-broker')\
-        .with({:ensure => 'running', :enable => true})\
-        .that_requires('File[/etc/systemd/system/druid-broker.service]')\
-        .that_subscribes_to('Exec[Reload systemd daemon]')
+      should contain_druid__service('broker')
+      should contain_file('/etc/druid/broker')
+      should contain_file('/etc/druid/broker/common.runtime.properties')
+      should contain_file('/etc/druid/broker/runtime.properties')
+      should contain_file('/etc/systemd/system/druid-broker.service')
+      should contain_exec('Reload systemd daemon for new broker service file')
+      should contain_service('druid-broker')
     }
   end
 
