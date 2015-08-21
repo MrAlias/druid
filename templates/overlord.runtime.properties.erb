@@ -1,0 +1,65 @@
+# Node Configs
+druid.host=<%= @host != '' ? @host : @ipaddress %>
+druid.port=<%= @port != '' ? @port : 8090 %>
+druid.service=<%= @service != '' ? @service : 'druid/overlord' %>
+
+# Task Logging
+druid.indexer.logs.type=<%= @logs_type ? @logs_type : 'file' %>
+<% if @logs_type == 's3' -%>
+    <%- if @s3_logs_bucket -%>
+druid.indexer.logs.s3Bucket=<%= @s3_logs_bucket %>
+    <%- end -%>
+    <%- if @s3_logs_prefix -%>
+druid.indexer.logs.s3Prefix=<%= @s3_logs_prefix %>
+    <%- end -%>
+<% elsif @logs_type == 'azure' -%>
+    <%- if @azure_logs_container -%>
+druid.indexer.logs.containe=<%= @azure_logs_container %>r
+    <%- end -%>
+    <%- if @azure_logs_prefix -%>
+druid.indexer.logs.prefix=<%= @azure_logs_prefix %>
+    <%- end -%>
+<% elsif @logs_type == 'hdfs' -%>
+    <%- if @hdfs_logs_directory -%>
+druid.indexer.logs.directory=<%= @hdfs_logs_directory %>
+    <%- end -%>
+<% else -%>
+druid.indexer.logs.directory=<%= @local_logs_directory ? @local_logs_directory : '/var/log' %>
+<% end -%>
+
+# Overlord Service
+druid.indexer.runner.type=<%= @runner_type != '' ? @runner_type : 'local' %>
+druid.indexer.storage.type=<%= @storage_type != '' ? @storage_type : 'local' %>
+druid.indexer.storage.recentlyFinishedThreshold=<%= @storage_recently_finished_threshold != '' ? @storage_recently_finished_threshold : 'PT24H' %>
+<% if @queue_max_size != '' -%>
+druid.indexer.queue.maxSize=<%= @queue_max_size %>
+<% end -%>
+druid.indexer.queue.startDelay=<%= @queue_start_delay != '' ? @queue_start_delay : 'PT1M' %>
+druid.indexer.queue.restartDelay=<%= @queue_restart_delay != '' ? @queue_restart_delay : 'PT30S' %>
+druid.indexer.queue.storageSyncRate=<%= @queue_storage_sync_rate != '' ? @queue_storage_sync_rate : 'PT1M' %>
+<% if @runner_type == 'remote' -%>
+
+# Remote Mode
+druid.indexer.runner.taskAssignmentTimeout=<%= @runner_task_assignment_timeout != '' ? @runner_task_assignment_timeout : 'PT5M' %>
+druid.indexer.runner.minWorkerVersion=<%= @runner_min_worker_version != '' ? @runner_min_worker_version : '0' %>
+druid.indexer.runner.compressZnodes=<%= @runner_compress_znodes != '' ? @runner_compress_znodes : true %>
+druid.indexer.runner.maxZnodeBytes=<%= @runner_max_znode_bytes != '' ? @runner_max_znode_bytes : 524288 %>
+druid.indexer.runner.taskCleanupTimeout=<%= @runner_task_cleanup_timeout != '' ? @runner_task_cleanup_timeout : 'PT15M' %>
+<% end -%>
+<% if @autoscale == true -%>
+
+# Autoscaling
+druid.indexer.autoscale.doAutoscale=true
+druid.indexer.autoscale.strategy=<%= @autoscale_strategy != '' ? @autoscale_strategy : 'noop' %>
+druid.indexer.autoscale.provisionPeriod=<%= @autoscale_provision_period != '' ? @autoscale_provision_period : 'PT1M' %>
+druid.indexer.autoscale.terminatePeriod=<%= @autoscale_terminate_period != '' ? @autoscale_terminate_period : 'PT5M' %>
+druid.indexer.autoscale.originTime=<%= @autoscale_origin_time != '' ? @autoscale_origin_time : '2012-01-01T00:55:00.000Z' %>
+druid.indexer.autoscale.workerIdleTimeout=<%= @autoscale_worker_idle_timeout != '' ? @autoscale_worker_idle_timeout : 'PT90M' %>
+druid.indexer.autoscale.maxScalingDuration=<%= @autoscale_max_scaling_duration != '' ? @autoscale_max_scaling_duration : 'PT15M' %>
+druid.indexer.autoscale.numEventsToTrack=<%= @autoscale_num_events_to_track != '' ? @autoscale_num_events_to_track : 10 %>
+druid.indexer.autoscale.pendingTaskTimeout=<%= @autoscale_pending_task_timeout != '' ? @autoscale_pending_task_timeout : 'PT30S' %>
+<% if @autoscale_worker_version != '' -%>
+druid.indexer.autoscale.workerVersion=<%= @autoscale_worker_version %>
+<% end -%>
+druid.indexer.autoscale.workerPort=<%= @autoscale_worker_port != '' ? @autoscale_worker_port : 8080 %>
+<% end -%>
