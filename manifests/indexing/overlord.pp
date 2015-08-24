@@ -84,63 +84,16 @@
 #   If set, the overlord will only create nodes of set version during
 #   autoscaling. This overrides dynamic configuration.
 #
-# [*jvm_default_timezone*]
-#   Sets the default time zone of the JVM.
+# [*jvm_opts*]
+#   Array of options to set for the JVM running the service.
 #
-#   Default value: `'UTC'`.
-#
-# [*jvm_file_encoding*]
-#   Sets the default file encoding of the JVM.
-#
-#   Default value: `'UTF-8'`.
-#
-# [*jvm_logging_manager*]
-#   Specifies the logging manager to use for the JVM.
-#
-#   Default value: `'org.apache.logging.log4j.jul.LogManager'`.
-#
-# [*jvm_max_direct_byte_buffer_size*]
-#   Maximum memory the JVM will reserve for all Direct Byte Buffers.
-#
-# [*jvm_max_mem_allocation_pool*]
-#   Maximum amount of memory the JVM will allocate for it's heep.
-#
-#   Default value: 2% of total memory or 256 MB (whichever is larger).
-#
-# [*jvm_min_mem_allocation_pool*]
-#   Minimum amount of memory the JVM will allocate for it's heep.
-#
-#   Default value: 2% of total memory or 256 MB (whichever is larger).
-#
-# [*jvm_new_gen_max_size*]
-#   Maximum JVM new generation memory size.
-#
-# [*jvm_new_gen_min_size*]
-#   Minimum JVM new generation memory size.
-#
-# [*jvm_print_gc_details*]
-#   Specifies if the JVM should print garbage collection details.
-#
-#   Default value: `true`.
-#
-# [*jvm_print_gc_time_stamps*]
-#   Specifies if the JVM should print garbage collection time stamps.
-#
-#   Default value: `true`.
-#
-# [*jvm_tmp_dir*]
-#   Specifies the tmp directory for the JVM.
-#
-#   Many production systems are set up to have small (but fast) /tmp
-#   directories, which can be problematic with Druid so it is
-#   recommend to point the JVM’s tmp directory to something with a little
-#   more meat.
-#
-# [*jvm_use_concurrent_mark_sweep_gc*]
-#   Specifies if the JVM should use concurrent mark-sweep collection for
-#   the old generation.
-#
-#   Default value: `true`.
+#   Default value: [
+#     '-server',
+#     '-Duser.timezone=UTC',
+#     '-Dfile.encoding=UTF-8',
+#     '-Djava.io.tmpdir=/tmp',
+#     '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager'
+#   ]
 #
 # [*queue_max_size*]
 #   Maximum number of active tasks at one time.
@@ -237,18 +190,7 @@ class druid::indexing::overlord (
   $autoscale_worker_idle_timeout       = hiera("${module_name}::indexing::overlord::autoscale_worker_idle_timeout", 'PT90M'),
   $autoscale_worker_port               = hiera("${module_name}::indexing::overlord::autoscale_worker_port", 8080),
   $autoscale_worker_version            = hiera("${module_name}::indexing::overlord::autoscale_worker_version", undef),
-  $jvm_default_timezone                = hiera("${module_name}::indexing::overlord::jvm_default_timezone", 'UTC'),
-  $jvm_file_encoding                   = hiera("${module_name}::indexing::overlord::jvm_file_encoding", 'UTF-8'),
-  $jvm_logging_manager                 = hiera("${module_name}::indexing::overlord::jvm_logging_manager", 'org.apache.logging.log4j.jul.LogManager'),
-  $jvm_max_direct_byte_buffer_size     = hiera("${module_name}::indexing::overlord::jvm_max_direct_byte_buffer_size", undef),
-  $jvm_max_mem_allocation_pool         = hiera("${module_name}::indexing::overlord::jvm_max_mem_allocation_pool", percent_mem(2, '256m')),
-  $jvm_min_mem_allocation_pool         = hiera("${module_name}::indexing::overlord::jvm_min_mem_allocation_pool", percent_mem(2, '256m')),
-  $jvm_new_gen_max_size                = hiera("${module_name}::indexing::overlord::jvm_new_gen_max_size", undef),
-  $jvm_new_gen_min_size                = hiera("${module_name}::indexing::overlord::jvm_new_gen_min_size", undef),
-  $jvm_print_gc_details                = hiera("${module_name}::indexing::overlord::jvm_print_gc_details", true),
-  $jvm_print_gc_time_stamps            = hiera("${module_name}::indexing::overlord::jvm_print_gc_time_stamps", true),
-  $jvm_tmp_dir                         = hiera("${module_name}::indexing::overlord::jvm_tmp_dir", undef),
-  $jvm_use_concurrent_mark_sweep_gc    = hiera("${module_name}::indexing::overlord::jvm_use_concurrent_mark_sweep_gc", true),
+  $jvm_opts                            = hiera_array("${module_name}::indexing::overlort::jvm_opts", ['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']),
   $queue_max_size                      = hiera("${module_name}::indexing::overlord::queue_max_size", undef),
   $queue_restart_delay                 = hiera("${module_name}::indexing::overlord::queue_restart_delay", 'PT30S'),
   $queue_start_delay                   = hiera("${module_name}::indexing::overlord::queue_start_delay", 'PT1M'),
@@ -275,15 +217,6 @@ class druid::indexing::overlord (
     $autoscale_terminate_period,
     $autoscale_worker_idle_timeout,
     $autoscale_worker_version,
-    $jvm_default_timezone,
-    $jvm_file_encoding,
-    $jvm_logging_manager,
-    $jvm_max_direct_byte_buffer_size,
-    $jvm_max_mem_allocation_pool,
-    $jvm_min_mem_allocation_pool,
-    $jvm_new_gen_max_size,
-    $jvm_new_gen_min_size,
-    $jvm_tmp_dir,
     $queue_restart_delay,
     $queue_start_delay,
     $queue_storage_sync_rate,
@@ -305,11 +238,10 @@ class druid::indexing::overlord (
 
   validate_bool(
     $autoscale,
-    $jvm_print_gc_details,
-    $jvm_print_gc_time_stamps,
-    $jvm_use_concurrent_mark_sweep_gc,
     $runner_compress_znodes,
   )
+
+  validate_array($jvm_opts)
 
   druid::service { 'overlord':
     config_content  => template("${module_name}/overlord.runtime.properties.erb"),

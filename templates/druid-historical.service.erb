@@ -1,61 +1,10 @@
-<%
-    java_options = ['-server']
-
-    if @jvm_max_mem_allocation_pool != ''
-        java_options << '-Xmx' + @jvm_max_mem_allocation_pool
-    end
-
-    if @jvm_min_mem_allocation_pool != ''
-        java_options << '-Xms' + @jvm_min_mem_allocation_pool
-    end
-
-    if @jvm_new_gen_min_size != ''
-        java_options << '-XX:NewSize=' + @jvm_new_gen_min_size
-    end
-
-    if @jvm_new_gen_max_size != ''
-        java_options << '-XX:MaxNewSize=' + @jvm_new_gen_max_size
-    end
-
-    if @jvm_max_direct_byte_buffer_size != ''
-        java_options << '-XX:MaxDirectMemorySize=' + @jvm_max_direct_byte_buffer_size
-    end
-
-    if @jvm_use_concurrent_mark_sweep_gc
-        java_options << '-XX:+UseConcMarkSweepGC'
-    end
-
-    if @jvm_print_gc_details
-        java_options << '-XX:+PrintGCDetails'
-    end
-
-    if @jvm_print_gc_time_stamps
-        java_options << '-XX:+PrintGCTimeStamps'
-    end
-
-    if @jvm_default_timezone != ''
-        java_options << '-Duser.timezone=' + @jvm_default_timezone
-    end
-
-    if @jvm_file_encoding != ''
-        java_options << '-Dfile.encoding=' + @jvm_file_encoding
-    end
-
-    if @jvm_logging_manager != ''
-        java_options << '-Djava.util.logging.manager=' + @jvm_logging_manager
-    end
-
-    if @jvm_tmp_dir != ''
-        java_options << '-Djava.io.tmpdir=' + @jvm_tmp_dir
-    end
--%>
 [Unit]
 Description=Druid Historical Node
 
 [Service]
 Type=simple
 WorkingDirectory=/etc/druid/historical/
-ExecStart=/usr/bin/java <%= java_options.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server historical
+ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server historical
 Restart=on-failure
 
 [Install]

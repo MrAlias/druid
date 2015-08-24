@@ -157,65 +157,16 @@
 #
 #  Defaults to ["groupBy", "select"].
 #
-# [*jvm_max_mem_allocation_pool*]
-#  Maximum amount of memory the JVM will allocate for it's heep.
+# [*jvm_opts*]
+#   Array of options to set for the JVM running the service.
 #
-#  Defaults to 25% of the systems total memory or 250 MB (whichever is
-#  larger).
-#
-# [*jvm_min_mem_allocation_pool*]
-#  Minimum amount of memory the JVM will allocate for it's heep.
-#
-#  Defaults to 25% of the systems total memory or 250 MB (whichever is
-#  larger).
-#
-# [*jvm_new_gen_max_size*]
-#  Maximum JVM new generation memory size.
-#
-# [*jvm_new_gen_min_size*]
-#  Minimum JVM new generation memory size.
-#
-# [*jvm_max_direct_byte_buffer_size*]
-#  Maximum memory the JVM will reserve for all Direct Byte Buffers.
-#
-# [*jvm_use_concurrent_mark_sweep_gc*]
-#  Specifies if the JVM should use concurrent mark-sweep collection for
-#  the old generation.
-#
-#  Defaults to `true`.
-#
-# [*jvm_print_gc_details*]
-#  Specifies if the JVM should print garbage collection details.
-#
-#  Defaults to `true`.
-#
-# [*jvm_print_gc_time_stamps*]
-#  Specifies if the JVM should print garbage collection time stamps.
-#
-#  Defaults to `true`.
-#
-# [*jvm_default_timezone*]
-#  Sets the default time zone of the JVM.
-#
-#  Defaults to `'UTC'`.
-#
-# [*jvm_file_encoding*]
-#  Sets the default file encoding of the JVM.
-#
-#  Defaults to `'UTF-8'`.
-#
-# [*jvm_logging_manager*]
-#  Specifies the logging manager to use for the JVM.
-#
-#  Defaults to `'org.apache.logging.log4j.jul.LogManager'`.
-#
-# [*jvm_tmp_dir*]
-#  Specifies the tmp directory for the JVM.
-#
-#  Many production systems are set up to have small (but fast) /tmp
-#  directories, which can be problematic with Druid so it is
-#  recommend to point the JVM’s tmp directory to something with a little
-#  more meat.
+#   Default value: [
+#     '-server',
+#     '-Duser.timezone=UTC',
+#     '-Dfile.encoding=UTF-8',
+#     '-Djava.io.tmpdir=/tmp',
+#     '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager'
+#   ]
 #
 # === Examples
 #
@@ -251,18 +202,7 @@ class druid::historical (
   $use_cache                               = hiera("${module_name}::historical::historical_cache_use_cache", false),
   $populate_cache                          = hiera("${module_name}::historical::historical_cache_populate_cache", false),
   $uncacheable                             = hiera("${module_name}::historical::historical_cache_uncacheable", ['groupBy', 'select']),
-  $jvm_max_mem_allocation_pool             = hiera("${module_name}::historical::jvm_max_mem_allocation_pool", percent_mem(25, '250m')),
-  $jvm_min_mem_allocation_pool             = hiera("${module_name}::historical::jvm_min_mem_allocation_pool", percent_mem(25, '250m')),
-  $jvm_new_gen_max_size                    = hiera("${module_name}::historical::jvm_new_gen_max_size", undef),
-  $jvm_new_gen_min_size                    = hiera("${module_name}::historical::jvm_new_gen_min_size", undef),
-  $jvm_max_direct_byte_buffer_size         = hiera("${module_name}::historical::jvm_max_direct_byte_buffer_size", undef),
-  $jvm_use_concurrent_mark_sweep_gc        = hiera("${module_name}::historical::jvm_use_concurrent_mark_sweep_gc", true),
-  $jvm_print_gc_details                    = hiera("${module_name}::historical::jvm_print_gc_details", true),
-  $jvm_print_gc_time_stamps                = hiera("${module_name}::historical::jvm_print_gc_time_stamps", true),
-  $jvm_default_timezone                    = hiera("${module_name}::historical::jvm_default_timezone", 'UTC'),
-  $jvm_file_encoding                       = hiera("${module_name}::historical::jvm_file_encoding", 'UTF-8'),
-  $jvm_logging_manager                     = hiera("${module_name}::historical::jvm_logging_manager", 'org.apache.logging.log4j.jul.LogManager'),
-  $jvm_tmp_dir                             = hiera("${module_name}::historical::jvm_tmp_dir", undef),
+  $jvm_opts                                = hiera_array("${module_name}::historical::jvm_opts", ['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']),
 ) {
   require druid
 
@@ -298,6 +238,7 @@ class druid::historical (
   )
 
   validate_array($uncacheable)
+  validate_array($jvm_opts)
 
   if ($segment_cache_locations != undef) {
     validate_array($segment_cache_locations)
