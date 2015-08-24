@@ -19,6 +19,7 @@
        * [druid::historical](#druidhistorical)
        * [druid::broker](#druidbroker)
        * [druid::indexing::overlord](#druidindexingoverlord)
+       * [druid::indexing::middle_manager](#druidindexingmiddle_manager)
 5. [Limitations](#limitations)
 
 ## Module Description
@@ -1164,6 +1165,135 @@ Valid values:
     * `'metadata'`: Metadata storage.
 
 Default value: `'local'`.
+
+#### druid::indexing::middle_manager
+
+Manages and sets up the indexing middle managers.
+
+##### `druid::indexing::middle_manager::host`
+
+Host address the service listens on.
+
+Default value: The `$ipaddress` fact.
+
+##### `druid::indexing::middle_manager::port`
+
+Port the service listens on.
+
+Default value: `8080`.
+
+##### `druid::indexing::middle_manager::service`
+
+The name of the service.
+
+This is used as a dimension when emitting metrics and alerts.  It is used to differentiate between the various services
+
+Default value: `'druid/middlemanager'`.
+
+##### `druid::indexing::middle_manager::jvm_opts`
+
+Array of options to set for the JVM running the service.
+
+Default value: `['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']`
+
+##### `druid::indexing::middle_manager::peon_mode`
+
+Mode peons are run in.
+
+Valid values:
+
+    * `'local'`: Standalone mode (Not recommended).
+    * `'remote'`: Pooled.
+
+Default value: `'remote'`.
+
+##### `druid::indexing::middle_manager::runner_allowed_prefixes`
+
+Array of prefixes of configs that are passed down to peons.
+
+Default value: `['com.metamx', 'druid', 'io.druid', 'user.timezone', 'file.encoding']`.
+
+##### `druid::indexing::middle_manager::runner_classpath`
+
+Java classpath for the peons.
+
+##### `druid::indexing::middle_manager::runner_compress_znodes`
+
+Specify if Znodes are compressed.
+
+Default value: `true`.
+
+##### `druid::indexing::middle_manager::runner_java_command`
+
+Command for peons to use to execute java.
+
+Default value: `'java'`.
+
+##### `druid::indexing::middle_manager::runner_java_opts`
+
+Java "-X" options for the peon to use in its own JVM.
+
+##### `druid::indexing::middle_manager::runner_max_znode_bytes`
+
+Maximum Znode size in bytes that can be created in Zookeeper.
+
+Default value: `524288`.
+
+##### `druid::indexing::middle_manager::runner_start_port`
+
+Port peons begin running on.
+
+Default value: `8100`.
+
+##### `druid::indexing::middle_manager::task_base_dir`
+
+Base temporary working directory.
+
+Default value: `'/tmp'`.
+
+##### `druid::indexing::middle_manager::task_base_task_dir`
+
+Base temporary working directory for tasks.
+
+Default value: `'/tmp/persistent/tasks'`.
+
+##### `druid::indexing::middle_manager::task_default_hadoop_coordinates`
+
+Default Hadoop version to use.
+
+This is used with HadoopIndexTasks that do not request a particular version.
+
+Default value: `'org.apache.hadoop:hadoop-client:2.3.0'`.
+
+##### `druid::indexing::middle_manager::task_default_row_flush_boundary`
+
+Highest row count before persisting to disk.
+
+Used for indexing generating tasks.
+
+Default value: `50000`.
+
+##### `druid::indexing::middle_manager::task_hadoop_working_path`
+
+Temporary working directory for Hadoop tasks.
+
+Default value: `'/tmp/druid-indexing'`.
+
+##### `druid::indexing::middle_manager::worker_capacity`
+
+Maximum number of tasks to accept.
+
+##### `druid::indexing::middle_manager::worker_ip`
+
+The IP of the worker.
+
+Default value: `'localhost'`.
+
+##### `druid::indexing::middle_manager::worker_version`
+
+Version identifier for the middle manager.
+
+Default value: `'0'`.
 
 ## Limitations
 
