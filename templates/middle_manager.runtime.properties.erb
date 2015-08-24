@@ -1,0 +1,28 @@
+# Node Configs
+druid.host=<%= @host != '' ? @host : @ipaddress %>
+druid.port=<%= @port != '' ? @port : 8080 %>
+druid.service=<%= @service != '' ? @service : 'druid/middlemanager' %>
+
+# Task Logging
+druid.indexer.logs.type=<%= @logs_type ? @logs_type : 'file' %>
+<% if @logs_type == 's3' -%>
+    <%- if @s3_logs_bucket -%>
+druid.indexer.logs.s3Bucket=<%= @s3_logs_bucket %>
+    <%- end -%>
+    <%- if @s3_logs_prefix -%>
+druid.indexer.logs.s3Prefix=<%= @s3_logs_prefix %>
+    <%- end -%>
+<% elsif @logs_type == 'azure' -%>
+    <%- if @azure_logs_container -%>
+druid.indexer.logs.containe=<%= @azure_logs_container %>r
+    <%- end -%>
+    <%- if @azure_logs_prefix -%>
+druid.indexer.logs.prefix=<%= @azure_logs_prefix %>
+    <%- end -%>
+<% elsif @logs_type == 'hdfs' -%>
+    <%- if @hdfs_logs_directory -%>
+druid.indexer.logs.directory=<%= @hdfs_logs_directory %>
+    <%- end -%>
+<% else -%>
+druid.indexer.logs.directory=<%= @local_logs_directory ? @local_logs_directory : '/var/log' %>
+<% end -%>
