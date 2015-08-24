@@ -28,6 +28,7 @@
 
 * Installs the Druid jars to the local filesystem.
 * Created Druid configuration files on the local filesystem.
+* Creates and manages a [systemd](http://www.freedesktop.org/wiki/Software/systemd/) service for each Druid service to run.
 
 ### What Druid Does Not Manage
 
