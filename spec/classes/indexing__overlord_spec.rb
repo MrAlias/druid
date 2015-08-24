@@ -24,18 +24,18 @@ describe 'druid::indexing::overlord', :type => 'class' do
   context 'On base system with custom JVM parameters ' do
     let(:params) do
       {
-        :jvm_default_timezone             =>  'PDT',
-        :jvm_file_encoding                =>  'latin-1',
-        :jvm_logging_manager              =>  'custom.LogManager',
-        :jvm_max_direct_byte_buffer_size  =>  '2g',
-        :jvm_max_mem_allocation_pool      =>  '4g',
-        :jvm_min_mem_allocation_pool      =>  '4g',
-        :jvm_new_gen_max_size             =>  '256m',
-        :jvm_new_gen_min_size             =>  '256m',
-        :jvm_print_gc_details             =>  false,
-        :jvm_print_gc_time_stamps         =>  false,
-        :jvm_tmp_dir                      =>  '/mnt/tmp',
-        :jvm_use_concurrent_mark_sweep_gc =>  false,
+        :jvm_opts => [
+          '-server',
+          '-Xmx4g',
+          '-Xms4g',
+          '-XX:NewSize=256m',
+          '-XX:MaxNewSize=256m',
+          '-XX:MaxDirectMemorySize=2g',
+          '-Duser.timezone=PDT',
+          '-Dfile.encoding=latin-1',
+          '-Djava.util.logging.manager=custom.LogManager',
+          '-Djava.io.tmpdir=/mnt/tmp',
+        ]
       }
     end
 

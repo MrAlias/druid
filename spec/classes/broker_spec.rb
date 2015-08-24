@@ -23,24 +23,27 @@ describe 'druid::broker', :type => 'class' do
   context 'On base system with custom JVM parameters ' do
     let(:params) do
       {
-        :jvm_default_timezone             =>  'PDT',
-        :jvm_file_encoding                =>  'latin-1',
-        :jvm_logging_manager              =>  'custom.LogManager',
-        :jvm_max_direct_byte_buffer_size  =>  '64g',
-        :jvm_max_mem_allocation_pool      =>  '25g',
-        :jvm_min_mem_allocation_pool      =>  '25g',
-        :jvm_new_gen_max_size             =>  '6g',
-        :jvm_new_gen_min_size             =>  '6g',
-        :jvm_print_gc_details             =>  false,
-        :jvm_print_gc_time_stamps         =>  false,
-        :jvm_tmp_dir                      =>  '/mnt/tmp',
-        :jvm_use_concurrent_mark_sweep_gc =>  false,
+        :jvm_opts => [
+          '-server',
+          '-Xmx25g',
+          '-Xms25g',
+          '-XX:NewSize=6g',
+          '-XX:MaxNewSize=6g',
+          '-XX:MaxDirectMemorySize=64g',
+          '-Duser.timezone=PDT',
+          '-Dfile.encoding=latin-1',
+          '-Djava.util.logging.manager=custom.LogManager',
+          '-Djava.io.tmpdir=/mnt/tmp',
+          '-Dcom.sun.management.jmxremote.port=17071',
+          '-Dcom.sun.management.jmxremote.authenticate=false',
+          '-Dcom.sun.management.jmxremote.ssl=false',
+        ]
       }
     end
 
       it {
         should contain_file('/etc/systemd/system/druid-broker.service')\
-          .with_content("[Unit]\nDescription=Druid Broker Node\n\n[Service]\nType=simple\nWorkingDirectory=/etc/druid/broker/\nExecStart=/usr/bin/java -server -Xmx25g -Xms25g -XX:NewSize=6g -XX:MaxNewSize=6g -XX:MaxDirectMemorySize=64g -Duser.timezone=PDT -Dfile.encoding=latin-1 -Djava.util.logging.manager=custom.LogManager -Djava.io.tmpdir=/mnt/tmp -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server broker\nRestart=on-failure\n\n[Install]\nWantedBy=multi-user.target\n")
+          .with_content("[Unit]\nDescription=Druid Broker Node\n\n[Service]\nType=simple\nWorkingDirectory=/etc/druid/broker/\nExecStart=/usr/bin/java -server -Xmx25g -Xms25g -XX:NewSize=6g -XX:MaxNewSize=6g -XX:MaxDirectMemorySize=64g -Duser.timezone=PDT -Dfile.encoding=latin-1 -Djava.util.logging.manager=custom.LogManager -Djava.io.tmpdir=/mnt/tmp -Dcom.sun.management.jmxremote.port=17071 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server broker\nRestart=on-failure\n\n[Install]\nWantedBy=multi-user.target\n")
       }
   end
 
