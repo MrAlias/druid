@@ -574,71 +574,11 @@ The name of the service. This is used as a dimension when emitting metrics and a
 
 Default value: `'druid/historical'`. 
 
-##### `druid::historical::jvm_default_timezone`
+##### `druid::historical::jvm_opts`
 
-Sets the default time zone of the JVM. 
+Array of options to set for the JVM running the service.
 
-Default value: `'UTC'`. 
-
-##### `druid::historical::jvm_file_encoding`
-
-Sets the default file encoding of the JVM. 
-
-Default value: `'UTF-8'`. 
-
-##### `druid::historical::jvm_logging_manager`
-
-Specifies the logging manager to use for the JVM. 
-
-Default value: `'org.apache.logging.log4j.jul.LogManager'`. 
-
-##### `druid::historical::jvm_max_direct_byte_buffer_size`
-
-Maximum memory the JVM will reserve for all Direct Byte Buffers. 
-
-##### `druid::historical::jvm_max_mem_allocation_pool`
-
-Maximum amount of memory the JVM will allocate for it's heep. 
-
-Default value: 25% of the systems total memory or 250 MB (whichever is larger). 
-
-##### `druid::historical::jvm_min_mem_allocation_pool`
-
-Minimum amount of memory the JVM will allocate for it's heep. 
-
-Default value: 25% of the systems total memory or 250 MB (whichever is larger). 
-
-##### `druid::historical::jvm_new_gen_max_size`
-
-Maximum JVM new generation memory size. 
-
-##### `druid::historical::jvm_new_gen_min_size`
-
-Minimum JVM new generation memory size. 
-
-##### `druid::historical::jvm_print_gc_details`
-
-Specifies if the JVM should print garbage collection details. 
-
-Default value: `true`. 
-
-##### `druid::historical::jvm_print_gc_time_stamps`
-
-Specifies if the JVM should print garbage collection time stamps. 
-
-Default value: `true`. 
-
-##### `druid::historical::jvm_tmp_dir`
-
-Specifies the tmp directory for the JVM. 
-
-Many production systems are set up to have small (but fast) /tmp directories, which can be problematic with Druid so it is recommend to point the JVM’s tmp directory to something with a little more meat.
-
-##### `druid::historical::jvm_use_concurrent_mark_sweep_gc`
-
-Specifies if the JVM should use concurrent mark-sweep collection for the old generation. 
-
-Default value: `true`. 
+Default value: `['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']`
 
 ##### `druid::historical::populate_cache`
 
@@ -896,71 +836,11 @@ The timeout for data reads.
 
 Default value: `'PT15M'`.
 
-##### `druid::broker::jvm_default_timezone`
+##### `druid::broker::jvm_opts`
 
-Sets the default time zone of the JVM.
+Array of options to set for the JVM running the service.
 
-Default value: `'UTC'`.
-
-##### `druid::broker::jvm_file_encoding`
-
-Sets the default file encoding of the JVM.
-
-Default value: `'UTF-8'`.
-
-##### `druid::broker::jvm_logging_manager`
-
-Specifies the logging manager to use for the JVM.
-
-Default value: `'org.apache.logging.log4j.jul.LogManager'`.
-
-##### `druid::broker::jvm_max_direct_byte_buffer_size`
-
-Maximum memory the JVM will reserve for all Direct Byte Buffers.
-
-##### `druid::broker::jvm_max_mem_allocation_pool`
-
-Maximum amount of memory the JVM will allocate for it's heep.
-
-Default value: 10% of total memory or 250 MB (whichever is larger).
-
-##### `druid::broker::jvm_min_mem_allocation_pool`
-
-Minimum amount of memory the JVM will allocate for it's heep.
-
-Default value: 10% of total memory or 250 MB (whichever is larger).
-
-##### `druid::broker::jvm_new_gen_max_size`
-
-Maximum JVM new generation memory size.
-
-##### `druid::broker::jvm_new_gen_min_size`
-
-Minimum JVM new generation memory size.
-
-##### `druid::broker::jvm_print_gc_details`
-
-Specifies if the JVM should print garbage collection details.
-
-Default value: `true`.
-
-##### `druid::broker::jvm_print_gc_time_stamps`
-
-Specifies if the JVM should print garbage collection time stamps.
-
-Default value: `true`.
-
-##### `druid::broker::jvm_tmp_dir`
-
-Specifies the tmp directory for the JVM.
-
-Many production systems are set up to have small (but fast) /tmp directories, which can be problematic with Druid so it is recommend to point the JVM’s tmp directory to something with a little more meat.
-
-##### `druid::broker::jvm_use_concurrent_mark_sweep_gc`
-
-Specifies if the JVM should use concurrent mark-sweep collection for the old generation.
-
-Default value: `true`.
+Default value: `['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']`
 
 ##### `druid::broker::processing_buffer_size_bytes`
 
