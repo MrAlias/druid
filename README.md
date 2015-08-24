@@ -12,7 +12,9 @@
     * [Hiera Support](#hiera-support)
     * [Historical Node](#historical-node)
 4. [Reference](#reference)
-    * [Classes](#classes)
+    * [Private Classes](#private-classes)
+       * [druid::indexing](#druidindexing)
+    * [Public Classes](#public-classes)
        * [druid](#druid-1)
        * [druid::historical](#druidhistorical)
        * [druid::broker](#druidbroker)
@@ -113,7 +115,49 @@ druid::historical::port: 8080
 
 ## Reference
 
-### Classes
+### Private Classes
+
+These classes should not be called outside of the module.
+
+#### druid::indexing
+
+Provides management of all common indexing related configurations.
+
+##### `druid::indexing::azure_logs_container`
+
+The Azure Blob Store container to store logs at. 
+
+##### `druid::indexing::azure_logs_prefix`
+
+The path to prepend to logs for Azure storage. 
+
+##### `druid::indexing::hdfs_logs_directory`
+
+The HDFS directory to store logs. 
+
+##### `druid::indexing::local_logs_directory`
+
+Local filesystem path to store logs. 
+
+Default value: `'/var/log'`
+
+##### `druid::indexing::logs_type`
+
+Where to store task logs. 
+
+Valid values: `'noop'`, `'s3'`, `'azure'`, `'hdfs'`, `'file'`. 
+
+Default value: `'file'`. 
+
+##### `druid::indexing::s3_logs_bucket`
+
+S3 bucket name to store logs at. 
+
+##### `druid::indexing::s3_logs_prefix`
+
+S3 key prefix. 
+
+### Public Classes
 
 #### druid
 
