@@ -4,8 +4,15 @@ historical_pp = <<-EOS
 class { 'druid::historical':
   server_max_size              => 268435456,
   processing_buffer_size_bytes => 134217728,
-  jvm_max_mem_allocation_pool  => '512m',
-  jvm_min_mem_allocation_pool  => '512m',
+  jvm_opts                     => [
+    '-server',
+    '-Xmx512m',
+    '-Xms512m',
+    '-Duser.timezone=UTC',
+    '-Dfile.encoding=UTF-8',
+    '-Djava.io.tmpdir=/tmp',
+    '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager'
+  ],
   processing_num_threads       => 1, 
   segment_cache_locations      => [
     {
