@@ -1,0 +1,11 @@
+[Unit]
+Description=Druid Coordinator Node
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/druid/coordinator/
+ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server coordinator
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

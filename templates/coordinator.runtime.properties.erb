@@ -1,0 +1,19 @@
+# Node Config
+druid.host=<%= @host ? @host : @ipaddress %>
+druid.port=<%= @port ? @port : 8084 %>
+druid.service=<%= @service ? @service : 'druid/realtime' %>
+
+# Coordinator Operation
+druid.coordinator.period=<%= @period ? @period : 'PT60S' %>
+druid.coordinator.period.indexingPeriod=<%= @period_indexing_period ? @period_indexing_period : 'PT1800S' %>
+druid.coordinator.startDelay=<%= @start_delay ? @start_delay : 'PT300S' %>
+druid.coordinator.merge.on=<%= @merge_on ? @merge_on : false %>
+druid.coordinator.conversion.on=<%= @conversion_on ? @conversion_on : false %>
+druid.coordinator.load.timeout=<%= @load_timeout ? @load_timeout : 'PT15M' %>
+
+# Metadata Retrieval
+druid.manager.config.pollDuration=<%= @manager_config_poll_duration ? @manager_config_poll_duration : 'PT1m' %>
+druid.manager.segment.pollDuration=<%= @manager_segment_poll_duration ? @manager_segment_poll_duration : 'PT1M' %>
+druid.manager.rules.pollDuration=<%= @manager_rules_poll_duration ? @manager_rules_poll_duration : 'PT1M' %>
+druid.manager.rules.defaultTier=<%= @manager_rules_default_tier ? @manager_rules_default_tier : '_default' %>
+druid.manager.rules.alertThreshold=<%= @manager_rules_alert_threshold ? @manager_rules_alert_threshold : 'PT10M' %>
