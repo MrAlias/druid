@@ -10,7 +10,7 @@ class { 'druid::historical':
     '-Djava.io.tmpdir=/tmp',
     '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager'
   ],
-  processing_num_threads       => 1, 
+  processing_num_threads       => 1,
   segment_cache_locations      => [
     {
       'path'    => '/tmp/druid/indexCache',

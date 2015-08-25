@@ -116,15 +116,15 @@ class druid::realtime (
   $processing_buffer_size_bytes         = hiera("${module_name}::druid::coordinator::processing_buffer_size_bytes", 1073741824),
   $processing_column_cache_size_bytes   = hiera("${module_name}::druid::coordinator::processing_column_cache_size_bytes", 0),
   $processing_format_string             = hiera("${module_name}::druid::coordinator::processing_format_string", 'processing-%s'),
-  $processing_num_threads               = hiera("${module_name}::druid::coordinator::processing_num_threads", undef), 
+  $processing_num_threads               = hiera("${module_name}::druid::coordinator::processing_num_threads", undef),
   $publish_type                         = hiera("${module_name}::druid::coordinator::publish_type", 'metadata'),
   $query_group_by_max_intermediate_rows = hiera("${module_name}::druid::coordinator::query_group_by_max_intermediate_rows", 50000),
   $query_group_by_max_results           = hiera("${module_name}::druid::coordinator::query_group_by_max_results", 500000),
   $query_group_by_single_threaded       = hiera("${module_name}::druid::coordinator::query_group_by_single_threaded", false),
   $query_search_max_search_limit        = hiera("${module_name}::druid::coordinator::query_search_max_search_limit", 1000),
-  $segment_cache_locations              = hiera("${module_name}::druid::coordinator::segment_cache_locations", undef), 
-  $spec_file                            = hiera("${module_name}::druid::coordinator::spec_file", undef), 
-  $spec_file_content                    = hiera("${module_name}::druid::coordinator::spec_file_content", undef), 
+  $segment_cache_locations              = hiera("${module_name}::druid::coordinator::segment_cache_locations", undef),
+  $spec_file                            = hiera("${module_name}::druid::coordinator::spec_file", undef),
+  $spec_file_content                    = hiera("${module_name}::druid::coordinator::spec_file_content", undef),
 ) {
   require druid
 

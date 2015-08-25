@@ -1,5 +1,5 @@
 class { 'druid':
-  extensions_coordinates => [
+  extensions_coordinates              => [
     'io.druid.extensions:druid-s3-extensions',
     'io.druid.extensions:druid-histogram',
     'io.druid.extensions:mysql-metadata-storag',
