@@ -123,7 +123,7 @@
 
 class druid::indexing::middle_manager (
   $host                            = hiera("${module_name}::indexing::middle_manager::host", $::ipaddress),
-  $port                            = hiera("${module_name}::indexing::middle_manager::port", 8090),
+  $port                            = hiera("${module_name}::indexing::middle_manager::port", 8080),
   $service                         = hiera("${module_name}::indexing::middle_manager::service", 'druid/middlemanager'),
   $jvm_opts                        = hiera_array("${module_name}::indexing::middle_manager::jvm_opts", ['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']),
   $peon_mode                       = hiera("${module_name}::indexing::middle_manager::peon_mode", 'remote'),
