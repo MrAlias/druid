@@ -1,6 +1,13 @@
 require 'spec_helper_acceptance'
 
 middle_manager_pp = <<-EOS
+class { 'druid':
+  metadata_storage_type               => 'derby',
+  metadata_storage_connector_uri      => '',
+  metadata_storage_connector_user     => '',
+  metadata_storage_connector_password => '',
+}
+
 class { 'druid::indexing::middle_manager':
   jvm_opts => [
     '-server',
@@ -30,15 +37,17 @@ describe 'druid::indexing::middle_manager' do
       end
     end
 
-    sleep(180)
-
     describe service('druid-middle_manager') do
       it { should be_enabled }
       it { should be_running }
     end
 
     describe port(8080) do
-      it { should be_listening }
+      it {
+        # Give the service time to finish starting
+        sleep(15)
+        should be_listening
+      }
     end
   end
 end
