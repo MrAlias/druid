@@ -1,0 +1,27 @@
+# Node Config
+druid.host=<%= @host ? @host : @ipaddress %>
+druid.port=<%= @port ? @port : 8084 %>
+druid.service=<%= @service ? @service : 'druid/realtime' %>
+
+# Realtime Operation
+druid.publish.type=<%= @publish_type ? @publish_type : 'metadata' %>
+<% if @spec_file and @spec_file != '' -%>
+druid.realtime.specFile=<%= @spec_file %>
+<% end -%>
+<% if @segment_cache_locations and @segment_cache_locations != '' -%>
+
+# Intermediate Segments Storage
+druid.segmentCache.locations=<%= @segment_cache_locations %>
+<% end -%>
+
+# Query Configs
+druid.processing.buffer.sizeBytes=<%= @processing_buffer_size_bytes ? @processing_buffer_size_bytes : 1073741824 %>
+druid.processing.formatString=<%= @processing_format_string ? @processing_format_string : 'processing-%s' %>
+<% if @processing_num_threads and @processing_num_threads != '' -%>
+druid.processing.numThreads=<%= @processing_num_threads %>
+<% end -%>
+druid.processing.columnCache.sizeBytes=<%= @processing_column_cache_size_bytes ? @processing_column_cache_size_bytes : 0 %>
+druid.query.groupBy.singleThreaded=<%= @query_group_by_single_threaded ? @query_group_by_single_threaded : false %>
+druid.query.groupBy.maxIntermediateRows=<%= @query_group_by_max_intermediate_rows ? @query_group_by_max_intermediate_rows : 50000 %>
+druid.query.groupBy.maxResults=<%= @query_group_by_max_results ? @query_group_by_max_results : 500000 %>
+druid.query.search.maxSearchLimit=<%= @query_search_max_search_limit ? @query_search_max_search_limit : 1000 %>
