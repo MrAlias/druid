@@ -20,6 +20,8 @@
        * [druid::broker](#druidbroker)
        * [druid::indexing::overlord](#druidindexingoverlord)
        * [druid::indexing::middle_manager](#druidindexingmiddle_manager)
+    * [Private Defined Types](#private-defined-types)
+       * [druid::service](#druidservice)
 5. [Limitations](#limitations)
 
 ## Module Description
@@ -1294,6 +1296,26 @@ Default value: `'localhost'`.
 Version identifier for the middle manager.
 
 Default value: `'0'`.
+
+### Private Defined Types
+
+#### druid::service
+
+Resource used to setup common files needed for Druic services.
+
+##### `druid::indexing::middle_manager::service_name`
+
+Name the service is known by (e.g historical, broker, realtime, ...).
+
+Default value: `$namevar`
+
+##### `druid::service::config_content`
+
+Required content of the service properties file.
+
+##### `druid::serviceservice_content`
+
+Required content of the systemd service file.
 
 ## Limitations
 
