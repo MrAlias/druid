@@ -21,6 +21,7 @@
        * [druid::historical](#druidhistorical)
        * [druid::indexing::overlord](#druidindexingoverlord)
        * [druid::indexing::middle_manager](#druidindexingmiddle_manager)
+       * [druid::realtime](#druidrealtime)
     * [Private Defined Types](#private-defined-types)
        * [druid::service](#druidservice)
 5. [Limitations](#limitations)
@@ -1413,6 +1414,114 @@ Default value: `'localhost'`.
 Version identifier for the middle manager.
 
 Default value: `'0'`.
+
+#### druid::realtime
+
+Sets up configuration and manages the Druid realtime service.
+
+##### `druid::realtime::host`
+
+Host address the service listens on.
+
+Default value: The `$ipaddress` fact.
+
+##### `druid::realtime::port`
+
+Port the service listens on.
+
+Default value: `8084`.
+
+##### `druid::realtime::service`
+
+The name of the service.
+
+This is used as a dimension when emitting metrics and alerts.  It is used to differentiate between the various services
+
+Default value: `'druid/realtime'`.
+
+##### `druid::realtime::jvm_opts`
+
+Array of options to set for the JVM running the service.
+
+Default value: `[
+    '-server',
+    '-Duser.timezone=UTC',
+    '-Dfile.encoding=UTF-8',
+    '-Djava.io.tmpdir=/tmp',
+    '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager'
+  ]`
+
+##### `druid::realtime::processing_buffer_size_bytes`
+
+Buffer size for the storage of intermediate results.
+
+The computation engine uses a scratch buffer of this size to do all intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed.
+
+Default value: `1073741824` (1GB).
+
+##### `druid::realtime::processing_column_cache_size_bytes`
+
+Maximum size in bytes for the dimension value lookup cache.
+
+Any value greater than `0` enables the cache. Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e.  dimensions with few repeating values). Enabling it may also require additional garbage collection tuning to avoid long GC pauses.
+
+Default value: `0` (disabled).
+
+##### `druid::realtime::processing_format_string`
+
+Format string to name processing threads.
+
+Default value: `'processing-%s'`.
+
+##### `druid::realtime::processing_num_threads`
+
+Number of processing threads for processing of segments.
+
+Rule of thumb is num\_cores - 1, which means that even under heavy load there will still be one core available to do background tasks like talking with ZooKeeper and pulling down segments.
+
+##### `druid::realtime::publish_type`
+
+Where to publish segments.
+
+Valid values: `'noop'` or `'metadata'`.
+
+Default value: `'metadata'`.
+
+##### `druid::realtime::query_group_by_max_intermediate_rows`
+
+Maximum number of intermediate rows.
+
+Default value: `50000`.
+
+##### `druid::realtime::query_group_by_max_results`
+
+Maximum number of results.
+
+Default value: `500000`.
+
+##### `druid::realtime::query_group_by_single_threaded`
+
+Run single threaded `groupBy` queries.
+
+Default value: `false`.
+
+##### `druid::realtime::query_search_max_search_limit`
+
+Maximum number of search results to return.
+
+Default value: `1000`.
+
+##### `druid::realtime::segment_cache_locations`
+
+Where intermediate segments are stored.
+
+##### `druid::realtime::spec_file`
+
+File location of realtime specFile.
+
+##### `druid::realtime::spec_file_content`
+
+Content to ensure in spec\_file.
 
 ### Private Defined Types
 
