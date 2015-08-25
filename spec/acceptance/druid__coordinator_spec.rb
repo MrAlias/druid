@@ -41,15 +41,17 @@ describe 'druid::coordinator' do
       end
     end
 
-    sleep(180)
-
     describe service('druid-coordinator') do
       it { should be_enabled }
       it { should be_running }
     end
 
     describe port(8081) do
-      it { should be_listening }
+      it { 
+        # Give the service time to finish starting
+        sleep(15)
+        should be_listening 
+      }
     end
   end
 end
