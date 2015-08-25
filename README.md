@@ -16,8 +16,8 @@
        * [druid::indexing](#druidindexing)
     * [Public Classes](#public-classes)
        * [druid](#druid-1)
-       * [druid::historical](#druidhistorical)
        * [druid::broker](#druidbroker)
+       * [druid::historical](#druidhistorical)
        * [druid::indexing::overlord](#druidindexingoverlord)
        * [druid::indexing::middle_manager](#druidindexingmiddle_manager)
     * [Private Defined Types](#private-defined-types)
@@ -600,162 +600,6 @@ ZooKeeper session timeout, in milliseconds.
 
 Default value: `30000`. 
 
-#### druid::historical
-
-Historical node class.
-
-##### `druid::historical::host`
-
-The host for the current node. 
-
-Default value: The `$ipaddress` fact. 
-
-##### `druid::historical::port`
-
-This is the port to actually listen on; unless port mapping is used, this will be the same port as is on `druid::historical::host`. 
-
-Default value: `8083`. 
-
-##### `druid::historical::service`
-
-The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services
-
-Default value: `'druid/historical'`. 
-
-##### `druid::historical::jvm_opts`
-
-Array of options to set for the JVM running the service.
-
-Default value: `['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']`
-
-##### `druid::historical::populate_cache`
-
-Populate the cache on the historical. 
-
-Default value: `false`. 
-
-##### `druid::historical::processing_buffer_size_bytes`
-
-This specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed. 
-
-Default value: `1073741824` (1GB). 
-
-##### `druid::historical::processing_column_cache_size_bytes`
-
-Maximum size in bytes for the dimension value lookup cache. Any value greater than 0 enables the cache.  Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e. dimensions with few repeating values).  Enabling it may also require additional garbage collection tuning to avoid long GC pauses. 
-
-Default value: `0` (disabled). 
-
-##### `druid::historical::processing_format_string`
-
-Realtime and historical nodes use this format string to name their processing threads. 
-
-Default value: `'processing-%s'`. 
-
-##### `druid::historical::processing_num_threads`
-
-The number of processing threads to have available for parallel processing of segments.  Druid will default to using 'num_cores - 1 || 1'. 
-
-##### `druid::historical::query_groupBy_max_intermediate_rows`
-
-Maximum number of intermediate rows. 
-
-Default value: `50000`. 
-
-##### `druid::historical::query_groupBy_max_results`
-
-Maximum number of results. 
-
-Default value: `500000`. 
-
-##### `druid::historical::query_groupBy_single_threaded`
-
-Run single threaded group By queries. 
-
-Default value: `false`. 
-
-##### `druid::historical::query_search_max_search_limit`
-
-Maximum number of search results to return. 
-
-Default value: `1000`. 
-
-##### `druid::historical::segment_cache_announce_interval_millis`
-
-How frequently to announce segments while segments are loading from cache.  Set this value to zero to wait for all segments to be loaded before announcing. 
-
-Default value: `5000` (5 seconds). 
-
-##### `druid::historical::segment_cache_delete_on_remove`
-
-Delete segment files from cache once a node is no longer serving a segment. 
-
-Default value: `true`. 
-
-##### `druid::historical::segment_cache_drop_segment_delay_millis`
-
-How long a node delays before completely dropping segment. 
-
-Default value: `30000` (30 seconds). 
-
-##### `druid::historical::segment_cache_info_dir`
-
-Historical nodes keep track of the segments they are serving so that when the process is restarted they can reload the same segments without waiting for the Coordinator to reassign. This path defines where this metadata is kept. 
-
-##### `druid::historical::segment_cache_locations`
-
-Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides. 
-
-Valid values: 'none' (also `undef`) or an absolute file path. 
-
-##### `druid::historical::segment_cache_num_loading_threads`
-
-How many segments to load concurrently from from deep storage. 
-
-Default value: `1`. 
-
-##### `druid::historical::server_http_max_idle_time`
-
-The Jetty max idle time for a connection. 
-
-Default value: `'PT5m'`. 
-
-##### `druid::historical::server_http_num_threads`
-
-Number of threads for HTTP requests. 
-
-Default value: `10`. 
-
-##### `druid::historical::server_max_size`
-
-The maximum number of bytes-worth of segments that the node wants assigned to it. This is not a limit that Historical nodes actually enforces, just a value published to the Coordinator node so it can plan accordingly. 
-
-Default value: `0`. 
-
-##### `druid::historical::server_priority`
-
-In a tiered architecture, the priority of the tier, thus allowing control over which nodes are queried. Higher numbers mean higher priority. The Druid default (no priority) works for architecture with no cross replication (tiers that have no data-storage overlap). Data centers typically have equal priority. 
-
-Default value: `0`. 
-
-##### `druid::historical::server_tier`
-
-A string to name the distribution tier that the storage node belongs to.  Many of the rules Coordinator nodes use to manage segments can be keyed on tiers. 
-
-Default value: `'_default_tier'`. 
-
-##### `druid::historical::uncacheable`
-
-All query types to not cache. 
-
-Default value: `["groupBy", "select"]`. 
-
-##### `druid::historical::use_cache`
-
-Enable the cache on the historical. 
-
-Default value: `false`. 
-
 #### druid::broker
 
 ##### `druid::broker::host`
@@ -916,7 +760,7 @@ Default value: `'processing-%s'`.
 
 Number of processing threads available for processing of segments.
 
-Rule of thumb is num_cores - 1, which means that even under heavy load there will still be one core available to do background tasks like talking with ZooKeeper and pulling down segments. If only one core is available, this property defaults to the value 1.
+Rule of thumb is num\_cores - 1, which means that even under heavy load there will still be one core available to do background tasks like talking with ZooKeeper and pulling down segments. If only one core is available, this property defaults to the value 1.
 
 ##### `druid::broker::query_group_by_max_intermediate_rows`
 
@@ -980,6 +824,162 @@ Default value: `'PT5m'`.
 Number of threads for HTTP requests.
 
 Default value: `10`.
+
+#### druid::historical
+
+Historical node class.
+
+##### `druid::historical::host`
+
+The host for the current node. 
+
+Default value: The `$ipaddress` fact. 
+
+##### `druid::historical::port`
+
+This is the port to actually listen on; unless port mapping is used, this will be the same port as is on `druid::historical::host`. 
+
+Default value: `8083`. 
+
+##### `druid::historical::service`
+
+The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services
+
+Default value: `'druid/historical'`. 
+
+##### `druid::historical::jvm_opts`
+
+Array of options to set for the JVM running the service.
+
+Default value: `['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']`
+
+##### `druid::historical::populate_cache`
+
+Populate the cache on the historical. 
+
+Default value: `false`. 
+
+##### `druid::historical::processing_buffer_size_bytes`
+
+This specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed. 
+
+Default value: `1073741824` (1GB). 
+
+##### `druid::historical::processing_column_cache_size_bytes`
+
+Maximum size in bytes for the dimension value lookup cache. Any value greater than 0 enables the cache.  Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e. dimensions with few repeating values).  Enabling it may also require additional garbage collection tuning to avoid long GC pauses. 
+
+Default value: `0` (disabled). 
+
+##### `druid::historical::processing_format_string`
+
+Realtime and historical nodes use this format string to name their processing threads. 
+
+Default value: `'processing-%s'`. 
+
+##### `druid::historical::processing_num_threads`
+
+The number of processing threads to have available for parallel processing of segments.  Druid will default to using 'num\_cores - 1 || 1'. 
+
+##### `druid::historical::query_groupBy_max_intermediate_rows`
+
+Maximum number of intermediate rows. 
+
+Default value: `50000`. 
+
+##### `druid::historical::query_groupBy_max_results`
+
+Maximum number of results. 
+
+Default value: `500000`. 
+
+##### `druid::historical::query_groupBy_single_threaded`
+
+Run single threaded group By queries. 
+
+Default value: `false`. 
+
+##### `druid::historical::query_search_max_search_limit`
+
+Maximum number of search results to return. 
+
+Default value: `1000`. 
+
+##### `druid::historical::segment_cache_announce_interval_millis`
+
+How frequently to announce segments while segments are loading from cache.  Set this value to zero to wait for all segments to be loaded before announcing. 
+
+Default value: `5000` (5 seconds). 
+
+##### `druid::historical::segment_cache_delete_on_remove`
+
+Delete segment files from cache once a node is no longer serving a segment. 
+
+Default value: `true`. 
+
+##### `druid::historical::segment_cache_drop_segment_delay_millis`
+
+How long a node delays before completely dropping segment. 
+
+Default value: `30000` (30 seconds). 
+
+##### `druid::historical::segment_cache_info_dir`
+
+Historical nodes keep track of the segments they are serving so that when the process is restarted they can reload the same segments without waiting for the Coordinator to reassign. This path defines where this metadata is kept. 
+
+##### `druid::historical::segment_cache_locations`
+
+Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides. 
+
+Valid values: 'none' (also `undef`) or an absolute file path. 
+
+##### `druid::historical::segment_cache_num_loading_threads`
+
+How many segments to load concurrently from from deep storage. 
+
+Default value: `1`. 
+
+##### `druid::historical::server_http_max_idle_time`
+
+The Jetty max idle time for a connection. 
+
+Default value: `'PT5m'`. 
+
+##### `druid::historical::server_http_num_threads`
+
+Number of threads for HTTP requests. 
+
+Default value: `10`. 
+
+##### `druid::historical::server_max_size`
+
+The maximum number of bytes-worth of segments that the node wants assigned to it. This is not a limit that Historical nodes actually enforces, just a value published to the Coordinator node so it can plan accordingly. 
+
+Default value: `0`. 
+
+##### `druid::historical::server_priority`
+
+In a tiered architecture, the priority of the tier, thus allowing control over which nodes are queried. Higher numbers mean higher priority. The Druid default (no priority) works for architecture with no cross replication (tiers that have no data-storage overlap). Data centers typically have equal priority. 
+
+Default value: `0`. 
+
+##### `druid::historical::server_tier`
+
+A string to name the distribution tier that the storage node belongs to.  Many of the rules Coordinator nodes use to manage segments can be keyed on tiers. 
+
+Default value: `'_default_tier'`. 
+
+##### `druid::historical::uncacheable`
+
+All query types to not cache. 
+
+Default value: `["groupBy", "select"]`. 
+
+##### `druid::historical::use_cache`
+
+Enable the cache on the historical. 
+
+Default value: `false`. 
 
 #### druid::indexing::overlord
 
@@ -1168,7 +1168,7 @@ Valid values:
 
 Default value: `'local'`.
 
-#### druid::indexing::middle_manager
+#### druid::indexing::middle\_manager
 
 Manages and sets up the indexing middle managers.
 
