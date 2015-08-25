@@ -44,21 +44,33 @@ describe 'druid::indexing::middle_manager', :type => 'class' do
     }
   end
 
-  context 'On system with 10 GB RAM and custom druid configs' do
-    let(:facts) do
-      {
-        :memorysize => '10 GB',
-      }
-    end
-
+  context 'On default system with custom druid configs' do
     let(:params) do
       {
+        :host                            => '101.101.10.1',
+        :port                            => 8090,
+        :service                         => 'test-druid/middlemanager',
+        :peon_mode                       => 'local',
+        :runner_allowed_prefixes         => ['druid', 'io.druid', 'user.timezone', 'file.encoding'],
+        :runner_classpath                => '.:/test',
+        :runner_compress_znodes          => false,
+        :runner_java_command             => '/usr/bin/java',
+        :runner_java_opts                => '-server',
+        :runner_max_znode_bytes          => 524188,
+        :runner_start_port               => 8110,
+        :task_base_dir                   => '/mnt/tmp',
+        :task_base_task_dir              => '/mnt/tmp/persistent/tasks',
+        :task_default_hadoop_coordinates => 'org.apache.hadoop:hadoop-client:1.1.1',
+        :task_default_row_flush_boundary => 50009,
+        :task_hadoop_working_path        => '/mnt/tmp/druid-indexing',
+        :worker_capacity                 => 2,
+        :worker_ip                       => '127.0.0.1',
+        :worker_version                  => '2',
       }
     end 
     
     it {
-      should contain_file('/etc/druid/middle_manager/runtime.properties').with_content("# Node Configs\ndruid.host=\ndruid.port=8090\ndruid.service=druid/middlemanager\n\n# Task Logging\ndruid.indexer.logs.type=file\ndruid.indexer.logs.directory=/var/log\n")
-
+      should contain_file('/etc/druid/middle_manager/runtime.properties').with_content("# Node Configs\ndruid.host=101.101.10.1\ndruid.port=8090\ndruid.service=test-druid/middlemanager\n\n# Task Logging\ndruid.indexer.logs.type=file\ndruid.indexer.logs.directory=/var/log\n")
     }
   end
 end
