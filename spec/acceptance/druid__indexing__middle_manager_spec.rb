@@ -50,4 +50,9 @@ describe 'druid::indexing::middle_manager' do
       }
     end
   end
+
+  after(:all) do
+    puts "after all"
+    shell('systemctl stop druid-middle_manager')
+  end
 end

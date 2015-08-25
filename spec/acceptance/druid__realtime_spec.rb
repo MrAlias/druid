@@ -150,4 +150,9 @@ describe 'druid::realtime' do
       it { should be_listening }
     end
   end
+
+  after(:all) do
+    puts "after all"
+    shell('systemctl stop druid-realtime')
+  end
 end

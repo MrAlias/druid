@@ -48,4 +48,9 @@ describe 'druid::historical' do
       it { should be_running }
     end
   end
+
+  after(:all) do
+    puts "after all"
+    shell('systemctl stop druid-historical')
+  end
 end

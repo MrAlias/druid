@@ -54,4 +54,9 @@ describe 'druid::coordinator' do
       }
     end
   end
+
+  after(:all) do
+    puts "after all"
+    shell('systemctl stop druid-coordinator')
+  end
 end

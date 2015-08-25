@@ -50,4 +50,9 @@ describe 'druid::indexing::overlord' do
       }
     end
   end
+
+  after(:all) do
+    puts "after all"
+    shell('systemctl stop druid-overlord')
+  end
 end
