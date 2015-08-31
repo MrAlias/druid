@@ -841,7 +841,7 @@ Default value: The `$ipaddress` fact.
 
 Port the service listens on.
 
-Default value: `8084`.
+Default value: `8081`.
 
 ##### `druid::coordinator::service`
 

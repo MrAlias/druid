@@ -12,7 +12,7 @@
 # [*port*]
 #   Port the service listens on.
 #
-#   Default value: `8084`.
+#   Default value: `8081`.
 #
 # [*service*]
 #   The name of the service.
