@@ -211,9 +211,6 @@ class druid::historical (
     $server_tier,
     $server_http_max_idle_time,
     $processing_format_string,
-    $query_group_by_max_intermediate_rows,
-    $query_group_by_max_results,
-    $query_search_max_search_limit,
   )
 
   validate_integer($port)
@@ -225,6 +222,9 @@ class druid::historical (
   validate_integer($server_http_num_threads)
   validate_integer($processing_column_cache_size_bytes)
   validate_integer($processing_buffer_size_bytes)
+  validate_integer($query_group_by_max_intermediate_rows)
+  validate_integer($query_group_by_max_results)
+  validate_integer($query_search_max_search_limit)
 
   if ($processing_num_threads != undef) {
     validate_integer($processing_num_threads)
