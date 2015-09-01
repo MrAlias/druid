@@ -5,6 +5,7 @@ Description=Druid Broker Node
 Type=simple
 WorkingDirectory=/etc/druid/broker/
 ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server broker
+SuccessExitStatus=130 143
 Restart=on-failure
 
 [Install]
