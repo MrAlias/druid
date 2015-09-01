@@ -1,7 +1,9 @@
 require 'beaker-rspec'
 
 hosts.each do |host|
-  on host, install_puppet
+  install_package(host, 'wget')
+  install_package(host, 'rsync')
+  on host, install_puppet, { :acceptable_exit_codes => [0] }
 end
 
 zookeeper_pp = <<-EOS
@@ -19,8 +21,8 @@ RSpec.configure do |c|
 
   # Configure all nodes in nodeset
   c.before :suite do
-    # Install modules
     puppet_module_install(:source => module_root, :module_name => module_name)
+
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs/stdlib'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'deric/zookeeper'), { :acceptable_exit_codes => [0,1] }
