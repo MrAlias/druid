@@ -9,6 +9,7 @@
 
 ### Added
  - Project change log to track release changes.
+ - Project contributing guidelines in CONTRIBUTING.md.
 
 ## 0.1.0 - 2015-08-25
 
