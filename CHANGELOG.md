@@ -10,6 +10,7 @@
 ### Added
  - Project change log to track release changes.
  - Project contributing guidelines in CONTRIBUTING.md.
+ - Travis CI config file.
 
 ## 0.1.0 - 2015-08-25
 
