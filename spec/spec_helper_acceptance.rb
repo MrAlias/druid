@@ -3,7 +3,15 @@ require 'beaker-rspec'
 hosts.each do |host|
   install_package(host, 'wget')
   install_package(host, 'rsync')
-  on host, install_puppet, { :acceptable_exit_codes => [0] }
+  install_package(host, 'locales')
+
+  create_remote_file host, '/etc/locale.gen', 'en_US.UTF-8 UTF-8'
+  shell 'locale-gen'
+  host.add_env_var('LANG', 'en_US.UTF-8')
+  host.add_env_var('LANGUAGE', 'en_US.UTF-8')
+  host.add_env_var('LC_ALL', 'en_US.UTF-8')
+
+  on host, install_puppet
 end
 
 zookeeper_pp = <<-EOS
