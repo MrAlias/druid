@@ -41,7 +41,7 @@ describe 'druid::realtime', :type => 'class' do
 
       it {
         should contain_file('/etc/systemd/system/druid-realtime.service')\
-          .with_content("[Unit]\nDescription=Druid Realtime Node\n\n[Service]\nType=simple\nWorkingDirectory=/etc/druid/realtime/\nExecStart=/usr/bin/java -server -Xmx25g -Xms25g -XX:NewSize=6g -XX:MaxNewSize=6g -XX:MaxDirectMemorySize=64g -Duser.timezone=PDT -Dfile.encoding=latin-1 -Djava.util.logging.manager=custom.LogManager -Djava.io.tmpdir=/mnt/tmp -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server realtime\nRestart=on-failure\n\n[Install]\nWantedBy=multi-user.target\n")
+          .with_content("[Unit]\nDescription=Druid Realtime Node\n\n[Service]\nType=simple\nWorkingDirectory=/etc/druid/realtime/\nExecStart=/usr/bin/java -server -Xmx25g -Xms25g -XX:NewSize=6g -XX:MaxNewSize=6g -XX:MaxDirectMemorySize=64g -Duser.timezone=PDT -Dfile.encoding=latin-1 -Djava.util.logging.manager=custom.LogManager -Djava.io.tmpdir=/mnt/tmp -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server realtime\nSuccessExitStatus=130 143\nRestart=on-failure\n\n[Install]\nWantedBy=multi-user.target\n")
       }
   end
 
