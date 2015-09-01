@@ -33,7 +33,7 @@ describe 'druid::service', :type => :define do
       }
     end
 
-    it { should compile.and_raise_error(/\["123", "321"\] is not a string/) }
+    it { should compile.and_raise_error(/\["?123"?, "?321"?\] is not a string/) }
   end
 
   context 'Check fails for non-string config content' do
