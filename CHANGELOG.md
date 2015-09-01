@@ -7,6 +7,9 @@
  - Documentation errors. 
  - Unit test errors.
 
+### Added
+ - Project change log to track release changes.
+
 ## 0.1.0 - 2015-08-25
 
 ### Added
