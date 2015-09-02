@@ -8,7 +8,7 @@ druid.service=<%= @service %>
 druid.broker.balancer.type=<%= @balancer_type != '' ? @balancer_type : 'random' %>
 druid.broker.select.tier=<%= @select_tier != '' ? @select_tier : 'highestPriority' %>
 <% if @select_tier_custom_priorities != [] and @select_tier_custom_priorities != '' -%>
-druid.broker.select.tier.custom.priorities=<%= @select_tier_custom_priorities.to_json %>
+druid.broker.select.tier.custom.priorities=[<%= @select_tier_custom_priorities.join(',') %>]
 <% end -%>
 druid.server.http.numThreads=<%= @server_http_num_threads != '' ? @server_http_num_threads : 10 %>
 druid.server.http.maxIdleTime=<%= @server_http_max_idle_time != '' ? @server_http_max_idle_time : 'PT5m' %>
