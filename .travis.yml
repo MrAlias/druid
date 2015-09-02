@@ -6,6 +6,12 @@ services:
 script:
   - bundle exec rake validate
   - bundle exec rake spec && bundle exec rake beaker
+rvm:
+  - 1.8.7
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - 2.2.2
 env:
   - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.6.0"
   - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.7.0"
@@ -15,3 +21,20 @@ env:
 matrix:
   allow_failures:
     - env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.6.0"
+    - rvm: 2.2.2
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
+    - rvm: 2.0.0
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
+    - rvm: 1.9.3
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
+  exclude:
+    - rvm: 2.2.2
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.6.0"
+    - rvm: 2.2.2
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.7.0"
+    - rvm: 2.2.2
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0"
+    - rvm: 2.2.2
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0" FUTURE_PARSER=yes
+    - rvm: 1.8.7
+      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
