@@ -6,6 +6,7 @@
 2. [Setup](#setup)
     * [What Druid Affects](#what-druid-affects)
     * [What Druid Does Not Manage](#what-druid-does-not-manage)
+    * [Setup Requirements](#setup-requirements)
     * [Beginning With Druid](#beginning-with-druid)
 3. [Usage](#usage)
     * [Standalone Druid Packages](#standalone-druid-packages)
@@ -45,6 +46,11 @@ This module will not setup all the additional services a full Druid cluster will
 * Cluster deep storage
 * Metadata storage
 * ZooKeeper
+
+### Setup Requirements
+
+* Puppet >= 3.x  (It might work with a previous version, but no guarantees are made).
+* Ruby >= 1.9.3
 
 ### Beginning With Druid
 
@@ -1547,4 +1553,4 @@ Required content of the systemd service file.
 
 The module has been designed to run on a Debian based system using systemd as a service manager.
 
-Currently it has only received testing on a Debian 8 (Jessie) system.
+Testing is currently only being done on Debian 8 (Jessie).
