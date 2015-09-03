@@ -7,7 +7,6 @@ script:
   - bundle exec rake validate
   - bundle exec rake spec
 rvm:
-  - 1.8.7
   - 1.9.3
   - 2.0.0
   - 2.1.7
@@ -36,5 +35,3 @@ matrix:
       env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0"
     - rvm: 2.2.2
       env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0" FUTURE_PARSER=yes
-    - rvm: 1.8.7
-      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
