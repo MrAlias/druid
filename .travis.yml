@@ -1,8 +1,9 @@
 language: ruby
 sudo: required
-before_install: rm Gemfile.lock || true
-services:
-  - docker
+before_install:
+  - rm Gemfile.lock || true
+  - sudo apt-get update -qq
+install: sudo apt-get install build-essential
 script:
   - bundle exec rake validate
   - bundle exec rake spec
