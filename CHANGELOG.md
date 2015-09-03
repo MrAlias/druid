@@ -2,6 +2,12 @@
 
 ## [Unreleased][unreleased]
 
+### Fixed
+ - Explicitly set the service provider to systemd.  This is currently the only provider the module supports.
+
+### Added
+ - Explicit documentation of the systemd requirement. 
+
 ## [0.1.1] - 2015-09-03
 
 ### Fixed

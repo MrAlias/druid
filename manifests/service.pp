@@ -63,6 +63,7 @@ define druid::service (
   service { "druid-${service_name}":
     ensure    => running,
     enable    => true,
+    provider  => 'systemd',
     require   => File["/etc/systemd/system/druid-${service_name}.service"],
     subscribe => Exec["Reload systemd daemon for new ${service_name} service file"],
   }
