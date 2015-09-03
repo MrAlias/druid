@@ -12,14 +12,11 @@ rvm:
   - 2.1.7
   - 2.2.2
 env:
-  - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.6.0"
-  - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.7.0"
   - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0"
   - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0" FUTURE_PARSER=yes
   - BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
 matrix:
   allow_failures:
-    - env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.6.0"
     - rvm: 2.2.2
       env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
     - rvm: 2.0.0
@@ -27,10 +24,6 @@ matrix:
     - rvm: 1.9.3
       env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 4.2.0"
   exclude:
-    - rvm: 2.2.2
-      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.6.0"
-    - rvm: 2.2.2
-      env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 2.7.0"
     - rvm: 2.2.2
       env: BEAKER_set="debian-8-x86_64_docker" PUPPET_VERSION="~> 3.8.0"
     - rvm: 2.2.2
