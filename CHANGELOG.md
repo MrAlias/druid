@@ -2,8 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+## [0.1.1] - 2015-09-03
+
 ### Fixed
  - All systemd service unit configurations to expect signal termination exit codes from the druid process.
+ - Validation of input parameters in the `druid::historical` class.
  - Documentation errors. 
  - Unit test errors.
 
@@ -22,4 +25,5 @@
  - Unit tests with 100% coverage of all resources defined.
  - Acceptance tests for each service the module is expected to manage.
 
-[unreleased]: https://github.com/MrAlias/druid/compare/98ab9e2da518af046b15829d82b953bf0d36c020...HEAD
+[unreleased]: https://github.com/MrAlias/druid/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/MrAlias/druid/compare/v0.1.0...v0.1.1
