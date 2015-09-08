@@ -4,9 +4,11 @@
 
 ### Fixed
  - Explicitly set the service provider to systemd.  This is currently the only provider the module supports.
+ - Middle manager template sets service configuration properties.
 
 ### Added
  - Explicit documentation of the systemd requirement. 
+ - Missing configuration parameters for `druid::indexing::middle_manager`
 
 ## [0.1.1] - 2015-09-03
 
