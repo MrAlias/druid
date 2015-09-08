@@ -29,7 +29,7 @@
 
 ## Module Description
 
-[Druid](druid.io) is a data store solutions designed for online analytical processing of time-series data.  This module is used to managing nodes in a Druid cluster that run the Druid service, namely: Historical, Broker, Coordinator, Indexing Service, and Realtime nodes.
+[Druid](druid.io) is a data store solution designed for online analytical processing of time-series data.  This module is used to manage the Druid services used throughout a Druid cluster, namely the Historical, Broker, Coordinator, Indexing Services, and Realtime services.
 
 ## Setup
 
@@ -1317,6 +1317,26 @@ This is used as a dimension when emitting metrics and alerts.  It is used to dif
 
 Default value: `'druid/middlemanager'`.
 
+
+##### `druid::indexing::middle_manager::fork_properties`
+
+Hash of explicit child peon config options.
+
+Peons inherit the configurations of their parent middle managers, but if this is undesired for certain config options they can be explicitly passed here.
+
+These key value pairs are expected in Druid config format and are unvalidated.  The keys should NOT include `'druid.indexer.fork.property'` as a prefix.
+
+Example:
+
+```puppet
+{
+  "druid.monitoring.monitors" => "[\"com.metamx.metrics.JvmMonitor\"]",
+  "druid.processing.numThreads" => 2,
+}
+```
+
+Default value: `{}`
+
 ##### `druid::indexing::middle_manager::jvm_opts`
 
 Array of options to set for the JVM running the service.
@@ -1333,6 +1353,24 @@ Valid values:
     * `'remote'`: Pooled.
 
 Default value: `'remote'`.
+
+##### `druid::indexing::middle_manager::remote_peon_max_retry_count`
+
+Max retries a remote peon makes communicating with the overlord.
+
+Default value: `10`.
+
+##### `druid::indexing::middle_manager::remote_peon_max_wait`
+
+Max retry time a remote peon makes communicating with the overlord.
+
+Default value: `'PT10M'`.
+
+##### `druid::indexing::middle_manager::remote_peon_min_wait`
+
+Min retry time a remote peon makes communicating with the overlord.
+
+Default value: `'PT1M'`.
 
 ##### `druid::indexing::middle_manager::runner_allowed_prefixes`
 
@@ -1384,13 +1422,23 @@ Base temporary working directory for tasks.
 
 Default value: `'/tmp/persistent/tasks'`.
 
+##### `druid::indexing::middle_manager::task_chat_handler_type`
+
+Specify service discovery type.
+
+Certain tasks will use service discovery to announce an HTTP endpoint that events can be posted to.
+
+Valid values: `'noop'` or `'announce'`.
+
+Default value: `'noop'`.
+
 ##### `druid::indexing::middle_manager::task_default_hadoop_coordinates`
 
-Default Hadoop version to use.
+Array of default Hadoop version to use.
 
 This is used with HadoopIndexTasks that do not request a particular version.
 
-Default value: `'org.apache.hadoop:hadoop-client:2.3.0'`.
+Default value: `['org.apache.hadoop:hadoop-client:2.3.0']`.
 
 ##### `druid::indexing::middle_manager::task_default_row_flush_boundary`
 
