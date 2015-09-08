@@ -72,7 +72,7 @@ describe 'druid::coordinator', :type => 'class' do
     end
 
       it {
-        should contain_file('/etc/druid/coordinator/runtime.properties').with_content("# Node Config\ndruid.host=202.168.0.105\ndruid.port=8091\ndruid.service=druid-test/coordinator\n\n# Coordinator Operation\ndruid.coordinator.period=PT62S\ndruid.coordinator.period.indexingPeriod=PT1803S\ndruid.coordinator.startDelay=PT302S\ndruid.coordinator.merge.on=true\ndruid.coordinator.conversion.on=true\ndruid.coordinator.load.timeout=PT17M\n\n# Metadata Retrieval\ndruid.manager.config.pollDuration=PT2M\ndruid.manager.segment.pollDuration=PT5M\ndruid.manager.rules.pollDuration=PT3M\ndruid.manager.rules.defaultTier=_test_default\ndruid.manager.rules.alertThreshold=PT12M\n")
+        should contain_file('/etc/druid/coordinator/runtime.properties').with_content("# This file is managed by Puppet\n# MODIFICATION WILL BE OVERWRITTEN\n\n# Node Config\ndruid.host=202.168.0.105\ndruid.port=8091\ndruid.service=druid-test/coordinator\n\n# Coordinator Operation\ndruid.coordinator.period=PT62S\ndruid.coordinator.period.indexingPeriod=PT1803S\ndruid.coordinator.startDelay=PT302S\ndruid.coordinator.merge.on=true\ndruid.coordinator.conversion.on=true\ndruid.coordinator.load.timeout=PT17M\n\n# Metadata Retrieval\ndruid.manager.config.pollDuration=PT2M\ndruid.manager.segment.pollDuration=PT5M\ndruid.manager.rules.pollDuration=PT3M\ndruid.manager.rules.defaultTier=_test_default\ndruid.manager.rules.alertThreshold=PT12M\n")
       }
   end
 end

@@ -73,7 +73,7 @@ describe 'druid::realtime', :type => 'class' do
 
       it {
         should contain_file('/tmp/spc_file')
-        should contain_file('/etc/druid/realtime/runtime.properties').with_content("# Node Config\ndruid.host=192.168.0.105\ndruid.port=8094\ndruid.service=druid-test/realtime\n\n# Realtime Operation\ndruid.publish.type=noop\ndruid.realtime.specFile=/tmp/spc_file\n\n# Intermediate Segments Storage\ndruid.segmentCache.locations=/tmp/cache\n\n# Query Configs\ndruid.processing.buffer.sizeBytes=1073741828\ndruid.processing.formatString=test-processing-%s\ndruid.processing.numThreads=5\ndruid.processing.columnCache.sizeBytes=3\ndruid.query.groupBy.singleThreaded=true\ndruid.query.groupBy.maxIntermediateRows=50003\ndruid.query.groupBy.maxResults=500003\ndruid.query.search.maxSearchLimit=1002\n")
+        should contain_file('/etc/druid/realtime/runtime.properties').with_content("# This file is managed by Puppet\n# MODIFICATION WILL BE OVERWRITTEN\n\n# Node Config\ndruid.host=192.168.0.105\ndruid.port=8094\ndruid.service=druid-test/realtime\n\n# Realtime Operation\ndruid.publish.type=noop\ndruid.realtime.specFile=/tmp/spc_file\n\n# Intermediate Segments Storage\ndruid.segmentCache.locations=/tmp/cache\n\n# Query Configs\ndruid.processing.buffer.sizeBytes=1073741828\ndruid.processing.formatString=test-processing-%s\ndruid.processing.numThreads=5\ndruid.processing.columnCache.sizeBytes=3\ndruid.query.groupBy.singleThreaded=true\ndruid.query.groupBy.maxIntermediateRows=50003\ndruid.query.groupBy.maxResults=500003\ndruid.query.search.maxSearchLimit=1002\n")
       }
   end
 end
