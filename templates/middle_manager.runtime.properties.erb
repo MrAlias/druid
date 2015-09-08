@@ -1,7 +1,16 @@
+# This file is managed by Puppet
+# MODIFICATION WILL BE OVERWRITTEN
+
 # Node Configs
-druid.host=<%= @host != '' ? @host : @ipaddress %>
-druid.port=<%= @port != '' ? @port : 8080 %>
-druid.service=<%= @service != '' ? @service : 'druid/middlemanager' %>
+<% if @host and @host != '' -%>
+druid.host=<%= @host %>
+<% end -%>
+<% if @port and @port != '' -%>
+druid.port=<%= @port %>
+<% end -%>
+<% if @service and @service != '' -%>
+druid.service=<%= @service %>
+<% end -%>
 
 # Task Logging
 druid.indexer.logs.type=<%= @logs_type ? @logs_type : 'file' %>
@@ -25,4 +34,75 @@ druid.indexer.logs.directory=<%= @hdfs_logs_directory %>
     <%- end -%>
 <% else -%>
 druid.indexer.logs.directory=<%= @local_logs_directory ? @local_logs_directory : '/var/log' %>
+<% end -%>
+
+# MiddleManager Service
+<% if @runner_allowed_prefixes and @runner_allowed_prefixes != '' -%>
+druid.indexer.runner.allowedPrefixes=["<%= @runner_allowed_prefixes.join('","') %>"]
+<% end -%>
+<% if @runner_compress_znodes and @runner_compress_znodes != '' -%>
+druid.indexer.runner.compressZnodes=<%= @runner_compress_znodes %>
+<% end -%>
+<% if @runner_classpath and @runner_classpath != '' -%>
+druid.indexer.runner.classpath=<%= @runner_classpath %>
+<% end -%>
+<% if @runner_java_command and @runner_java_command != '' -%>
+druid.indexer.runner.javaCommand=<%= @runner_java_command %>
+<% end -%>
+<% if @runner_java_opts and @runner_java_opts != '' -%>
+druid.indexer.runner.javaOpts=<%= @runner_java_opts %>
+<% end -%>
+<% if @runner_max_znode_bytes and @runner_max_znode_bytes != '' -%>
+druid.indexer.runner.maxZnodeBytes=<%= @runner_max_znode_bytes %>
+<% end -%>
+<% if @runner_start_port and @runner_start_port != '' -%>
+druid.indexer.runner.startPort=<%= @runner_start_port %>
+<% end -%>
+<% if @worker_ip and @worker_ip != '' -%>
+druid.worker.ip=<%= @worker_ip %>
+<% end -%>
+<% if @worker_version and @worker_version != '' -%>
+druid.worker.version=<%= @worker_version %>
+<% end -%>
+<% if @worker_capacity and @worker_capacity != '' -%>
+druid.worker.capacity=<%= @worker_capacity %>
+<% end -%>
+
+# Peon Configs
+<% @fork_properties.each do |k, v| -%>
+druid.indexer.fork.property.<%= k %>=<%= v %>
+<% end -%>
+<% if @peon_mode and @peon_mode != '' -%>
+druid.peon.mode=<%= @peon_mode %>
+<% end -%>
+<% if @task_base_dir and @task_base_dir != '' -%>
+druid.indexer.task.baseDir=<%= @task_base_dir %>
+<% end -%>
+<% if @task_base_task_dir and @task_base_task_dir != '' -%>
+druid.indexer.task.baseTaskDir=<%= @task_base_task_dir %>
+<% end -%>
+<% if @task_hadoop_working_path and @task_hadoop_working_path != '' -%>
+druid.indexer.task.hadoopWorkingPath=<%= @task_hadoop_working_path %>
+<% end -%>
+<% if @task_default_row_flush_boundary and @task_default_row_flush_boundary != '' -%>
+druid.indexer.task.defaultRowFlushBoundary=<%= @task_default_row_flush_boundary %>
+<% end -%>
+<% if @task_default_hadoop_coordinates and @task_default_hadoop_coordinates != '' -%>
+druid.indexer.task.defaultHadoopCoordinates=["<%= @task_default_hadoop_coordinates.join('","') %>"]
+<% end -%>
+<% if @task_chat_handler_type and @task_chat_handler_type != '' -%>
+druid.indexer.task.chathandler.type=<%= @task_chat_handler_type %>
+<% end -%>
+<% if @peon_mode == 'remote' -%>
+
+# Remote Peon Configs
+    <%- if @remote_peon_min_wait and @remote_peon_min_wait != '' -%>
+druid.peon.taskActionClient.retry.minWait=<%= @remote_peon_min_wait %>
+    <%- end -%>
+    <%- if @remote_peon_max_wait and @remote_peon_max_wait != '' -%>
+druid.peon.taskActionClient.retry.maxWait=<%= @remote_peon_max_wait %>
+    <%- end -%>
+    <%- if @remote_peon_max_retry_count and @remote_peon_max_retry_count != '' -%>
+druid.peon.taskActionClient.retry.maxRetryCount=<%= @remote_peon_max_retry_count %>
+    <%- end -%>
 <% end -%>

@@ -22,6 +22,28 @@
 #
 #   Default value: `'druid/middlemanager'`.
 #
+# [*fork_properties*]
+#   Hash of explicit child peon config options.
+#
+#   Peons inherit the configurations of their parent middle managers, but if
+#   this is undesired for certain config options they can be explicitly
+#   passed here.
+#
+#   These key value pairs are expected in Druid config format and are
+#   unvalidated.  The keys should NOT include
+#   `'druid.indexer.fork.property'` as a prefix.
+#
+#   Example:
+#
+#   ```puppet
+#     {
+#       "druid.monitoring.monitors" => "[\"com.metamx.metrics.JvmMonitor\"]",
+#       "druid.processing.numThreads" => 2,
+#     }
+#   ```
+#
+#   Default value: `{}`
+#
 # [*jvm_opts*]
 #   Array of options to set for the JVM running the service.
 #
@@ -41,6 +63,21 @@
 #     * `'remote'`: Pooled.
 #
 #   Default value: `'remote'`.
+#
+# [*remote_peon_max_retry_count*]
+#   Max retries a remote peon makes communicating with the overlord.
+#
+#   Default value: `10`.
+#
+# [*remote_peon_max_wait*]
+#   Max retry time a remote peon makes communicating with the overlord.
+#
+#   Default value: `'PT10M'`.
+#
+# [*remote_peon_min_wait*]
+#   Min retry time a remote peon makes communicating with the overlord.
+#
+#   Default value: `'PT1M'`.
 #
 # [*runner_allowed_prefixes*]
 #   Array of prefixes of configs that are passed down to peons.
@@ -83,13 +120,23 @@
 #
 #   Default value: `'/tmp/persistent/tasks'`.
 #
+# [*task_chat_handler_type*]
+#   Specify service discovery type.
+#
+#   Certain tasks will use service discovery to announce an HTTP endpoint
+#   that events can be posted to.
+#
+#   Valid values: `'noop'` or `'announce'`.
+#
+#   Default value: `'noop'`.
+#
 # [*task_default_hadoop_coordinates*]
-#   Default Hadoop version to use.
+#   Array of default Hadoop versions to use.
 #
 #   This is used with HadoopIndexTasks that do not request a particular
 #   version.
 #
-#   Default value: `'org.apache.hadoop:hadoop-client:2.3.0'`.
+#   Default value: `['org.apache.hadoop:hadoop-client:2.3.0']`.
 #
 # [*task_default_row_flush_boundary*]
 #   Highest row count before persisting to disk.
@@ -125,8 +172,12 @@ class druid::indexing::middle_manager (
   $host                            = hiera("${module_name}::indexing::middle_manager::host", $::ipaddress),
   $port                            = hiera("${module_name}::indexing::middle_manager::port", 8080),
   $service                         = hiera("${module_name}::indexing::middle_manager::service", 'druid/middlemanager'),
+  $fork_properties                 = hiera_hash("${module_name}::indexing::middle_manager::fork_properties", {}),
   $jvm_opts                        = hiera_array("${module_name}::indexing::middle_manager::jvm_opts", ['-server', '-Duser.timezone=UTC', '-Dfile.encoding=UTF-8', '-Djava.io.tmpdir=/tmp', '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager']),
   $peon_mode                       = hiera("${module_name}::indexing::middle_manager::peon_mode", 'remote'),
+  $remote_peon_max_retry_count     = hiera("${module_name}::indexing::middle_manager::remote_peon_max_retry_count", 10),
+  $remote_peon_max_wait            = hiera("${module_name}::indexing::middle_manager::remote_peon_max_wait", 'PT10M'),
+  $remote_peon_min_wait            = hiera("${module_name}::indexing::middle_manager::remote_peon_min_wait", 'PT1M'),
   $runner_allowed_prefixes         = hiera("${module_name}::indexing::middle_manager::runner_allowed_prefixes", ['com.metamx', 'druid', 'io.druid', 'user.timezone', 'file.encoding']),
   $runner_classpath                = hiera("${module_name}::indexing::middle_manager::runner_classpath", undef),
   $runner_compress_znodes          = hiera("${module_name}::indexing::middle_manager::runner_compress_znodes", true),
@@ -136,7 +187,8 @@ class druid::indexing::middle_manager (
   $runner_start_port               = hiera("${module_name}::indexing::middle_manager::runner_start_port", 8100),
   $task_base_dir                   = hiera("${module_name}::indexing::middle_manager::task_base_dir", '/tmp'),
   $task_base_task_dir              = hiera("${module_name}::indexing::middle_manager::task_base_task_dir", '/tmp/persistent/tasks'),
-  $task_default_hadoop_coordinates = hiera("${module_name}::indexing::middle_manager::task_default_hadoop_coordinates", 'org.apache.hadoop:hadoop-client:2.3.0'),
+  $task_chat_handler_type          = hiera("${module_name}::indexing::middle_manager::task_chat_handler_type", 'noop'),
+  $task_default_hadoop_coordinates = hiera_array("${module_name}::indexing::middle_manager::task_default_hadoop_coordinates", ['org.apache.hadoop:hadoop-client:2.3.0']),
   $task_default_row_flush_boundary = hiera("${module_name}::indexing::middle_manager::task_default_row_flush_boundary", 50000),
   $task_hadoop_working_path        = hiera("${module_name}::indexing::middle_manager::task_hadoop_working_path", '/tmp/druid-indexing'),
   $worker_capacity                 = hiera("${module_name}::indexing::middle_manager::worker_capacity", undef),
@@ -146,19 +198,22 @@ class druid::indexing::middle_manager (
   require druid::indexing
 
   validate_re($peon_mode, ['^local$', '^remote$'])
+  validate_re($task_chat_handler_type, ['^noop$', '^announce$'])
 
   validate_string(
     $host,
     $service,
+    $remote_peon_max_wait,
+    $remote_peon_min_wait,
     $runner_classpath,
     $runner_java_command,
     $runner_java_opts,
-    $task_default_hadoop_coordinates,
     $worker_ip,
     $worker_version,
   )
 
   validate_integer($port)
+  validate_integer($remote_peon_max_retry_count)
   validate_integer($runner_max_znode_bytes)
   validate_integer($runner_start_port)
   validate_integer($task_default_row_flush_boundary)
@@ -166,8 +221,11 @@ class druid::indexing::middle_manager (
     validate_integer($worker_capacity)
   }
 
+  validate_hash($fork_properties)
+
   validate_array($runner_allowed_prefixes)
   validate_array($jvm_opts)
+  validate_array($task_default_hadoop_coordinates)
 
   validate_bool($runner_compress_znodes)
 
