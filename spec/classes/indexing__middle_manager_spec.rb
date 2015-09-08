@@ -50,7 +50,10 @@ describe 'druid::indexing::middle_manager', :type => 'class' do
         :host                            => '101.101.10.1',
         :port                            => 8090,
         :service                         => 'test-druid/middlemanager',
-        :peon_mode                       => 'local',
+        :peon_mode                       => 'remote',
+        :remote_peon_max_retry_count     => 15,
+        :remote_peon_max_wait            => 'PT15M',
+        :remote_peon_min_wait            => 'PT6M',
         :runner_allowed_prefixes         => ['druid', 'io.druid', 'user.timezone', 'file.encoding'],
         :runner_classpath                => '.:/test',
         :runner_compress_znodes          => false,
@@ -60,7 +63,8 @@ describe 'druid::indexing::middle_manager', :type => 'class' do
         :runner_start_port               => 8110,
         :task_base_dir                   => '/mnt/tmp',
         :task_base_task_dir              => '/mnt/tmp/persistent/tasks',
-        :task_default_hadoop_coordinates => 'org.apache.hadoop:hadoop-client:1.1.1',
+        :task_chat_handler_type          => 'announce',
+        :task_default_hadoop_coordinates => ['org.apache.hadoop:hadoop-client:1.1.1'],
         :task_default_row_flush_boundary => 50009,
         :task_hadoop_working_path        => '/mnt/tmp/druid-indexing',
         :worker_capacity                 => 2,
@@ -70,7 +74,7 @@ describe 'druid::indexing::middle_manager', :type => 'class' do
     end 
     
     it {
-      should contain_file('/etc/druid/middle_manager/runtime.properties').with_content("# Node Configs\ndruid.host=101.101.10.1\ndruid.port=8090\ndruid.service=test-druid/middlemanager\n\n# Task Logging\ndruid.indexer.logs.type=file\ndruid.indexer.logs.directory=/var/log\n")
+      should contain_file('/etc/druid/middle_manager/runtime.properties').with_content("# This file is managed by Puppet\n# MODIFICATION WILL BE OVERWRITTEN\n\n# Node Configs\ndruid.host=101.101.10.1\ndruid.port=8090\ndruid.service=test-druid/middlemanager\n\n# Task Logging\ndruid.indexer.logs.type=file\ndruid.indexer.logs.directory=/var/log\n\n# MiddleManager Service\ndruid.indexer.runner.allowedPrefixes=[\"druid\",\"io.druid\",\"user.timezone\",\"file.encoding\"]\ndruid.indexer.runner.classpath=.:/test\ndruid.indexer.runner.javaCommand=/usr/bin/java\ndruid.indexer.runner.javaOpts=-server\ndruid.indexer.runner.maxZnodeBytes=524188\ndruid.indexer.runner.startPort=8110\ndruid.worker.ip=127.0.0.1\ndruid.worker.version=2\ndruid.worker.capacity=2\n\n# Peon Configs\ndruid.peon.mode=remote\ndruid.indexer.task.baseDir=/mnt/tmp\ndruid.indexer.task.baseTaskDir=/mnt/tmp/persistent/tasks\ndruid.indexer.task.hadoopWorkingPath=/mnt/tmp/druid-indexing\ndruid.indexer.task.defaultRowFlushBoundary=50009\ndruid.indexer.task.defaultHadoopCoordinates=[\"org.apache.hadoop:hadoop-client:1.1.1\"]\ndruid.indexer.task.chathandler.type=announce\n\n# Remote Peon Configs\ndruid.peon.taskActionClient.retry.minWait=PT6M\ndruid.peon.taskActionClient.retry.maxWait=PT15M\ndruid.peon.taskActionClient.retry.maxRetryCount=15\n")
     }
   end
 end
