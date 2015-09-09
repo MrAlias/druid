@@ -10,6 +10,9 @@
  - Explicit documentation of the systemd requirement. 
  - Missing configuration parameters for `druid::indexing::middle_manager`
 
+### Changed
+ - Druid runtime property templates are not populated with blank configuration options. When the puppet parameter is `undef` or empty no default value is put in the template.  This is in order to not repeat default values twice as well as have the option to explicitly omit setting values.
+
 ## [0.1.1] - 2015-09-03
 
 ### Fixed
