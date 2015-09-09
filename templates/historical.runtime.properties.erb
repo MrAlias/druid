@@ -3,50 +3,96 @@
 # MODIFICATION WILL BE OVERWRITTEN
 
 # Node Configs
+<% if @host and @host != '' -%>
 druid.host=<%= @host %>
+<% end -%>
+<% if @port and @port != '' -%>
 druid.port=<%= @port %>
+<% end -%>
+<% if @service and @service != '' -%>
 druid.service=<%= @service %>
+<% end -%>
 
 # General Configuration
+<% if @server_max_size and @server_max_size != '' -%>
 druid.server.maxSize=<%= @server_max_size %>
+<% end -%>
+<% if @server_tier and @server_tier != '' -%>
 druid.server.tier=<%= @server_tier %>
+<% end -%>
+<% if @server_priority and @server_priority != '' -%>
 druid.server.priority=<%= @server_priority %>
+<% end -%>
 
 # Storing Segments
 <% if @segment_cache_locations != '' and @segment_cache_locations != 'none' -%>
+    <%- if @segment_cache_locations and @segment_cache_locations != '' -%>
 druid.segmentCache.locations=<%= @segment_cache_locations.to_json %>
+    <%- end -%>
+    <%- if @segment_cache_delete_on_remove != '' -%>
 druid.segmentCache.deleteOnRemove=<%= @segment_cache_delete_on_remove %>
+    <%- end -%>
+    <%- if @segment_cache_drop_segment_delay_millis and @segment_cache_drop_segment_delay_millis != '' -%>
 druid.segmentCache.dropSegmentDelayMillis=<%= @segment_cache_drop_segment_delay_millis %>
-<% if @segment_cache_info_dir != '' -%>
+    <%- end -%>
+    <%- if @segment_cache_info_dir and @segment_cache_info_dir != '' -%>
 druid.segmentCache.infoDir=<%= @segment_cache_info_dir %>
-<% end -%>
+    <%- end -%>
+    <%- if @segment_cache_announce_interval_millis and @segment_cache_announce_interval_millis != '' -%>
 druid.segmentCache.announceIntervalMillis=<%= @segment_cache_announce_interval_millis %>
+    <%- end -%>
+    <%- if @segment_cache_num_loading_threads and @segment_cache_num_loading_threads != '' -%>
 druid.segmentCache.numLoadingThreads=<%= @segment_cache_num_loading_threads %>
+    <%- end -%>
 <% else -%>
 druid.segmentCache.locations=none
 <% end -%>
 
 # Query Configs
+<% if @server_http_num_threads and @server_http_num_threads != '' -%>
 druid.server.http.numThreads=<%= @server_http_num_threads %>
+<% end -%>
+<% if @server_http_max_idle_time and @server_http_max_idle_time != '' -%>
 druid.server.http.maxIdleTime=<%= @server_http_max_idle_time %>
+<% end -%>
 
 # Processing
+<% if @processing_buffer_size_bytes and @processing_buffer_size_bytes != '' -%>
 druid.processing.buffer.sizeBytes=<%= @processing_buffer_size_bytes %>
+<% end -%>
+<% if @processing_format_string and @processing_format_string != '' -%>
 druid.processing.formatString=<%= @processing_format_string %>
-<% if @processing_num_threads != '' -%>
+<% end -%>
+<% if @processing_num_threads and @processing_num_threads != '' -%>
 druid.processing.numThreads=<%= @processing_num_threads %>
 <% end -%>
+<% if @processing_column_cache_size_bytes and @processing_column_cache_size_bytes != '' -%>
 druid.processing.columnCache.sizeBytes=<%= @processing_column_cache_size_bytes %>
+<% end -%>
 
 # General Query Configuration
+<% if @query_group_by_single_threaded and @query_group_by_single_threaded != '' -%>
 druid.query.groupBy.singleThreaded=<%= @query_group_by_single_threaded %>
+<% end -%>
+<% if @query_group_by_max_intermediate_rows and @query_group_by_max_intermediate_rows != '' -%>
 druid.query.groupBy.maxIntermediateRows=<%= @query_group_by_max_intermediate_rows %>
+<% end -%>
+<% if @query_group_by_max_results and @query_group_by_max_results != '' -%>
 druid.query.groupBy.maxResults=<%= @query_group_by_max_results %>
+<% end -%>
 
 # Search Query Config
+<% if @query_search_max_search_limit and @query_search_max_search_limit != '' -%>
 druid.query.search.maxSearchLimit=<%= @query_search_max_search_limit %>
+<% end -%>
 
 # Caching
+<% if @use_cache and @use_cache != '' -%>
 druid.historical.cache.useCache=<%= @use_cache %>
+<% end -%>
+<% if @populate_cache and @populate_cache != '' -%>
 druid.historical.cache.populateCache=<%= @populate_cache %>
+<% end -%>
+<% if @uncacheable and @uncacheable != '' -%>
 druid.historical.cache.unCacheable=<%= @uncacheable %>
+<% end -%>

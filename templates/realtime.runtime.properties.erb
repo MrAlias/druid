@@ -2,12 +2,20 @@
 # MODIFICATION WILL BE OVERWRITTEN
 
 # Node Config
-druid.host=<%= @host ? @host : @ipaddress %>
-druid.port=<%= @port ? @port : 8084 %>
-druid.service=<%= @service ? @service : 'druid/realtime' %>
+<% if @host and @host != '' -%>
+druid.host=<%= @host %>
+<% end -%>
+<% if @port and @port != '' -%>
+druid.port=<%= @port %>
+<% end -%>
+<% if @service and @service != '' -%>
+druid.service=<%= @service %>
+<% end -%>
 
 # Realtime Operation
-druid.publish.type=<%= @publish_type ? @publish_type : 'metadata' %>
+<% if @publish_type and @publish_type != '' -%>
+druid.publish.type=<%= @publish_type %>
+<% end -%>
 <% if @spec_file and @spec_file != '' -%>
 druid.realtime.specFile=<%= @spec_file %>
 <% end -%>
@@ -18,13 +26,27 @@ druid.segmentCache.locations=<%= @segment_cache_locations %>
 <% end -%>
 
 # Query Configs
-druid.processing.buffer.sizeBytes=<%= @processing_buffer_size_bytes ? @processing_buffer_size_bytes : 1073741824 %>
-druid.processing.formatString=<%= @processing_format_string ? @processing_format_string : 'processing-%s' %>
+<% if @processing_buffer_size_bytes and @processing_buffer_size_bytes != '' -%>
+druid.processing.buffer.sizeBytes=<%= @processing_buffer_size_bytes %>
+<% end -%>
+<% if @processing_format_string and @processing_format_string != '' -%>
+druid.processing.formatString=<%= @processing_format_string %>
+<% end -%>
 <% if @processing_num_threads and @processing_num_threads != '' -%>
 druid.processing.numThreads=<%= @processing_num_threads %>
 <% end -%>
-druid.processing.columnCache.sizeBytes=<%= @processing_column_cache_size_bytes ? @processing_column_cache_size_bytes : 0 %>
-druid.query.groupBy.singleThreaded=<%= @query_group_by_single_threaded ? @query_group_by_single_threaded : false %>
-druid.query.groupBy.maxIntermediateRows=<%= @query_group_by_max_intermediate_rows ? @query_group_by_max_intermediate_rows : 50000 %>
-druid.query.groupBy.maxResults=<%= @query_group_by_max_results ? @query_group_by_max_results : 500000 %>
-druid.query.search.maxSearchLimit=<%= @query_search_max_search_limit ? @query_search_max_search_limit : 1000 %>
+<% if @processing_column_cache_size_bytes and @processing_column_cache_size_bytes != '' -%>
+druid.processing.columnCache.sizeBytes=<%= @processing_column_cache_size_bytes %>
+<% end -%>
+<% if @query_group_by_single_threaded != '' -%>
+druid.query.groupBy.singleThreaded=<%= @query_group_by_single_threaded %>
+<% end -%>
+<% if @query_group_by_max_intermediate_rows and @query_group_by_max_intermediate_rows != '' -%>
+druid.query.groupBy.maxIntermediateRows=<%= @query_group_by_max_intermediate_rows %>
+<% end -%>
+<% if @query_group_by_max_results and @query_group_by_max_results != '' -%>
+druid.query.groupBy.maxResults=<%= @query_group_by_max_results %>
+<% end -%>
+<% if @query_search_max_search_limit and @query_search_max_search_limit != '' -%>
+druid.query.search.maxSearchLimit=<%= @query_search_max_search_limit %>
+<% end -%>

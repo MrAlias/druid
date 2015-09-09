@@ -2,152 +2,250 @@
 # MODIFICATION WILL BE OVERWRITTEN
 
 # Extensions
-<% if @extensions_remote_repositories != [] -%>
+<% if @extensions_remote_repositories and @extensions_remote_repositories != [] -%>
 druid.extensions.remoteRepositories=["<%= @extensions_remote_repositories.join('", "') %>"]
 <% else -%>
 druid.extensions.remoteRepositories=[]
 <% end -%>
-<% if @extensions_local_repository != '' -%>
+<% if @extensions_local_repository and @extensions_local_repository != '' -%>
 druid.extensions.localRepository=<%= @extensions_local_repository %>
 <% end -%>
-<% if @extensions_coordinates != [] -%>
+<% if @extensions_coordinates and @extensions_coordinates != [] -%>
 druid.extensions.coordinates=["<%= @extensions_coordinates.join('", "') %>"]
 <% else -%>
 druid.extensions.coordinates=[]
 <% end -%>
-<% if @extensions_default_version != '' -%>
+<% if @extensions_default_version and @extensions_default_version != '' -%>
 druid.extensions.defaultVersion=<%= @extensions_default_version %>
 <% end -%>
+<% if @extensions_search_current_classloader != '' -%>
 druid.extensions.searchCurrentClassloader=<%= @extensions_search_current_classloader %>
+<% end -%>
 
 # Zookeeper
+<% if @zk_paths_base and @zk_paths_base != '' -%>
 druid.zk.paths.base=<%= @zk_paths_base %>
+<% end -%>
+<% if @zk_service_host and @zk_service_host != '' -%>
 druid.zk.service.host=<%= @zk_service_host %>
+<% end -%>
+<% if @zk_service_session_timeout_ms and @zk_service_session_timeout_ms != '' -%>
 druid.zk.service.sessionTimeoutMs=<%= @zk_service_session_timeout_ms %>
+<% end -%>
+<% if @curator_compress != '' -%>
 druid.curator.compress=<%= @curator_compress %>
-<% if @zk_paths_properties_path != '' -%>
+<% end -%>
+<% if @zk_paths_properties_path and @zk_paths_properties_path != '' -%>
 druid.zk.paths.propertiesPath=<%= @zk_paths_properties_path %>
 <% end -%>
-<% if @zk_paths_announcements_path != '' -%>
+<% if @zk_paths_announcements_path and @zk_paths_announcements_path != '' -%>
 druid.zk.paths.announcementsPath=<%= @zk_paths_announcements_path %>
 <% end -%>
-<% if @zk_paths_live_segments_path != '' -%>
+<% if @zk_paths_live_segments_path and @zk_paths_live_segments_path != '' -%>
 druid.zk.paths.liveSegmentsPath=<%= @zk_paths_live_segments_path %>
 <% end -%>
-<% if @zk_paths_load_queue_path != '' -%>
+<% if @zk_paths_load_queue_path and @zk_paths_load_queue_path != '' -%>
 druid.zk.paths.loadQueuePath=<%= @zk_paths_load_queue_path %>
 <% end -%>
-<% if @zk_paths_coordinator_path != '' -%>
+<% if @zk_paths_coordinator_path and @zk_paths_coordinator_path != '' -%>
 druid.zk.paths.coordinatorPath=<%= @zk_paths_coordinator_path %>
 <% end -%>
-<% if @zk_paths_indexer_base != '' -%>
+<% if @zk_paths_indexer_base and @zk_paths_indexer_base != '' -%>
 druid.zk.paths.indexer.base=<%= @zk_paths_indexer_base %>
 <% end -%>
-<% if @zk_paths_indexer_announcements_path != '' -%>
+<% if @zk_paths_indexer_announcements_path and @zk_paths_indexer_announcements_path != '' -%>
 druid.zk.paths.indexer.announcementsPath=<%= @zk_paths_indexer_announcements_path %>
 <% end -%>
-<% if @zk_paths_indexer_tasks_path != '' -%>
+<% if @zk_paths_indexer_tasks_path and @zk_paths_indexer_tasks_path != '' -%>
 druid.zk.paths.indexer.tasksPath=<%= @zk_paths_indexer_tasks_path %>
 <% end -%>
-<% if @zk_paths_indexer_status_path != '' -%>
+<% if @zk_paths_indexer_status_path and @zk_paths_indexer_status_path != '' -%>
 druid.zk.paths.indexer.statusPath=<%= @zk_paths_indexer_status_path %>
 <% end -%>
-<% if @zk_paths_indexer_leader_latch_path != '' -%>
+<% if @zk_paths_indexer_leader_latch_path and @zk_paths_indexer_leader_latch_path != '' -%>
 druid.zk.paths.indexer.leaderLatchPath=<%= @zk_paths_indexer_leader_latch_path %>
 <% end -%>
+<% if @discovery_curator_path and @discovery_curator_path != '' -%>
 druid.discovery.curator.path=<%= @discovery_curator_path %>
+<% end -%>
 
 # Request Logging
+<% if @request_logging_type and @request_logging_type != '' -%>
 druid.request.logging.type=<%= @request_logging_type %>
-<% if @request_logging_type == 'file' -%>
+<% end -%>
+<% if @request_logging_type == 'file' and @request_logging_dir and @request_logging_dir != '' -%>
 druid.request.logging.dir=<%= @request_logging_dir %>
-<% elsif @request_logging_type == 'emitter' -%>
+<% elsif @request_logging_type == 'emitter' and @request_logging_feed and @request_logging_feed != '' -%>
 druid.request.logging.feed=<%= @request_logging_feed %>
 <% end -%>
 
 # Enabling Metrics
+<% if @monitoring_emission_period and @monitoring_emission_period != '' -%>
 druid.monitoring.emissionPeriod=<%= @monitoring_emission_period %>
-<% if @monitoring_monitors != [] -%>
+<% end -%>
+<% if @monitoring_monitors and @monitoring_monitors != [] -%>
 druid.monitoring.monitors=["<% @monitoring_monitors.join('", "') %>"]
 <% end -%>
 
 # Emitting Metrics
+<% if @emitter and @emitter != '' -%>
 druid.emitter=<%= @emitter %>
+<% end -%>
 <% if @emitter == 'logging' -%>
+    <%- if @emitter_logging_logger_class and @emitter_logging_logger_class != '' -%>
 druid.emitter.logging.loggerClass=<%= @emitter_logging_logger_class %>
+    <%- end -%>
+    <%- if @emitter_logging_log_level and @emitter_logging_log_level != '' -%>
 druid.emitter.logging.logLevel=<%= @emitter_logging_log_level %>
+    <%- end -%>
 <% elsif @emitter == 'http' -%>
+    <%- if @emitter_http_time_out and @emitter_http_time_out != '' -%>
 druid.emitter.http.timeOut=<%= @emitter_http_time_out %>
+    <%- end -%>
+    <%- if @emitter_http_flush_millis and @emitter_http_flush_millis != '' -%>
 druid.emitter.http.flushMillis=<%= @emitter_http_flush_millis %>
+    <%- end -%>
+    <%- if @emitter_http_flush_count and @emitter_http_flush_count != '' -%>
 druid.emitter.http.flushCount=<%= @emitter_http_flush_count %>
+    <%- end -%>
+    <%- if @emitter_http_recipient_base_url and @emitter_http_recipient_base_url != '' -%>
 druid.emitter.http.recipientBaseUrl=<%= @emitter_http_recipient_base_url %>
+    <%- end -%>
 <% end -%>
 
 # Metadata Storage
+<% if @metadata_storage_type and @metadata_storage_type != '' -%>
 druid.metadata.storage.type=<%= @metadata_storage_type %>
-<% if @metadata_storage_connector_uri != '' -%>
+<% end -%>
+<% if @metadata_storage_connector_uri and @metadata_storage_connector_uri != '' -%>
 druid.metadata.storage.connector.connectURI=<%= @metadata_storage_connector_uri %>
 <% end -%>
-<% if @metadata_storage_connector_user != '' -%>
+<% if @metadata_storage_connector_user and @metadata_storage_connector_user != '' -%>
 druid.metadata.storage.connector.user=<%= @metadata_storage_connector_user %>
 <% end -%>
-<% if @metadata_storage_connector_password != '' -%>
+<% if @metadata_storage_connector_password and @metadata_storage_connector_password != '' -%>
 druid.metadata.storage.connector.password=<%= @metadata_storage_connector_password %>
 <% end -%>
+<% if @metadata_storage_connector_create_tables != '' -%>
 druid.metadata.storage.connector.createTables=<%= @metadata_storage_connector_create_tables %>
+<% end -%>
+<% if @metadata_storage_tables_base and @metadata_storage_tables_base != '' -%>
 druid.metadata.storage.tables.base=<%= @metadata_storage_tables_base %>
+<% end -%>
+<% if @metadata_storage_tables_segment_table and @metadata_storage_tables_segment_table != '' -%>
 druid.metadata.storage.tables.segmentTable=<%= @metadata_storage_tables_segment_table %>
+<% end -%>
+<% if @metadata_storage_tables_rule_table and @metadata_storage_tables_rule_table != '' -%>
 druid.metadata.storage.tables.ruleTable=<%= @metadata_storage_tables_rule_table %>
+<% end -%>
+<% if @metadata_storage_tables_config_table and @metadata_storage_tables_config_table != '' -%>
 druid.metadata.storage.tables.configTable=<%= @metadata_storage_tables_config_table %>
+<% end -%>
+<% if @metadata_storage_tables_tasks and @metadata_storage_tables_tasks != '' -%>
 druid.metadata.storage.tables.tasks=<%= @metadata_storage_tables_tasks %>
+<% end -%>
+<% if @metadata_storage_tables_task_log and @metadata_storage_tables_task_log != '' -%>
 druid.metadata.storage.tables.taskLog=<%= @metadata_storage_tables_task_log %>
+<% end -%>
+<% if @metadata_storage_tables_task_lock and @metadata_storage_tables_task_lock != '' -%>
 druid.metadata.storage.tables.taskLock=<%= @metadata_storage_tables_task_lock %>
+<% end -%>
+<% if @metadata_storage_tables_audit and @metadata_storage_tables_audit != '' -%>
 druid.metadata.storage.tables.audit=<%= @metadata_storage_tables_audit %>
+<% end -%>
 
 # Deep Storage
+<% if @storage_type and @storage_type != '' -%>
 druid.storage.type=<%= @storage_type %>
+<% end -%>
 <% if @storage_type == 'local' -%>
+    <%- if @storage_directory and @storage_directory != '' -%>
 druid.storage.storageDirectory=<%= @storage_directory %>
+    <%- end -%>
 <% elsif @storage_type == 's3' -%>
+    <%- if @s3_access_key and @s3_access_key != '' -%>
 druid.s3.accessKey=<%= @s3_access_key %>
+    <%- end -%>
+    <%- if @s3_secret_key and @s3_secret_key != '' -%>
 druid.s3.secretKey=<%= @s3_secret_key %>
+    <%- end -%>
+    <%- if @s3_bucket and @s3_bucket != '' -%>
 druid.storage.bucket=<%= @s3_bucket %>
+    <%- end -%>
+    <%- if @s3_base_key and @s3_base_key != '' -%>
 druid.storage.baseKey=<%= @s3_base_key %>
+    <%- end -%>
+    <%- if @storage_disable_acl and @storage_disable_acl != '' -%>
 druid.storage.disableAcl=<%= @storage_disable_acl %>
+    <%- end -%>
+    <%- if @s3_archive_bucket and @s3_archive_bucket != '' -%>
 druid.storage.archiveBucket=<%= @s3_archive_bucket %>
+    <%- end -%>
+    <%- if @s3_archive_base_key and @s3_archive_base_key != '' -%>
 druid.storage.archiveBaseKey=<%= @s3_archive_base_key %>
+    <%- end -%>
 <% elsif @storage_type == 'hdfs' -%>
+    <%- if @hdfs_directory and @hdfs_directory != '' -%>
 druid.storage.storageDirectory=<%= @hdfs_directory %>
+    <%- end -%>
 <% elsif @storage_type == 'c*' -%>
+    <%- if @cassandra_host and @cassandra_host != '' -%>
 druid.storage.host=<%= @cassandra_host %>
+    <%- end -%>
+    <%- if @cassandra_keyspace and @cassandra_keyspace != '' -%>
 druid.storage.keyspace=<%= @cassandra_keyspace %>
+    <%- end -%>
 <% end -%>
 
 # Caching
+<% if @cache_type and @cache_type != '' -%>
 druid.cache.type=<%= @cache_type %>
-<% if @cache_uncacheable != '' -%>
+<% end -%>
+<% if @cache_uncacheable and @cache_uncacheable != '' -%>
 druid.cache.unCacheable=<%= @cache_uncacheable %>
 <% end -%>
 <% if @cache_type == 'local' -%>
+    <%- if @cache_size_in_bytes and @cache_size_in_bytes != '' -%>
 druid.cache.sizeInBytes=<%= @cache_size_in_bytes %>
+    <%- end -%>
+    <%- if @cache_initial_size and @cache_initial_size != '' -%>
 druid.cache.initialSize=<%= @cache_initial_size %>
+    <%- end -%>
+    <%- if @cache_log_eviction_count and @cache_log_eviction_count != '' -%>
 druid.cache.logEvictionCount=<%= @cache_log_eviction_count %>
+    <%- end -%>
 <% elsif @cache_type == 'memcached' -%>
+    <%- if @cache_expiration and @cache_expiration != '' -%>
 druid.cache.expiration=<%= @cache_expiration %>
+    <%- end -%>
+    <%- if @cache_timeout and @cache_timeout != '' -%>
 druid.cache.timeout=<%= @cache_timeout %>
-<% if @cache_hosts != '' -%>
+    <%- end -%>
+    <%- if @cache_hosts and @cache_hosts != [] and @cache_hosts != '' -%>
 druid.cache.hosts=["<%= @cache_hosts.join('", "') %>"]
-<% end -%>
+    <%- end -%>
+    <%- if @cache_max_object_size and @cache_max_object_size != '' -%>
 druid.cache.maxObjectSize=<%= @cache_max_object_size %>
+    <%- end -%>
+    <%- if @cache_memcached_prefix and @cache_memcached_prefix != '' -%>
 druid.cache.memcachedPrefix=<%= @cache_memcached_prefix %>
+    <%- end -%>
 <% end -%>
 
 # Indexing Service Discovery
+<% if @selectors_indexing_service_name and @selectors_indexing_service_name != '' -%>
 druid.selectors.indexing.serviceName=<%= @selectors_indexing_service_name %>
+<% end -%>
 
 # Announcing Segments
+<% if @announcer_type and @announcer_type != '' -%>
 druid.announcer.type=<%= @announcer_type %>
+<% end -%>
 <% if @announcer_type == 'batch' -%>
+    <%- if @announcer_segments_per_node and @announcer_segments_per_node != '' -%>
 druid.announcer.segmentsPerNode=<%= @announcer_segments_per_node %>
+    <%- end -%>
+    <%- if @announcer_max_bytes_per_node and @announcer_max_bytes_per_node != '' -%>
 druid.announcer.maxBytesPerNode=<%= @announcer_max_bytes_per_node %>
+    <%- end -%>
 <% end -%>

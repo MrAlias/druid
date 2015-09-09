@@ -32,8 +32,8 @@ druid.indexer.logs.prefix=<%= @azure_logs_prefix %>
     <%- if @hdfs_logs_directory -%>
 druid.indexer.logs.directory=<%= @hdfs_logs_directory %>
     <%- end -%>
-<% else -%>
-druid.indexer.logs.directory=<%= @local_logs_directory ? @local_logs_directory : '/var/log' %>
+<% elsif @local_logs_directory and @local_logs_directory != '' -%>
+druid.indexer.logs.directory=<%= @local_logs_directory %>
 <% end -%>
 
 # MiddleManager Service
