@@ -5,6 +5,7 @@
 ### Fixed
  - Explicitly set the service provider to systemd.  This is currently the only provider the module supports.
  - Middle manager template sets service configuration properties.
+ - Corrected the `druid.cache.hosts` common configuration property to be a comma separated list.
 
 ### Added
  - Explicit documentation of the systemd requirement. 
