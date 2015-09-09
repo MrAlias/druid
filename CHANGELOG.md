@@ -2,6 +2,8 @@
 
 ## [Unreleased][unreleased]
 
+## [0.2.0] - 2015-09-09
+
 ### Fixed
  - Explicitly set the service provider to systemd.  This is currently the only provider the module supports.
  - Middle manager template sets service configuration properties.
@@ -37,5 +39,6 @@
  - Unit tests with 100% coverage of all resources defined.
  - Acceptance tests for each service the module is expected to manage.
 
-[unreleased]: https://github.com/MrAlias/druid/compare/v0.1.1...HEAD
+[unreleased]: https://github.com/MrAlias/druid/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/MrAlias/druid/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/MrAlias/druid/compare/v0.1.0...v0.1.1
