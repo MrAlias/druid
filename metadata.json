@@ -1,6 +1,6 @@
 {
   "name": "MrAlias-druid",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Tyler Yahn <codingalias@gmail.com>",
   "summary": "Sets up and configures a full druid cluster.",
   "license": "Apache-2.0",
