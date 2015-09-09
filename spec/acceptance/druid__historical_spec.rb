@@ -1,6 +1,15 @@
 require 'spec_helper_acceptance'
 
 historical_pp = <<-EOS
+class { 'memcached':
+  before => Class['druid::historical'],
+}
+
+class { 'druid':
+  cache_type  => 'memcached',
+  cache_hosts => ['127.0.0.1:11211'],
+}
+
 class { 'druid::historical':
   server_max_size              => 268435456,
   processing_buffer_size_bytes => 134217728,
@@ -24,6 +33,12 @@ class { 'druid::historical':
 EOS
 
 describe 'druid::historical' do
+  before(:all) do
+    hosts.each do |host|
+      on host, puppet('module install saz-memcached -v 2.8.1')
+    end
+  end
+
   describe 'running puppet code' do
     it 'should run without errors' do
       apply_manifest(historical_pp, :catch_failures => true)
@@ -50,7 +65,6 @@ describe 'druid::historical' do
   end
 
   after(:all) do
-    puts "after all"
-    shell('systemctl stop druid-historical')
+    shell('systemctl is-active druid-historical.service && systemctl stop druid-historical.service')
   end
 end

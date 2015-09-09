@@ -222,7 +222,7 @@ druid.cache.expiration=<%= @cache_expiration %>
 druid.cache.timeout=<%= @cache_timeout %>
     <%- end -%>
     <%- if @cache_hosts and @cache_hosts != [] and @cache_hosts != '' -%>
-druid.cache.hosts=["<%= @cache_hosts.join('", "') %>"]
+druid.cache.hosts=<%= @cache_hosts.join(',') %>
     <%- end -%>
     <%- if @cache_max_object_size and @cache_max_object_size != '' -%>
 druid.cache.maxObjectSize=<%= @cache_max_object_size %>
