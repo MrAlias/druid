@@ -32,8 +32,8 @@ RSpec.configure do |c|
     puppet_module_install(:source => module_root, :module_name => module_name)
 
     hosts.each do |host|
-      on host, puppet('module', 'install', 'puppetlabs/stdlib'), { :acceptable_exit_codes => [0,1] }
-      on host, puppet('module', 'install', 'deric/zookeeper'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module install puppetlabs-stdlib -v 4.9.0')
+      on host, puppet('module install deric-zookeeper -v 0.3.9')
 
       # Make sure a working instance of zookeeper is running
       apply_manifest(zookeeper_pp)
