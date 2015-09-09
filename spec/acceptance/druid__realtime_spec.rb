@@ -121,7 +121,7 @@ EOS
 describe 'druid::realtime' do
   describe 'Setup Kafka' do
     hosts.each do |host|
-      on host, puppet('module', 'install', 'puppet/kafka'), { :acceptable_exit_codes => [0] }
+      on host, puppet('module install puppet-kafka -v 1.0.1')
     end
   end
   describe 'running puppet code' do
@@ -152,7 +152,6 @@ describe 'druid::realtime' do
   end
 
   after(:all) do
-    puts "after all"
-    shell('systemctl stop druid-realtime')
+    shell('systemctl is-active druid-realtime.service && systemctl stop druid-realtime.service')
   end
 end
