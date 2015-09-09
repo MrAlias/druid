@@ -43,8 +43,7 @@ describe 'druid::broker' do
   end
 
   after(:all) do
-    puts "after all"
-    shell('systemctl stop druid-broker')
+    shell('systemctl is-active druid-broker.service && systemctl stop druid-broker.service')
   end
 end
 

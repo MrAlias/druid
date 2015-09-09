@@ -52,7 +52,6 @@ describe 'druid::indexing::overlord' do
   end
 
   after(:all) do
-    puts "after all"
-    shell('systemctl stop druid-overlord')
+    shell('systemctl is-active druid-overlord.service && systemctl stop druid-overlord.service')
   end
 end

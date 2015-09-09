@@ -52,7 +52,6 @@ describe 'druid::indexing::middle_manager' do
   end
 
   after(:all) do
-    puts "after all"
-    shell('systemctl stop druid-middle_manager')
+    shell('systemctl is-active druid-middle_manager.service && systemctl stop druid-middle_manager.service')
   end
 end

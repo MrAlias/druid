@@ -56,7 +56,6 @@ describe 'druid::coordinator' do
   end
 
   after(:all) do
-    puts "after all"
-    shell('systemctl stop druid-coordinator')
+    shell('systemctl is-active druid-coordinator.service && systemctl stop druid-coordinator.service')
   end
 end
