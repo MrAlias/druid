@@ -2,6 +2,10 @@
 
 ## [Unreleased][unreleased]
 
+### Fixed
+ - Template syntax for empty variables.
+ - Systemd unit files now define the classpath based on where the install directory was set to be.
+
 ## [0.2.0] - 2015-09-09
 
 ### Fixed
