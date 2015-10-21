@@ -6,8 +6,8 @@ describe 'druid', :type => 'class' do
       should compile.with_all_deps
       should contain_class('druid')
       should contain_file('/usr/local/lib/druid')\
-        .with({:ensure => :link, :target => '/usr/local/lib/druid-0.8.0'})\
-        .that_requires('Exec[Download and untar druid-0.8.0]')
+        .with({:ensure => :link, :target => '/usr/local/lib/druid-0.8.1'})\
+        .that_requires('Exec[Download and untar druid-0.8.1]')
       should contain_file('/usr/local/lib')\
         .with({:ensure => :directory})\
         .that_requires('Exec[Create /usr/local/lib]')
@@ -29,10 +29,10 @@ describe 'druid', :type => 'class' do
           :creates => '/etc/druid',
           :cwd     => '/',
       })
-      should contain_exec('Download and untar druid-0.8.0').with({
-          :command => 'wget -O - http://static.druid.io/artifacts/releases/druid-0.8.0-bin.tar.gz | tar zx',
+      should contain_exec('Download and untar druid-0.8.1').with({
+          :command => 'wget -O - http://static.druid.io/artifacts/releases/druid-0.8.1-bin.tar.gz | tar zx',
           :path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-          :creates => '/usr/local/lib/druid-0.8.0',
+          :creates => '/usr/local/lib/druid-0.8.1',
           :cwd     => '/usr/local/lib',
       }).that_requires('File[/usr/local/lib]').that_requires('Package[wget]')
       should contain_package('openjdk-7-jre-headless')\
