@@ -2,7 +2,7 @@
 # MODIFICATION WILL BE OVERWRITTEN
 
 # Extensions
-<% if @extensions_remote_repositories and @extensions_remote_repositories != [] -%>
+<% if @extensions_remote_repositories and @extensions_remote_repositories != [] and @extensions_remote_repositories != '' -%>
 druid.extensions.remoteRepositories=["<%= @extensions_remote_repositories.join('", "') %>"]
 <% else -%>
 druid.extensions.remoteRepositories=[]
@@ -10,7 +10,7 @@ druid.extensions.remoteRepositories=[]
 <% if @extensions_local_repository and @extensions_local_repository != '' -%>
 druid.extensions.localRepository=<%= @extensions_local_repository %>
 <% end -%>
-<% if @extensions_coordinates and @extensions_coordinates != [] -%>
+<% if @extensions_coordinates and @extensions_coordinates != [] and @extensions_coordinates != '' -%>
 druid.extensions.coordinates=["<%= @extensions_coordinates.join('", "') %>"]
 <% else -%>
 druid.extensions.coordinates=[]
@@ -83,7 +83,7 @@ druid.request.logging.feed=<%= @request_logging_feed %>
 <% if @monitoring_emission_period and @monitoring_emission_period != '' -%>
 druid.monitoring.emissionPeriod=<%= @monitoring_emission_period %>
 <% end -%>
-<% if @monitoring_monitors and @monitoring_monitors != [] -%>
+<% if @monitoring_monitors and @monitoring_monitors != [] and @monitoring_monitors != '' -%>
 druid.monitoring.monitors=["<% @monitoring_monitors.join('", "') %>"]
 <% end -%>
 
