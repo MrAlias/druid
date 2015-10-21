@@ -549,7 +549,7 @@ Default value: `'local'`.
 ##### `druid::version`
 Version of druid to install. 
 
-Default value: `'0.8.0'`. 
+Default value: `'0.8.1'`. 
 
 ##### `druid::zk_paths_announcements_path`
 

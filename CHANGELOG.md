@@ -2,6 +2,9 @@
 
 ## [Unreleased][unreleased]
 
+### Changed
+ - Made the default installed version of druid v0.8.1 instead of v0.8.0.
+
 ### Fixed
  - Template syntax for empty variables.
  - Systemd unit files now define the classpath based on where the install directory was set to be.

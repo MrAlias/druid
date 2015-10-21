@@ -7,7 +7,7 @@
 # [*version*]
 #   Version of druid to install.
 #
-#   Defaults to '0.8.0'.
+#   Defaults to '0.8.1'.
 #
 # [*java_pkg*]
 #   Name of the java package to ensure installed on system.
@@ -402,7 +402,7 @@
 # Tyler Yahn <codingalias@gmail.com>
 #
 class druid (
-  $version                                  = hiera("${module_name}::version", '0.8.0'),
+  $version                                  = hiera("${module_name}::version", '0.8.1'),
   $java_pkg                                 = hiera("${module_name}::java_pkg", 'openjdk-7-jre-headless'),
   $install_dir                              = hiera("${module_name}::install_dir", '/usr/local/lib'),
   $config_dir                               = hiera("${module_name}::config_dir", '/etc/druid'),
