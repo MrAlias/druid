@@ -4,7 +4,7 @@ Description=Druid Realtime Node
 [Service]
 Type=simple
 WorkingDirectory=/etc/druid/realtime/
-ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server realtime
+ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:<%= @install_dir %>/druid/lib/* io.druid.cli.Main server realtime
 SuccessExitStatus=130 143
 Restart=on-failure
 

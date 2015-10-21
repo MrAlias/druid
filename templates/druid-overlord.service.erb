@@ -4,7 +4,7 @@ Description=Druid Overlord Node
 [Service]
 Type=simple
 WorkingDirectory=/etc/druid/overlord/
-ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:/usr/local/lib/druid/lib/* io.druid.cli.Main server overlord
+ExecStart=/usr/bin/java <%= @jvm_opts.join(' ') %> -classpath .:<%= @install_dir %>/druid/lib/* io.druid.cli.Main server overlord
 SuccessExitStatus=130 143
 Restart=on-failure
 
